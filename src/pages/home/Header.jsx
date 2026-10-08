@@ -1,0 +1,62 @@
+import { Calendar } from "lucide-react";
+
+const months = [
+  "يناير",
+  "فبراير",
+  "مارس",
+  "أبريل",
+  "مايو",
+  "يونيو",
+  "يوليو",
+  "أغسطس",
+  "سبتمبر",
+  "أكتوبر",
+  "نوفمبر",
+  "ديسمبر",
+];
+const days = [
+  "الأحد",
+  "الإثنين",
+  "الثلاثاء",
+  "الأربعاء",
+  "الخميس",
+  "الجمعة",
+  "السبت",
+];
+
+const date = new Date();
+const month = months[date.getMonth()];
+const day = days[date.getDay()];
+
+const todayDate = `${day} ${date.getDate()} ${month} ${date.getFullYear()}`;
+
+const Header = () => {
+  return (
+    <header className="flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <p className="flex items-center gap-0.5 text-[12px]">
+          <Calendar className="w-4" />
+          {todayDate}
+        </p>
+
+        <input
+          type="search"
+          className="w-65 rounded-lg bg-gray-300 py-2 pr-3 text-[10px]"
+          placeholder="ابحث عن معاملة أو تصنيف"
+        />
+      </div>
+
+      <div className="flex items-center justify-between px-8 pt-3">
+        <button className="flex items-center justify-center rounded-lg bg-amber-950 p-2 text-xs text-white duration-103 hover:scale-103">
+          + إضافة عملية
+        </button>
+
+        <div className="text-center">
+          <h2 className="font-bold">مرحبا إبراهيم </h2>
+          <p className="text-sm">إليك نظرة سريعة على وضعك المالي هذا الشهر </p>
+        </div>
+      </div>
+    </header>
+  );
+};
+export default Header;

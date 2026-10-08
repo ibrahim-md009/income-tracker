@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+body {
+  background-color: wheat;
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+  }
+}
+
+input,
+select {
+  outline: none;
+}
