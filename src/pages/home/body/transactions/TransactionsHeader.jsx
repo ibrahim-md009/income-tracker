@@ -46,7 +46,6 @@ const TransactionsHeader = () => {
       tran: "tranSearch",
     },
   ];
-  console.log(categories);
 
   return (
     <div className="header flex gap-15">

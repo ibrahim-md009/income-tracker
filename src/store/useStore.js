@@ -5,10 +5,22 @@ export const useStore = create(
   persist(
     (set) => ({
       //settings
-      userName: "",
-      userImage: "",
+      settings: {
+        profile: {
+          userName: "user",
+          userEmail: "hfhdk@gmail.com",
+          userImage: "",
+        },
+        languageAndCurrency: { language: "ar", currency: "EGP" },
+      },
 
-      setUserImage: (url) => set(() => ({ userImage: url })),
+      updateSettings: (section, changes) =>
+        set((state) => ({
+          settings: {
+            ...state.settings,
+            [section]: { ...state.settings[section], ...changes },
+          },
+        })),
 
       //transactions form values
       transactionsLog: [],
@@ -20,7 +32,7 @@ export const useStore = create(
       underEditing: false,
       editingId: "",
 
-      // transactions fiter values
+      // transactions filter values
       tranKind: "",
       tranCat: "",
       tranDate: "",
@@ -158,8 +170,7 @@ export const useStore = create(
       partialize: (state) => ({
         transactionsLog: state.transactionsLog,
         categories: state.categories,
-        userName: state.userName,
-        userImage: state.userImage,
+        settings: state.settings,
       }),
     },
   ),

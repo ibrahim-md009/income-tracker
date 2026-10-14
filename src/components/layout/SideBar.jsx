@@ -17,7 +17,10 @@ const sideBar = [
 ];
 
 const SideBar = () => {
-  const { userName, userImage } = useStore();
+  const profile = useStore((s) => s.settings.profile);
+  const userName = profile.userName;
+  const userEmail = profile.userEmail;
+  const userImage = profile.userImage;
 
   return (
     <aside className="fixed w-[15%] bg-amber-400">
@@ -49,13 +52,14 @@ const SideBar = () => {
           </ul>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center justify-center gap-2">
           <img
             src={userImage}
             alt="user image"
             className="aspect-square w-8 rounded-full object-cover"
           />
           <span>{userName}</span>
+          <span>{userEmail}</span>
         </div>
       </div>
     </aside>

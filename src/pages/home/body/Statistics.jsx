@@ -2,7 +2,7 @@ import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 
 const Statistics = () => {
-  const { transactionsLog } = useStore();
+  const { currency, transactionsLog } = useStore();
 
   const getTotalIncome = () => {
     return transactionsLog
@@ -23,19 +23,19 @@ const Statistics = () => {
   const statistics = [
     {
       title: "إجمالي الدخل",
-      num: totalIncome,
+      num: totalIncome + currency,
       comparedLastMonth: "25%",
       icon: ArrowUpLeft,
     },
     {
       title: "إجمالي المصروفات",
-      num: totalExpenses,
+      num: totalExpenses + currency,
       comparedLastMonth: "25%",
       icon: ArrowDown,
     },
     {
       title: "الرصيد المتبقي",
-      num: totalIncome - totalExpenses,
+      num: totalIncome - totalExpenses + currency,
       comparedLastMonth: "25%",
       icon: Wallet,
     },

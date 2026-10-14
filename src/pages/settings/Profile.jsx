@@ -2,15 +2,47 @@ import { useState } from "react";
 import BackStep from "../../components/ui/BackStep";
 import { useStore } from "../../store/useStore";
 import SaveBtn from "../../components/ui/SaveBtn";
-const Profile = () => {
-  const { userName, userImage, setUserImage } = useStore();
+import { resizeImage } from "../../utils/resizeImages";
 
-  const [name, setName] = useState(userName);
+const Profile = () => {
+  const profile = useStore((s) => s.settings.profile);
+
+  const [name, setName] = useState(profile.userName);
+  const [email, setEmail] = useState(profile.userEmail);
+  const [img, setImg] = useState(profile.userImage);
+
+  const profileChanges = {
+    userName: name,
+    userEmail: email,
+    userImage: img,
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (!file) return;
-    setUserImage(URL.createObjectURL(file));
+
+    const MAX_SIZE = 5 * 1024 * 1024;
+
+    if (!file.type.startsWith("image/")) {
+      alert("الملف لازم يكون صورة");
+      return;
+    }
+
+    if (file.size > MAX_SIZE) {
+      alert("الصورة كبيرة قوي");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      resizeImage(reader.result).then((small) => {
+        setImg(small);
+      });
+    };
+
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -30,7 +62,7 @@ const Profile = () => {
               <span className="font-bold">صورتك الشخصية </span>
               <label className="flex w-20 cursor-pointer gap-2">
                 <img
-                  src={userImage}
+                  src={img}
                   alt=""
                   className="aspect-square w-full rounded-full object-cover"
                 />
@@ -42,6 +74,7 @@ const Profile = () => {
                 />
               </label>
             </div>
+
             <div className="flex flex-wrap gap-5">
               <div className="flex flex-col">
                 <label>الاسم</label>
@@ -55,11 +88,16 @@ const Profile = () => {
 
               <div className="flex flex-col">
                 <label>الحساب الالكتروني</label>
-                <input type="text" className="bg-gray-300" />
+                <input
+                  type="text"
+                  className="bg-gray-300"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
               </div>
             </div>
 
-            <SaveBtn field="userName" value={name} state={userName} />
+            <SaveBtn section={"profile"} changes={profileChanges} />
           </div>
         </div>
       </div>

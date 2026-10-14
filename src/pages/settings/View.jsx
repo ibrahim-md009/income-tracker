@@ -72,7 +72,7 @@ const View = () => {
                 <option value="">صغير</option>
               </select>
             </div>
-            <SaveBtn field="" value={""} state={""} />
+            <SaveBtn field="" value={""} fieldValue={""} />
           </div>
         </div>
       </div>

@@ -1,13 +1,16 @@
 import Button from "./Button";
 import { useStore } from "../../store/useStore";
 
-const SaveBtn = ({ field, value, state }) => {
-  const { onChange } = useStore();
+const SaveBtn = ({ section, changes }) => {
+  const updateSettings = useStore((s) => s.updateSettings);
+  const saved = useStore((s) => s.settings[section]);
+
+  const isSame = JSON.stringify(changes) === JSON.stringify(saved);
 
   return (
     <Button
-      onClick={() => onChange(field, value)}
-      disabled={value.trim() === state || !value.trim()}
+      onClick={() => updateSettings(section, changes)}
+      disabled={isSame}
       text="حفظ التغييرات"
       className="w-30"
     />

@@ -47,7 +47,7 @@ const LangCurrency = () => {
                 className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
               />
             </div>
-            <SaveBtn field="" value={""} state={""} />
+            <SaveBtn />
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { Calendar } from "lucide-react";
+import { useStore } from "../../store/useStore";
 
 const months = [
   "يناير",
@@ -31,6 +32,8 @@ const day = days[date.getDay()];
 const todayDate = `${day} ${date.getDate()} ${month} ${date.getFullYear()}`;
 
 const Header = () => {
+  const userName = useStore((s) => s.settings.profile.userName);
+
   return (
     <header className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
@@ -52,7 +55,7 @@ const Header = () => {
         </button>
 
         <div className="text-center">
-          <h2 className="font-bold">مرحبا إبراهيم </h2>
+          <h2 className="font-bold">{`مرحبا ${userName}`}</h2>
           <p className="text-sm">إليك نظرة سريعة على وضعك المالي هذا الشهر </p>
         </div>
       </div>
