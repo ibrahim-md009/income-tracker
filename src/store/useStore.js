@@ -9,7 +9,7 @@ export const useStore = create(
         profile: {
           name: "user",
           email: "hfhdk@gmail.com",
-          image: "",
+          image: "/default-user-image.jpg",
         },
         languageAndCurrency: {
           language: "ar",
@@ -21,6 +21,13 @@ export const useStore = create(
           accentColor: "#92400e",
           fontSize: "16",
           radius: "8",
+        },
+        notifications: {
+          dailyReminder: false,
+          budgetAlert: false,
+          weeklySummary: false,
+          monthlySummary: false,
+          reminderTime: "21:00",
         },
       },
 

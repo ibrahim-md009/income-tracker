@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import Button from "../../components/ui/Button";
 import { useStore } from "../../store/useStore";
+import Input from "../../components/ui/Input";
 
 const catTypes = [{ title: "مصروف" }, { title: "دخل" }];
 
@@ -28,12 +29,10 @@ const AddModal = ({ setIsOpen }) => {
       <div className="flex flex-col gap-3">
         <div className="flex flex-col">
           <label>اسم التصنيف</label>
-          <input
+          <Input
             autoFocus
             onFocus={(e) => e.target.select()}
             value={catTitle}
-            type="text"
-            className="border-accent rounded-lg border bg-white p-1"
             onChange={(e) => onChange("catTitle", e.target.value)}
             placeholder="مثال:مواصلات"
           />
@@ -43,13 +42,12 @@ const AddModal = ({ setIsOpen }) => {
           <label>النوع</label>
           <div className="my-3 flex items-center gap-2 p-1">
             {catTypes.map((cat) => (
-              <button
+              <Button
                 key={cat.title}
-                className={`flex w-full items-center justify-center rounded-lg px-5 py-2 ${cat.title === catType ? " bg-accent border border-white text-white" : "bg-gray-400 text-gray-700"}`}
+                className={`flex w-full items-center justify-center px-5 py-2 ${cat.title === catType ? " border-white text-white" : "bg-gray-400 text-gray-700"}`}
                 onClick={() => toggleCatType(cat.title)}
-              >
-                {cat.title}
-              </button>
+                text={cat.title}
+              />
             ))}
           </div>
         </div>

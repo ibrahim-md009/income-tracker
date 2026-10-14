@@ -1,6 +1,7 @@
 import { ToggleLeft } from "lucide-react";
 import BackStep from "../../components/ui/BackStep";
 import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
 
 const passwordFields = [
   {
@@ -40,14 +41,12 @@ const Security = () => {
             <div className="flex flex-col gap-5">
               {passwordFields.map((pf) => {
                 return (
-                  <div key={pf.id} className="flex w-full flex-col">
-                    <label>{pf.label}</label>
-                    <input
-                      type="password"
-                      className="border-accent rounded-lg border bg-cyan-50 p-2 text-[12px]"
-                      placeholder={pf.placeholder}
-                    />
-                  </div>
+                  <Input
+                    key={pf.id}
+                    label={pf.label}
+                    type="password"
+                    placeholder={pf.placeholder}
+                  />
                 );
               })}
             </div>

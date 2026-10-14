@@ -52,7 +52,10 @@ const SideBar = () => {
           </ul>
         </div>
 
-        <div className="flex flex-col items-center justify-center gap-2">
+        <NavLink
+          to={"/settings/profile"}
+          className="flex flex-col items-center justify-center gap-2"
+        >
           <img
             src={image}
             alt="user image"
@@ -60,7 +63,7 @@ const SideBar = () => {
           />
           <span>{name}</span>
           <span>{email}</span>
-        </div>
+        </NavLink>
       </div>
     </aside>
   );

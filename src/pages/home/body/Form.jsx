@@ -1,6 +1,7 @@
 import { Tag } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import Button from "../../../components/ui/Button";
+import Input from "../../../components/ui/Input";
 
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
@@ -54,13 +55,12 @@ const Form = () => {
 
       <div className="my-3 flex items-center gap-2 p-1">
         {formTabs.map((tab) => (
-          <button
+          <Button
             key={tab.title}
-            className={`flex w-full items-center justify-center rounded-lg px-5 py-2 ${tab.title === activeTab ? " bg-accent border border-white text-white" : "bg-gray-400 text-gray-700"}`}
+            className={`w-full p-2 ${tab.title === activeTab ? " bg-accent border border-white text-white" : "bg-gray-400 text-gray-700"}`}
             onClick={() => toggleActiveTab(tab.title)}
-          >
-            {tab.title}
-          </button>
+            text={tab.title}
+          />
         ))}
       </div>
 
@@ -69,9 +69,8 @@ const Form = () => {
           return (
             <div key={index}>
               <label className="mb-1 font-medium">{inp.label}</label>
-              <input
+              <Input
                 autoFocus={index === 0}
-                className="border-accent w-full rounded-lg border py-1.5 pr-3"
                 type={inp.type}
                 value={inp.value}
                 onChange={(e) => onChange(inp.tran, e.target.value)}
@@ -114,16 +113,15 @@ const Form = () => {
               underEditing ? updateTransaction() : addTransaction();
               clearForm();
             }}
-            className="bg-accent text-white"
             text={underEditing ? "تعديل" : "إضافة"}
-          ></Button>
+          />
 
           {underEditing ? (
             <Button
-              className="bg-accent text-white"
               onClick={() => clearForm()}
               text="إلغاء"
-            ></Button>
+              variant="outlined"
+            />
           ) : null}
         </div>
       </div>

@@ -1,5 +1,7 @@
 import { Calendar } from "lucide-react";
 import { useStore } from "../../store/useStore";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
 
 const months = [
   "يناير",
@@ -48,17 +50,14 @@ const Header = () => {
           </p>
         </div>
 
-        <input
-          type="search"
-          className="w-65 rounded-lg bg-gray-300 py-2 pr-3 text-[10px]"
-          placeholder="ابحث عن معاملة أو تصنيف"
-        />
+        <Input type="search" placeholder="ابحث عن معاملة أو تصنيف" />
       </div>
 
       <div className="flex items-center justify-between px-8 pt-3">
-        <button className="flex items-center justify-center rounded-lg bg-amber-950 p-2 text-xs text-white duration-103 hover:scale-103">
-          + إضافة عملية
-        </button>
+        <Button
+          className="flex items-center justify-center rounded-lg bg-amber-950 p-2 text-xs text-white duration-103 hover:scale-103"
+          text={"إضافة عملية+"}
+        />
 
         <div className="text-center">
           <h2 className="font-bold">{`مرحبا ${name}`}</h2>

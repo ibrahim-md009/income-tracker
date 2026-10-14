@@ -1,6 +1,7 @@
 import { List, Calendar } from "lucide-react";
 import { useStore } from "../../../../store/useStore";
 import Button from "../../../../components/ui/Button";
+import Input from "../../../../components/ui/Input";
 
 const TransactionsHeader = () => {
   const {
@@ -58,11 +59,7 @@ const TransactionsHeader = () => {
 
       <div className="flex flex-1 gap-2">
         {underFiltering ? (
-          <Button
-            text="إلغاء"
-            className="p-2"
-            onClick={() => clearFiltering()}
-          />
+          <Button text="إلغاء" onClick={() => clearFiltering()} />
         ) : null}
 
         {selectItems.map((select) => {
@@ -98,12 +95,12 @@ const TransactionsHeader = () => {
 
         {inputItems.map((inp, i) => {
           return (
-            <input
+            <Input
               key={i}
               type={inp.type}
               placeholder={inp.placeholder}
               onChange={(e) => changeFilter(inp.tran, e.target.value)}
-              className="rounded-lg bg-gray-300 px-2 text-xs"
+              className="text-xs"
             />
           );
         })}

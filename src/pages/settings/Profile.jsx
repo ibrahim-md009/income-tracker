@@ -1,7 +1,7 @@
-import BackStep from "../../components/ui/BackStep";
-import SaveBtn from "../../components/ui/SaveBtn";
+import Input from "../../components/ui/Input";
 import { resizeImage } from "../../utils/resizeImages";
 import { useSettingsForm } from "../../hooks/useSettingsForm";
+import SettingsLayout from "../../components/layout/SettingsLayout";
 
 const Profile = () => {
   const { draft, setField } = useSettingsForm("profile");
@@ -35,62 +35,46 @@ const Profile = () => {
   };
 
   return (
-    <main className="mr-[15%] min-h-screen w-[85%] p-3">
-      <div className="flex h-screen flex-col gap-10">
-        <div className="header flex items-center gap-2">
-          <BackStep route="/settings" />
-          <div className="flex flex-col gap-1">
-            <h2 className="text-2xl font-bold">الملف الشخصي</h2>
-            <span>تعديل بياناتك الشخصية وصورتك</span>
-          </div>
-        </div>
-
-        <div className="flex flex-1">
-          <div className="flex w-full flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <span className="font-bold">صورتك الشخصية </span>
-              <label className="flex w-20 cursor-pointer gap-2">
-                <img
-                  src={draft.image}
-                  alt=""
-                  className="aspect-square w-full rounded-full object-cover"
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </label>
-            </div>
-
-            <div className="flex flex-wrap gap-5">
-              <div className="flex flex-col">
-                <label>الاسم</label>
-                <input
-                  type="text"
-                  value={draft.name}
-                  onChange={(e) => setField("name", e.target.value)}
-                  className="bg-gray-300"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label>الحساب الالكتروني</label>
-                <input
-                  type="text"
-                  value={draft.email}
-                  onChange={(e) => setField("email", e.target.value)}
-                  className="bg-gray-300"
-                />
-              </div>
-            </div>
-
-            <SaveBtn section={"profile"} changes={draft} />
-          </div>
-        </div>
+    <SettingsLayout
+      title="الملف الشخصي"
+      subTitle="تعديل بياناتك الشخصية وصورتك"
+      section="profile"
+      draft={draft}
+    >
+      <div className="flex flex-col gap-2">
+        <span className="font-bold">صورتك الشخصية </span>
+        <label className="flex w-20 cursor-pointer gap-2">
+          <img
+            src={draft.image}
+            alt="your image"
+            className="aspect-square w-full rounded-full object-cover"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+        </label>
       </div>
-    </main>
+
+      <div className="flex flex-wrap gap-5">
+        <Input
+          label="الاسم"
+          type="text"
+          value={draft.name}
+          onChange={(e) => setField("name", e.target.value)}
+        />
+
+        <Input
+          label="الحساب الالكتروني"
+          type="text"
+          value={draft.email}
+          onChange={(e) => setField("email", e.target.value)}
+        />
+      </div>
+    </SettingsLayout>
   );
 };
+
 export default Profile;
