@@ -32,15 +32,21 @@ const day = days[date.getDay()];
 const todayDate = `${day} ${date.getDate()} ${month} ${date.getFullYear()}`;
 
 const Header = () => {
-  const userName = useStore((s) => s.settings.profile.userName);
+  const name = useStore((s) => s.settings.profile.name);
+  const startFiscalMonth = useStore(
+    (s) => s.settings.languageAndCurrency.startFiscalMonth,
+  );
 
   return (
     <header className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <p className="flex items-center gap-0.5 text-[12px]">
-          <Calendar className="w-4" />
-          {todayDate}
-        </p>
+        <div>
+          <p>بداية الشهر المالي يوم {startFiscalMonth}</p>
+          <p className="flex items-center gap-0.5 text-[12px]">
+            <Calendar className="w-4" />
+            {todayDate}
+          </p>
+        </div>
 
         <input
           type="search"
@@ -55,7 +61,7 @@ const Header = () => {
         </button>
 
         <div className="text-center">
-          <h2 className="font-bold">{`مرحبا ${userName}`}</h2>
+          <h2 className="font-bold">{`مرحبا ${name}`}</h2>
           <p className="text-sm">إليك نظرة سريعة على وضعك المالي هذا الشهر </p>
         </div>
       </div>

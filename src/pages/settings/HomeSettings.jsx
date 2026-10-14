@@ -12,7 +12,7 @@ const settings = [
     title: "المظهر",
     desc: "تغيير الثيم والألوان",
     icon: Moon,
-    path: "/settings/view",
+    path: "/settings/appearance",
   },
   {
     title: "الإشعارات",

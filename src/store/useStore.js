@@ -7,11 +7,21 @@ export const useStore = create(
       //settings
       settings: {
         profile: {
-          userName: "user",
-          userEmail: "hfhdk@gmail.com",
-          userImage: "",
+          name: "user",
+          email: "hfhdk@gmail.com",
+          image: "",
         },
-        languageAndCurrency: { language: "ar", currency: "EGP" },
+        languageAndCurrency: {
+          language: "ar",
+          currency: "EGP",
+          startFiscalMonth: "1",
+        },
+        appearance: {
+          theme: "light",
+          accentColor: "#92400e",
+          fontSize: "16",
+          radius: "8",
+        },
       },
 
       updateSettings: (section, changes) =>

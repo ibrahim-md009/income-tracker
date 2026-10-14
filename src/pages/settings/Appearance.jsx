@@ -1,5 +1,6 @@
 import BackStep from "../../components/ui/BackStep";
 import SaveBtn from "../../components/ui/SaveBtn";
+import { useSettingsForm } from "../../hooks/useSettingsForm";
 
 const themes = [
   {
@@ -17,13 +18,16 @@ const themes = [
     subtitle: "حسب الجهاز",
   },
 ];
+
 const colors = [
-  { color: "bg-red-500" },
-  { color: "bg-yellow-500" },
-  { color: "bg-blue-500" },
-  { color: "bg-orange-500" },
+  { hex: "#92400e", bg: "bg-[#92400e]" },
+  { hex: "#32a852", bg: "bg-[#32a852]" },
+  { hex: "#44f20f", bg: "bg-[#44f20f]" },
+  { hex: "#0f88f2", bg: "bg-[#0f88f2]" },
 ];
-const View = () => {
+
+const Appearance = () => {
+  const { draft, setField } = useSettingsForm("appearance");
   return (
     <main className="mr-[15%] min-h-screen w-[85%] p-3">
       <div className="flex h-screen flex-col gap-10">
@@ -41,13 +45,14 @@ const View = () => {
               <label className="mb-2 block font-medium">الثيم</label>
               <div className="flex w-full gap-2">
                 {themes.map((theme) => (
-                  <div
+                  <button
                     key={theme.id}
-                    className="flex h-25 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg bg-cyan-200 p-4 transition-colors hover:bg-cyan-300"
+                    onClick={() => setField("theme", theme.id)}
+                    className={`flex h-25 w-full flex-col items-center justify-center gap-2 rounded-lg bg-cyan-200 ${draft.theme === theme.id ? "border border-amber-800" : ""} p-4 transition-colors hover:bg-cyan-300`}
                   >
                     <h3 className="font-bold">{theme.title}</h3>
                     {theme.subtitle && <small>{theme.subtitle}</small>}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -58,21 +63,29 @@ const View = () => {
                 {colors.map((c) => {
                   return (
                     <button
-                      className={`aspect-square w-7 rounded-full ${c.color} duration-75 hover:scale-110`}
+                      key={c.hex}
+                      onClick={() => setField("accentColor", c.hex)}
+                      className={`aspect-square w-7 rounded-full ${c.bg} ${draft.accentColor === c.hex ? "scale-110 border-2 border-cyan-50 " : ""} duration-75 hover:scale-110`}
                     ></button>
                   );
                 })}
               </div>
             </div>
+
             <div className="flex flex-col gap-2">
               <label>حجم الخط</label>
-              <select className="h-10 rounded-lg bg-gray-200">
-                <option value="">متوسط</option>
-                <option value="">كبير</option>
-                <option value="">صغير</option>
+              <select
+                className="h-10 rounded-lg bg-gray-200"
+                value={draft.fontSize}
+                onChange={(e) => setField("fontSize", e.target.value)}
+              >
+                <option value="16">متوسط</option>
+                <option value="20">كبير</option>
+                <option value="12">صغير</option>
               </select>
             </div>
-            <SaveBtn field="" value={""} fieldValue={""} />
+
+            <SaveBtn section={"appearance"} changes={draft} />
           </div>
         </div>
       </div>
@@ -80,4 +93,4 @@ const View = () => {
   );
 };
 
-export default View;
+export default Appearance;

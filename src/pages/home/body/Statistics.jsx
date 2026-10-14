@@ -2,7 +2,8 @@ import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 
 const Statistics = () => {
-  const { currency, transactionsLog } = useStore();
+  const transactionsLog = useStore((s) => s.transactionsLog);
+  const currency = useStore((s) => s.settings.languageAndCurrency.currency);
 
   const getTotalIncome = () => {
     return transactionsLog

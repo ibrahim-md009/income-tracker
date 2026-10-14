@@ -1,7 +1,10 @@
 import BackStep from "../../components/ui/BackStep";
 import SaveBtn from "../../components/ui/SaveBtn";
+import { useSettingsForm } from "../../hooks/useSettingsForm";
 
 const LangCurrency = () => {
+  const { draft, setField } = useSettingsForm("languageAndCurrency");
+
   return (
     <main className="mr-[15%] min-h-screen w-[85%] p-3">
       <div className="flex h-screen flex-col gap-10">
@@ -19,7 +22,9 @@ const LangCurrency = () => {
               <div className="flex w-full flex-col">
                 <label>العملة</label>
                 <input
+                  value={draft.currency}
                   type="text"
+                  onChange={(e) => setField("currency", e.target.value)}
                   className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
                   placeholder="مثل:ج.م"
                 />
@@ -28,12 +33,13 @@ const LangCurrency = () => {
               <div className="flex w-full flex-col">
                 <label htmlFor="">اللغة</label>
                 <select
-                  name=""
-                  id=""
+                  value={draft.language}
+                  onChange={(e) => setField("language", e.target.value)}
+
                   className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
                 >
-                  <option value="Ar">العربية</option>
-                  <option value="En">ُEnglish</option>
+                  <option value="ar">العربية</option>
+                  <option value="en">ُEnglish</option>
                 </select>
               </div>
             </div>
@@ -41,13 +47,17 @@ const LangCurrency = () => {
             <div className="flex flex-col">
               <label htmlFor="">بداية الشهر المالي</label>
               <input
+                value={draft.startFiscalMonth}
                 type="number"
                 max="31"
+                onChange={(e) => {
+                  setField("startFiscalMonth", e.target.value);
+                }}
                 placeholder="اكتب يوم بداية الشهر المالي مثل:1"
                 className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
               />
             </div>
-            <SaveBtn />
+            <SaveBtn section={"languageAndCurrency"} changes={draft} />
           </div>
         </div>
       </div>

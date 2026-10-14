@@ -1,21 +1,10 @@
-import { useState } from "react";
 import BackStep from "../../components/ui/BackStep";
-import { useStore } from "../../store/useStore";
 import SaveBtn from "../../components/ui/SaveBtn";
 import { resizeImage } from "../../utils/resizeImages";
+import { useSettingsForm } from "../../hooks/useSettingsForm";
 
 const Profile = () => {
-  const profile = useStore((s) => s.settings.profile);
-
-  const [name, setName] = useState(profile.userName);
-  const [email, setEmail] = useState(profile.userEmail);
-  const [img, setImg] = useState(profile.userImage);
-
-  const profileChanges = {
-    userName: name,
-    userEmail: email,
-    userImage: img,
-  };
+  const { draft, setField } = useSettingsForm("profile");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -38,7 +27,7 @@ const Profile = () => {
 
     reader.onload = () => {
       resizeImage(reader.result).then((small) => {
-        setImg(small);
+        setField("image", small);
       });
     };
 
@@ -62,7 +51,7 @@ const Profile = () => {
               <span className="font-bold">صورتك الشخصية </span>
               <label className="flex w-20 cursor-pointer gap-2">
                 <img
-                  src={img}
+                  src={draft.image}
                   alt=""
                   className="aspect-square w-full rounded-full object-cover"
                 />
@@ -80,8 +69,8 @@ const Profile = () => {
                 <label>الاسم</label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={draft.name}
+                  onChange={(e) => setField("name", e.target.value)}
                   className="bg-gray-300"
                 />
               </div>
@@ -90,14 +79,14 @@ const Profile = () => {
                 <label>الحساب الالكتروني</label>
                 <input
                   type="text"
+                  value={draft.email}
+                  onChange={(e) => setField("email", e.target.value)}
                   className="bg-gray-300"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
                 />
               </div>
             </div>
 
-            <SaveBtn section={"profile"} changes={profileChanges} />
+            <SaveBtn section={"profile"} changes={draft} />
           </div>
         </div>
       </div>
