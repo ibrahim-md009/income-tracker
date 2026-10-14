@@ -44,7 +44,7 @@ const Security = () => {
                     <label>{pf.label}</label>
                     <input
                       type="password"
-                      className="rounded-lg border border-amber-800 bg-cyan-50 p-2 text-[12px]"
+                      className="border-accent rounded-lg border bg-cyan-50 p-2 text-[12px]"
                       placeholder={pf.placeholder}
                     />
                   </div>

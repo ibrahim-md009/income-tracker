@@ -53,7 +53,7 @@ const Statistics = () => {
             <div className="flex justify-between">
               <h3 className="text-lg">{statis.title}</h3>
               {statis.icon ? (
-                <i className="rounded-lg bg-amber-800 p-1">
+                <i className="bg-accent rounded-lg p-1">
                   <statis.icon className="text-white" />
                 </i>
               ) : (

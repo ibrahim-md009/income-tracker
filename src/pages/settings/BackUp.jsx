@@ -48,12 +48,12 @@ const BackUp = () => {
                     </div>
                     <Button text={item.buttonText} variant={item.btnVariant} />
                   </div>
-                  <hr className="text-amber-800" />
+                  <hr className="text-accent" />
                 </div>
               ))}
             </div>
-            <div className="flex justify-between rounded-lg border border-amber-800 p-2">
-              <div className="flex flex-col items-center text-amber-800">
+            <div className="border-accent flex justify-between rounded-lg border p-2">
+              <div className="text-accent flex flex-col items-center">
                 <h3 className="text-xl font-semibold">منطقة الخطر</h3>
                 <small>حذف كل البيانات</small>
               </div>

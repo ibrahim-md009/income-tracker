@@ -74,7 +74,7 @@ const TransactionsHeader = () => {
               <select.icon className="absolute top-[50%] right-2 w-4 translate-y-[-50%] rounded-lg" />
 
               <select
-                className="flex w-full appearance-none items-center rounded-lg border border-amber-800 py-1 pr-8 pl-3 invalid:text-[14px] invalid:text-gray-400"
+                className="border-accent flex w-full appearance-none items-center rounded-lg border py-1 pr-8 pl-3 invalid:text-[14px] invalid:text-gray-400"
                 value={select.value}
                 onChange={(e) => changeFilter(select.tran, e.target.value)}
                 name={select.id}

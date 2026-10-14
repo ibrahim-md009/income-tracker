@@ -4,7 +4,7 @@ const Button = ({ className = "", text, variant = "solid", ...props }) => {
   return (
     <button
       {...props}
-      className={` ${baseStyle} ${variant === "outlined" ? "border border-amber-800 bg-transparent text-amber-800 duration-103 hover:bg-amber-800 hover:text-white" : "bg-amber-800 text-white"} ${className}`}
+      className={` ${baseStyle} ${variant === "outlined" ? "border-accent text-accent hover:bg-accent border bg-transparent duration-103 hover:text-white" : " bg-accent text-white"} ${className}`}
     >
       {text}
     </button>

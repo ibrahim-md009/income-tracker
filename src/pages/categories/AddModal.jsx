@@ -33,7 +33,7 @@ const AddModal = ({ setIsOpen }) => {
             onFocus={(e) => e.target.select()}
             value={catTitle}
             type="text"
-            className="rounded-lg border border-amber-800 bg-white p-1"
+            className="border-accent rounded-lg border bg-white p-1"
             onChange={(e) => onChange("catTitle", e.target.value)}
             placeholder="مثال:مواصلات"
           />
@@ -45,7 +45,7 @@ const AddModal = ({ setIsOpen }) => {
             {catTypes.map((cat) => (
               <button
                 key={cat.title}
-                className={`flex w-full items-center justify-center rounded-lg px-5 py-2 ${cat.title === catType ? " border border-white bg-amber-800 text-white" : "bg-gray-400 text-gray-700"}`}
+                className={`flex w-full items-center justify-center rounded-lg px-5 py-2 ${cat.title === catType ? " bg-accent border border-white text-white" : "bg-gray-400 text-gray-700"}`}
                 onClick={() => toggleCatType(cat.title)}
               >
                 {cat.title}

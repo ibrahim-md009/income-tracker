@@ -49,14 +49,14 @@ const Form = () => {
   const secCats = activeTab === "دخل" ? incomeCategories : expensesCategories;
 
   return (
-    <div className="w-[20%] rounded-lg border border-amber-800 bg-cyan-100 p-3">
+    <div className="border-accent w-[20%] rounded-lg border bg-cyan-100 p-3">
       <h3 className="font-bold">إضافة معاملة جديدة</h3>
 
       <div className="my-3 flex items-center gap-2 p-1">
         {formTabs.map((tab) => (
           <button
             key={tab.title}
-            className={`flex w-full items-center justify-center rounded-lg px-5 py-2 ${tab.title === activeTab ? " border border-white bg-amber-800 text-white" : "bg-gray-400 text-gray-700"}`}
+            className={`flex w-full items-center justify-center rounded-lg px-5 py-2 ${tab.title === activeTab ? " bg-accent border border-white text-white" : "bg-gray-400 text-gray-700"}`}
             onClick={() => toggleActiveTab(tab.title)}
           >
             {tab.title}
@@ -71,7 +71,7 @@ const Form = () => {
               <label className="mb-1 font-medium">{inp.label}</label>
               <input
                 autoFocus={index === 0}
-                className="w-full rounded-lg border border-amber-800 py-1.5 pr-3"
+                className="border-accent w-full rounded-lg border py-1.5 pr-3"
                 type={inp.type}
                 value={inp.value}
                 onChange={(e) => onChange(inp.tran, e.target.value)}
@@ -92,7 +92,7 @@ const Form = () => {
               value={cat}
               onChange={(e) => onChange("cat", e.target.value)}
               required
-              className="flex appearance-none items-center rounded-lg border border-amber-800 py-1.5 pr-12 invalid:text-gray-400"
+              className="border-accent flex appearance-none items-center rounded-lg border py-1.5 pr-12 invalid:text-gray-400"
             >
               <option value="" hidden>
                 اختر التصنيف
@@ -114,13 +114,13 @@ const Form = () => {
               underEditing ? updateTransaction() : addTransaction();
               clearForm();
             }}
-            className="bg-amber-800 text-white"
+            className="bg-accent text-white"
             text={underEditing ? "تعديل" : "إضافة"}
           ></Button>
 
           {underEditing ? (
             <Button
-              className="bg-amber-800 text-white"
+              className="bg-accent text-white"
               onClick={() => clearForm()}
               text="إلغاء"
             ></Button>

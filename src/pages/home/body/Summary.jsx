@@ -7,7 +7,7 @@ const Summary = () => {
 
       <div className="flex gap-2">
         <small className="flex gap-1">
-          <CircleIcon className="fill-amber-800" /> مصروفات
+          <CircleIcon className="fill-accent" /> مصروفات
         </small>
         <small className="flex gap-1">
           <CircleIcon className="fill-amber-600" /> دخل

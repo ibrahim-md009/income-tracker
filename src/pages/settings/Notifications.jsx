@@ -50,7 +50,7 @@ const Notifications = () => {
                     <ToggleLeft />
                   </div>
                   {index !== notificationOptions.length - 1 && (
-                    <hr className="text-amber-800" />
+                    <hr className="text-accent" />
                   )}
                 </div>
               ))}

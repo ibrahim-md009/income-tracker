@@ -25,7 +25,7 @@ const LangCurrency = () => {
                   value={draft.currency}
                   type="text"
                   onChange={(e) => setField("currency", e.target.value)}
-                  className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
+                  className="border-accent rounded-lg border bg-cyan-50 p-2"
                   placeholder="مثل:ج.م"
                 />
               </div>
@@ -36,7 +36,7 @@ const LangCurrency = () => {
                   value={draft.language}
                   onChange={(e) => setField("language", e.target.value)}
 
-                  className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
+                  className="border-accent rounded-lg border bg-cyan-50 p-2"
                 >
                   <option value="ar">العربية</option>
                   <option value="en">ُEnglish</option>
@@ -54,7 +54,7 @@ const LangCurrency = () => {
                   setField("startFiscalMonth", e.target.value);
                 }}
                 placeholder="اكتب يوم بداية الشهر المالي مثل:1"
-                className="rounded-lg border border-amber-800 bg-cyan-50 p-2"
+                className="border-accent rounded-lg border bg-cyan-50 p-2"
               />
             </div>
             <SaveBtn section={"languageAndCurrency"} changes={draft} />

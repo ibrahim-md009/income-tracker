@@ -48,7 +48,7 @@ const Appearance = () => {
                   <button
                     key={theme.id}
                     onClick={() => setField("theme", theme.id)}
-                    className={`flex h-25 w-full flex-col items-center justify-center gap-2 rounded-lg bg-cyan-200 ${draft.theme === theme.id ? "border border-amber-800" : ""} p-4 transition-colors hover:bg-cyan-300`}
+                    className={`flex h-25 w-full flex-col items-center justify-center gap-2 rounded-lg bg-cyan-200 ${draft.theme === theme.id ? "border-accent border" : ""} p-4 transition-colors hover:bg-cyan-300`}
                   >
                     <h3 className="font-bold">{theme.title}</h3>
                     {theme.subtitle && <small>{theme.subtitle}</small>}
