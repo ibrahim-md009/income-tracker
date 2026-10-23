@@ -1,71 +1,26 @@
 export const createTransactionsSlice = (set) => ({
+  setState: (state, value) =>
+    set(() => ({
+      [state]: value,
+    })),
+
   transactionsLog: [],
-  activeTab: "دخل",
-  name: "",
-  amount: "",
-  cat: "",
-  date: "",
-  underEditing: false,
   editingId: "",
 
-  // transactions filter values
-  tranKind: "",
-  tranCat: "",
-  tranDate: "",
-  tranSearch: "",
-  underFiltering: false,
-
-  //transactions actions
-  toggleActiveTab: (tabTitle) =>
-    set(() => ({
-      activeTab: tabTitle,
-    })),
-  onChange: (tran, e) =>
-    set(() => ({
-      [tran]: e,
-    })),
-  addTransaction: () =>
+  addTransaction: (draft) =>
     set((state) => ({
       transactionsLog: [
         ...state.transactionsLog,
-        {
-          name: state.name,
-          amount: state.amount,
-          date: state.date,
-          cat: state.cat,
-          kind: state.activeTab,
-          id: crypto.randomUUID(),
-        },
+        { ...draft, id: crypto.randomUUID() },
       ],
     })),
-  clearForm: () =>
-    set(() => ({
-      name: "",
-      amount: "",
-      cat: "",
-      date: "",
-      underEditing: false,
-    })),
-  editTransaction: (tran) =>
-    set(() => ({
-      name: tran.name,
-      amount: tran.amount,
-      cat: tran.cat,
-      date: tran.date,
-      underEditing: true,
-      editingId: tran.id,
-    })),
-  updateTransaction: () =>
+  updateTransaction: (draft) =>
     set((state) => ({
       transactionsLog: state.transactionsLog.map((transaction) =>
         state.editingId === transaction.id
           ? {
               ...transaction,
-              name: state.name,
-              amount: state.amount,
-              cat: state.cat,
-              date: state.date,
-              kind: state.activeTab,
+              ...draft,
             }
           : transaction,
       ),
@@ -77,7 +32,14 @@ export const createTransactionsSlice = (set) => ({
       ),
     })),
 
-  //transactions filtering actions
+  // transactions filter values
+  tranKind: "",
+  tranCat: "",
+  tranDate: "",
+  tranSearch: "",
+  underFiltering: false,
+
+  //filtering
   changeFilter: (tran, e) =>
     set(() => ({
       [tran]: e,

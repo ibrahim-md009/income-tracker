@@ -9,8 +9,12 @@ const Table = () => {
     tranKind,
     tranCat,
     deleteTransaction,
-    editTransaction,
   } = useStore();
+  const setState = useStore((s) => s.setState);
+
+  const editTransaction = (tran) => {
+    setState("editingId", tran.id);
+  };
 
   const filteredLog = transactionsLog.filter(
     (tran) =>

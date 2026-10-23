@@ -29,20 +29,20 @@ const Statistics = () => {
       const expenseRatio = ((totalExpenses / totalIncome) * 100).toFixed();
 
       if (Number(expenseRatio) >= 50) {
-        const notificationTitle = `أنفقت ${expenseRatio}% من دخلك`;
+        const notificationTitle = `أنفقت 50% من دخلك`;
         const notificationKey = "expense-50";
 
         addNotification(notificationTitle, notificationKey);
       }
       if (Number(expenseRatio) >= 70) {
-        const notificationTitle = `أنفقت ${expenseRatio}% من دخلك`;
+        const notificationTitle = `أنفقت 70% من دخلك`;
         const notificationKey = "expense-70";
 
         addNotification(notificationTitle, notificationKey);
       }
 
       if (Number(expenseRatio) >= 100) {
-        const notificationTitle = `أنفقت ${expenseRatio}% من دخلك`;
+        const notificationTitle = `أنفقت 100% من دخلك`;
         const notificationKey = "expense-100";
 
         addNotification(notificationTitle, notificationKey);

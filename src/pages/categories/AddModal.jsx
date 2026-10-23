@@ -8,7 +8,7 @@ const catTypes = [{ title: "مصروف" }, { title: "دخل" }];
 const AddModal = ({ setIsOpen }) => {
   const {
     catTitle,
-    onChange,
+    setState,
     addCategory,
     catUnderEditing,
     updateCategory,
@@ -33,7 +33,7 @@ const AddModal = ({ setIsOpen }) => {
             autoFocus
             onFocus={(e) => e.target.select()}
             value={catTitle}
-            onChange={(e) => onChange("catTitle", e.target.value)}
+            onChange={(e) => setState("catTitle", e.target.value)}
             placeholder="مثال:مواصلات"
           />
         </div>
