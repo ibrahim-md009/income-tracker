@@ -1,3 +1,6 @@
+// نسخة من قسم معين في الإعدادات والتعديل عليها
+// <SaveBtn /> تبديل النسخة بالإعدادات الفعلية يتم من خلال
+
 import { useState } from "react";
 import { useStore } from "../store/useStore";
 

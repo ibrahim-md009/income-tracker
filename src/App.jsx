@@ -8,10 +8,15 @@ import { useEffect } from "react";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
+  const fontSize = useStore((s) => s.settings.appearance.fontSize);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--accentColor", accentColor);
   }, [accentColor]);
+
+  useEffect(() => {
+    document.documentElement.style.fontSize = Number(fontSize) + "px";
+  }, [fontSize]);
 
   return (
     <div className="flex">

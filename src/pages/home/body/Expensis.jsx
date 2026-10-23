@@ -3,6 +3,7 @@ import { useStore } from "../../../store/useStore";
 const Expensis = () => {
   const { transactionsLog, categories } = useStore();
 
+  //بترجع اوبجكت فيه اسم الكاتيجوري ومجموع مصاريفها
   const getCategoryTotals = () => {
     return transactionsLog
       .filter((tran) => tran.kind === "مصروف")
@@ -16,11 +17,15 @@ const Expensis = () => {
   };
 
   const categoryTotals = getCategoryTotals();
+
+  //مجموع المصروفات
   const catTotal = Object.values(categoryTotals).reduce(
     (acc, val) => acc + val,
     0,
   );
+
   const expensesCategories = categories.filter((cat) => cat.type === "مصروف");
+
   return (
     <div className="flex flex-1 justify-between overflow-y-scroll rounded-lg bg-cyan-100 p-3">
       <div>

@@ -16,7 +16,7 @@ const SettingsLayout = ({ title, subTitle, children, section, draft }) => {
         <div className="flex flex-1">
           <div className="flex w-full flex-col gap-4">
             {children}
-            <SaveBtn section={section} changes={draft} />
+            <SaveBtn section={section} draft={draft} />
           </div>
         </div>
       </div>

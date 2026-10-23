@@ -6,6 +6,7 @@
 @theme inline {
   --color-accent: var(--accentColor);
 }
+
 body {
   background-color: wheat;
 }

@@ -4,6 +4,33 @@ import { persist } from "zustand/middleware";
 export const useStore = create(
   persist(
     (set) => ({
+      //notifications
+      notifications: [],
+      addNotification: (title, key) =>
+        set((state) => {
+          const exsist = state.notifications.some((n) => n.key === key);
+          if (exsist) return state;
+
+          return {
+            notifications: [
+              ...state.notifications,
+              {
+                id: crypto.randomUUID(),
+                title: title,
+                key: key,
+                date: Date.now(),
+                isRead: false,
+              },
+            ],
+          };
+        }),
+      setNotification: (id, field, value) =>
+        set((state) => ({
+          notifications: state.notifications.map((n) =>
+            n.id === id ? { ...n, [field]: value } : n,
+          ),
+        })),
+
       //settings
       settings: {
         profile: {
@@ -188,6 +215,7 @@ export const useStore = create(
         transactionsLog: state.transactionsLog,
         categories: state.categories,
         settings: state.settings,
+        notifications: state.notifications,
       }),
     },
   ),

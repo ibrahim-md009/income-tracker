@@ -8,7 +8,6 @@ const Profile = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
     const MAX_SIZE = 5 * 1024 * 1024;

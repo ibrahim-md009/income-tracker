@@ -2,6 +2,7 @@ import { Calendar } from "lucide-react";
 import { useStore } from "../../store/useStore";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
+import NotificationBell from "../../components/layout/NotificationBell";
 
 const months = [
   "يناير",
@@ -50,7 +51,10 @@ const Header = () => {
           </p>
         </div>
 
-        <Input type="search" placeholder="ابحث عن معاملة أو تصنيف" />
+        <div className="flex items-center gap-8">
+          <NotificationBell />
+          <Input type="search" placeholder="ابحث عن معاملة أو تصنيف" />
+        </div>
       </div>
 
       <div className="flex items-center justify-between px-8 pt-3">

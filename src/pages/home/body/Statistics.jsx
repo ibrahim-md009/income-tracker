@@ -1,8 +1,10 @@
 import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
 import { useStore } from "../../../store/useStore";
+import { useEffect } from "react";
 
 const Statistics = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
+  const addNotification = useStore((s) => s.addNotification);
   const currency = useStore((s) => s.settings.languageAndCurrency.currency);
 
   const getTotalIncome = () => {
@@ -19,7 +21,34 @@ const Statistics = () => {
       .map((n) => n.amount)
       .reduce((acc, u) => Number(acc) + Number(u), 0);
   };
+
   const totalExpenses = getTotalExpenses();
+
+  useEffect(() => {
+    if (totalIncome > 0) {
+      const expenseRatio = ((totalExpenses / totalIncome) * 100).toFixed();
+
+      if (Number(expenseRatio) >= 50) {
+        const notificationTitle = `أنفقت ${expenseRatio}% من دخلك`;
+        const notificationKey = "expense-50";
+
+        addNotification(notificationTitle, notificationKey);
+      }
+      if (Number(expenseRatio) >= 70) {
+        const notificationTitle = `أنفقت ${expenseRatio}% من دخلك`;
+        const notificationKey = "expense-70";
+
+        addNotification(notificationTitle, notificationKey);
+      }
+
+      if (Number(expenseRatio) >= 100) {
+        const notificationTitle = `أنفقت ${expenseRatio}% من دخلك`;
+        const notificationKey = "expense-100";
+
+        addNotification(notificationTitle, notificationKey);
+      }
+    }
+  }, [totalIncome, totalExpenses, addNotification]);
 
   const statistics = [
     {

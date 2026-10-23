@@ -8,22 +8,22 @@ const Notifications = () => {
 
   const notificationOptions = [
     {
-      id: 1,
+      id: "dailyReminder",
       title: "تذكير يومي",
       subtitle: "تذكير بتسجيل معاملات اليوم",
     },
     {
-      id: 2,
+      id: "budgetAlert",
       title: "تجاوز الميزانية",
       subtitle: "تنبيه عند اقتراب المصروفات من الحد",
     },
     {
-      id: 3,
+      id: "weeklySummary",
       title: "ملخص أسبوعي",
       subtitle: "ملخص الدخل والمصروفات كل أسبوع",
     },
     {
-      id: 4,
+      id: "monthlySummary",
       title: "ملخص شهري",
       subtitle: "تقرير نهاية كل شهر",
     },
