@@ -1,20 +1,16 @@
 import BackStep from "../../components/ui/BackStep";
 import Button from "../../components/ui/Button";
+import { deleteData, exportData, importData } from "../../utils/backup";
 
 const BackUp = () => {
   const backupOptions = [
     {
-      id: 1,
-      title: "نسخة احتياطية",
-      subtitle: "آخر نسخة: [التاريخ]",
-      buttonText: "إنشاء نسخة الآن",
-    },
-    {
       id: 2,
       title: "تصدير البيانات",
-      subtitle: "ملف CSV أو JSON",
+      subtitle: "ملف JSON",
       buttonText: "تصدير",
       btnVariant: "outlined",
+      onclick: () => exportData(),
     },
     {
       id: 3,
@@ -24,6 +20,14 @@ const BackUp = () => {
       btnVariant: "outlined",
     },
   ];
+  const handleBackUp = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      importData(JSON.parse(reader.result));
+    };
+    reader.readAsText(file);
+  };
 
   return (
     <main className="mr-[15%] min-h-screen w-[85%] p-3">
@@ -46,18 +50,24 @@ const BackUp = () => {
                       <h3 className="font-bold">{item.title}</h3>
                       <small>آخر نسخة {item.lastBackup}</small>
                     </div>
-                    <Button text={item.buttonText} variant={item.btnVariant} />
+                    <Button
+                      text={item.buttonText}
+                      variant={item.btnVariant}
+                      onClick={item?.onclick}
+                    />
                   </div>
                   <hr className="text-accent" />
                 </div>
               ))}
             </div>
+
             <div className="border-accent flex justify-between rounded-lg border p-2">
               <div className="text-accent flex flex-col items-center">
                 <h3 className="text-xl font-semibold">منطقة الخطر</h3>
                 <small>حذف كل البيانات</small>
               </div>
-              <Button text={"حذف كل البيانات"} />
+              <Button text={"حذف كل البيانات"} onClick={() => deleteData()} />
+              <input type="file" onChange={(e) => handleBackUp(e)} />
             </div>
           </div>
         </div>

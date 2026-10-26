@@ -1,9 +1,4 @@
 export const createTransactionsSlice = (set) => ({
-  setState: (state, value) =>
-    set(() => ({
-      [state]: value,
-    })),
-
   transactionsLog: [],
   editingId: "",
 

@@ -12,6 +12,10 @@ export const useStore = create(
       ...createSettingsSlice(set),
       ...createTransactionsSlice(set),
       ...createCategoriesSlice(set),
+      setState: (state, value) =>
+        set(() => ({
+          [state]: value,
+        })),
     }),
 
     {
