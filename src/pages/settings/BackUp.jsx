@@ -1,32 +1,27 @@
+import { useRef } from "react";
 import BackStep from "../../components/ui/BackStep";
 import Button from "../../components/ui/Button";
+import { useStore } from "../../store/useStore";
 import { deleteData, exportData, importData } from "../../utils/backup";
 
 const BackUp = () => {
-  const backupOptions = [
-    {
-      id: 2,
-      title: "تصدير البيانات",
-      subtitle: "ملف JSON",
-      buttonText: "تصدير",
-      btnVariant: "outlined",
-      onclick: () => exportData(),
-    },
-    {
-      id: 3,
-      title: "استيراد نسخة",
-      subtitle: "استعادة بيانات من ملف",
-      buttonText: "استيراد",
-      btnVariant: "outlined",
-    },
-  ];
-  const handleBackUp = (e) => {
+  const lastBackup = useStore((s) => s.lastBackup);
+
+  const inputRef = useRef(null);
+
+  const handleImportBackup = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      importData(JSON.parse(reader.result));
+      try {
+        importData(JSON.parse(reader.result));
+      } catch {
+        window.alert("الملف غير صالح");
+      }
     };
     reader.readAsText(file);
+    e.target.value = "";
   };
 
   return (
@@ -43,22 +38,39 @@ const BackUp = () => {
         <div className="flex flex-1">
           <div className="flex w-full flex-col gap-4">
             <div className="flex flex-col gap-2 rounded-lg bg-cyan-50 p-5">
-              {backupOptions.map((item) => (
-                <div key={item.id} className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <h3 className="font-bold">{item.title}</h3>
-                      <small>آخر نسخة {item.lastBackup}</small>
-                    </div>
-                    <Button
-                      text={item.buttonText}
-                      variant={item.btnVariant}
-                      onClick={item?.onclick}
-                    />
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <h3 className="font-bold">تصدير البيانات</h3>
+                    <small>
+                      {lastBackup
+                        ? `آخر نسخة: ${new Date(lastBackup).toISOString().slice(0, 10)}`
+                        : null}
+                    </small>
                   </div>
-                  <hr className="text-accent" />
+                  <Button
+                    text="تصدير"
+                    variant="outlined"
+                    onClick={() => exportData()}
+                  />
                 </div>
-              ))}
+                <hr className="text-accent" />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <h3 className="font-bold">استيراد نسخة</h3>
+                    <small></small>
+                  </div>
+                  <Button
+                    text="استيراد"
+                    variant="outlined"
+                    onClick={() => inputRef.current.click()}
+                  />
+                </div>
+                <hr className="text-accent" />
+              </div>
             </div>
 
             <div className="border-accent flex justify-between rounded-lg border p-2">
@@ -67,11 +79,17 @@ const BackUp = () => {
                 <small>حذف كل البيانات</small>
               </div>
               <Button text={"حذف كل البيانات"} onClick={() => deleteData()} />
-              <input type="file" onChange={(e) => handleBackUp(e)} />
             </div>
           </div>
         </div>
       </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".json"
+        onChange={(e) => handleImportBackup(e)}
+        hidden
+      />
     </main>
   );
 };
