@@ -3,6 +3,7 @@ export const createCategoriesSlice = (set) => ({
   categories: [],
   catTitle: "",
   catType: "مصروف",
+  catColor: "#92400e",
   catUnderEditing: false,
   catEditingId: "",
 
@@ -15,7 +16,7 @@ export const createCategoriesSlice = (set) => ({
     set((state) => ({
       categories: [
         ...state.categories,
-        { type: type, title: state.catTitle, value: state.catTitle },
+        { type: type, title: state.catTitle, color: state.catColor },
       ],
     })),
   clearCategoriesForm: () =>
@@ -33,6 +34,7 @@ export const createCategoriesSlice = (set) => ({
   editCategory: (cat) =>
     set(() => ({
       catTitle: cat.title,
+      catColor: cat.color,
       catType: cat.type,
       catEditingId: cat.title,
       catUnderEditing: true,
@@ -41,7 +43,12 @@ export const createCategoriesSlice = (set) => ({
     set((state) => ({
       categories: state.categories.map((cat) => {
         return cat.title === state.catEditingId
-          ? { ...cat, title: state.catTitle, type: state.catType }
+          ? {
+              ...cat,
+              title: state.catTitle,
+              color: state.catColor,
+              type: state.catType,
+            }
           : cat;
       }),
       catUnderEditing: false,

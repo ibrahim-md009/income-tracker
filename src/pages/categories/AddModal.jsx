@@ -8,6 +8,7 @@ const catTypes = [{ title: "مصروف" }, { title: "دخل" }];
 const AddModal = ({ setIsOpen }) => {
   const {
     catTitle,
+    catColor,
     setState,
     addCategory,
     catUnderEditing,
@@ -26,18 +27,24 @@ const AddModal = ({ setIsOpen }) => {
           }}
         />
       </div>
+
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col">
-          <label>اسم التصنيف</label>
-          <Input
-            autoFocus
-            onFocus={(e) => e.target.select()}
-            value={catTitle}
-            onChange={(e) => setState("catTitle", e.target.value)}
-            placeholder="مثال:مواصلات"
+        <Input
+          label={"اسم التصنيف"}
+          autoFocus
+          onFocus={(e) => e.target.select()}
+          value={catTitle}
+          onChange={(e) => setState("catTitle", e.target.value)}
+          placeholder="مثال:مواصلات"
+        />
+        <div className="flex flex-col gap-2">
+          <label>لون التصنيف</label>
+          <input
+            type="color"
+            value={catColor}
+            onChange={(e) => setState("catColor", e.target.value)}
           />
         </div>
-
         <div>
           <label>النوع</label>
           <div className="my-3 flex items-center gap-2 p-1">
@@ -52,6 +59,7 @@ const AddModal = ({ setIsOpen }) => {
           </div>
         </div>
       </div>
+
       <div className="flex gap-3">
         <Button
           text={catUnderEditing ? "تعديل" : "إضافة"}

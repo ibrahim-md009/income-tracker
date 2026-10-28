@@ -25,7 +25,7 @@ const Table = () => {
   );
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex min-h-0 flex-1 flex-col gap-2">
       <div className="grid grid-cols-6 rounded-lg bg-gray-300 px-5 py-2 text-center">
         <span className="text-right">الاسم</span>
         <span>المبلغ</span>
@@ -35,7 +35,7 @@ const Table = () => {
         <span>الإجراءات</span>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto">
         {filteredLog.map((tran) => {
           return (
             <div key={tran.id} className="flex flex-col gap-1">

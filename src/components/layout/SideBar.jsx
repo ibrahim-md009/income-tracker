@@ -23,7 +23,7 @@ const SideBar = () => {
   const image = profile.image;
 
   return (
-    <aside className="fixed w-[15%] bg-amber-400">
+    <aside className="fixed w-[15%]">
       <div className="flex h-screen w-full flex-col justify-between bg-amber-950 p-4 text-white">
         <div>
           <h2 className="mb-5 font-bold">مُتابعي المالي</h2>

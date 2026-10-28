@@ -2,11 +2,8 @@ import { Tag } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
-import {
-  useTransactionsForm,
-  emptyDraft,
-} from "../../../hooks/useTransactionsForm";
-
+import { useDraft, emptyDraft } from "../../../hooks/useDraft";
+import FieldWithIcon from "../../../components/ui/FieldWithIcon";
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
 const Form = () => {
@@ -18,7 +15,7 @@ const Form = () => {
   const updateTransaction = useStore((s) => s.updateTransaction);
 
   const initial = transactionsLog.find((t) => t.id === editingId) ?? emptyDraft;
-  const { draft, setField, reset } = useTransactionsForm(initial);
+  const { draft, setField, reset } = useDraft(initial);
 
   const underEditing = editingId !== "";
 
@@ -88,30 +85,25 @@ const Form = () => {
           );
         })}
 
-        <div className="relative w-full">
-          <div className="flex flex-col">
-            <h3 className="mb-1 font-medium">التصنيف</h3>
-            <Tag className="absolute right-3 bottom-2 w-6 rounded-lg bg-gray-300 p-1" />
-
-            <select
-              value={draft.cat}
-              onChange={(e) => setField("cat", e.target.value)}
-              required
-              className="border-accent flex appearance-none items-center rounded-lg border py-1.5 pr-12 invalid:text-gray-400"
-            >
-              <option value="" hidden>
-                اختر التصنيف
-              </option>
-              {secCats.map((cat, i) => {
-                return (
-                  <option key={i} value={cat.value}>
-                    {cat.title}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </div>
+        <FieldWithIcon label={"ننن"} Icon={Tag}>
+          <select
+            value={draft.cat}
+            onChange={(e) => setField("cat", e.target.value)}
+            required
+            className="border-accent flex appearance-none items-center rounded-lg border py-1.5 pr-12 invalid:text-gray-400"
+          >
+            <option value="" hidden>
+              اختر التصنيف
+            </option>
+            {secCats.map((cat, i) => {
+              return (
+                <option key={i} value={cat.value}>
+                  {cat.title}
+                </option>
+              );
+            })}
+          </select>
+        </FieldWithIcon>
 
         <div className="flex flex-col gap-3">
           <Button

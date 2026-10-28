@@ -2,6 +2,7 @@ import { List, Calendar } from "lucide-react";
 import { useStore } from "../../../../store/useStore";
 import Button from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
+import FieldWithIcon from "../../../../components/ui/FieldWithIcon";
 
 const TransactionsHeader = () => {
   const {
@@ -64,14 +65,9 @@ const TransactionsHeader = () => {
 
         {selectItems.map((select) => {
           return (
-            <div
-              key={select.id}
-              className="relative flex w-[33%] items-center justify-center"
-            >
-              <select.icon className="absolute top-[50%] right-2 w-4 translate-y-[-50%] rounded-lg" />
-
+            <FieldWithIcon key={select.id} Icon={select.icon}>
               <select
-                className="border-accent flex w-full appearance-none items-center rounded-lg border py-1 pr-8 pl-3 invalid:text-[14px] invalid:text-gray-400"
+                className="border-accent flex w-full appearance-none items-center rounded-lg border py-1 pr-10 pl-3 invalid:text-[14px] invalid:text-gray-400"
                 value={select.value}
                 onChange={(e) => changeFilter(select.tran, e.target.value)}
                 name={select.id}
@@ -89,7 +85,7 @@ const TransactionsHeader = () => {
                   );
                 })}
               </select>
-            </div>
+            </FieldWithIcon>
           );
         })}
 

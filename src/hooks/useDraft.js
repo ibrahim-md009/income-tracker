@@ -8,7 +8,7 @@ export const emptyDraft = {
   kind: "دخل",
 };
 
-export const useTransactionsForm = (initialValues = emptyDraft) => {
+export const useDraft = (initialValues = emptyDraft) => {
   const [draft, setDraft] = useState(initialValues);
 
   const setField = (inputName, value) =>

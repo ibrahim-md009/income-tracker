@@ -1,16 +1,42 @@
 // utils/seed.js
 import { useStore } from "../store/useStore";
+
 const categories = [
-  { id: crypto.randomUUID(), type: "دخل", title: "راتب", value: "راتب" },
-  { id: crypto.randomUUID(), type: "دخل", title: "عمل حر", value: "عمل حر" },
-  { id: crypto.randomUUID(), type: "مصروف", title: "طعام", value: "طعام" },
+  {
+    id: crypto.randomUUID(),
+    type: "دخل",
+    title: "راتب",
+    value: "راتب",
+    color: "#16a34a",
+  },
+  {
+    id: crypto.randomUUID(),
+    type: "دخل",
+    title: "عمل حر",
+    value: "عمل حر",
+    color: "#0d9488",
+  },
+  {
+    id: crypto.randomUUID(),
+    type: "مصروف",
+    title: "طعام",
+    value: "طعام",
+    color: "#6366f1",
+  },
   {
     id: crypto.randomUUID(),
     type: "مصروف",
     title: "مواصلات",
     value: "مواصلات",
+    color: "#10b981",
   },
-  { id: crypto.randomUUID(), type: "مصروف", title: "فواتير", value: "فواتير" },
+  {
+    id: crypto.randomUUID(),
+    type: "مصروف",
+    title: "فواتير",
+    value: "فواتير",
+    color: "#f59e0b",
+  },
 ];
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];

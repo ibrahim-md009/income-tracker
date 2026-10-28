@@ -13,8 +13,6 @@ const Summary = () => {
           <CircleIcon className="fill-amber-600" /> دخل
         </small>
       </div>
-
-      <div className="flex h-full"></div>
     </div>
   );
 };

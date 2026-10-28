@@ -56,8 +56,12 @@ const Categories = () => {
                       key={cat.title}
                       className="cat flex justify-between rounded-lg bg-gray-300 p-2"
                     >
-                      <div>
+                      <div className="flex items-center gap-2">
                         <span>{cat.title}</span>
+                        <span
+                          className="aspect-square w-4 rounded-lg"
+                          style={{ backgroundColor: cat.color }}
+                        ></span>
                       </div>
                       <div className="flex gap-2">
                         <Edit

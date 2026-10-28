@@ -5,6 +5,7 @@ import Categories from "./pages/categories";
 import Settings from "./pages/settings";
 import { useStore } from "./store/useStore";
 import { useEffect } from "react";
+import Transactions from "./pages/transactions";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/settings/*" element={<Settings />} />
+        <Route path="/transactions" element={<Transactions />} />
       </Routes>
     </div>
   );
