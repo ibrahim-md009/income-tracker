@@ -1,10 +1,11 @@
 import { useState } from "react";
+const today = new Date().toISOString().slice(0, 10);
 
 export const emptyDraft = {
   name: "",
   amount: "",
   cat: "",
-  date: "",
+  date: today,
   kind: "دخل",
 };
 

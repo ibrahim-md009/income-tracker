@@ -28,7 +28,7 @@ const Form = () => {
   };
   const inputs = [
     {
-      label: "اسم العملية",
+      label: "اسم المعاملة",
       type: "text",
       value: draft.name,
       placeholder: "راتب شهري",
@@ -85,7 +85,7 @@ const Form = () => {
           );
         })}
 
-        <FieldWithIcon label={"ننن"} Icon={Tag}>
+        <FieldWithIcon label={"التصنيف"} Icon={Tag}>
           <select
             value={draft.cat}
             onChange={(e) => setField("cat", e.target.value)}

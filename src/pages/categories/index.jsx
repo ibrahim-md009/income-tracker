@@ -134,6 +134,7 @@ const Categories = () => {
             </div>
           </div>
         </div>
+
         {isAddOpen ? <AddModal setIsOpen={setIsAddOpen} /> : null}
       </div>
     </main>

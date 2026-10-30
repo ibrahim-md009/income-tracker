@@ -41,7 +41,7 @@ const Table = () => {
             <div key={tran.id} className="flex flex-col gap-1">
               <div className="grid grid-cols-6 px-5 text-center">
                 <span className="text-right">{tran.name}</span>
-                <span className="flex items-center justify-center gap-1">
+                <span className="grid grid-cols-[45px_30px] justify-center">
                   {tran.amount}
                   <span className="bg-accent w-5 rounded-lg text-center text-white">
                     {tran.kind === "دخل" ? "+" : "-"}

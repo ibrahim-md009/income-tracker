@@ -1,5 +1,7 @@
 import { useStore } from "../../../store/useStore";
 import ExpensesPie from "../../../components/ui/ExpensesPie";
+import { Link } from "react-router-dom";
+import Button from "../../../components/ui/Button";
 const Expenses = () => {
   const { transactionsLog, categories } = useStore();
 
@@ -30,11 +32,22 @@ const Expenses = () => {
   }));
 
   return (
-    <div className="flex flex-1 justify-between overflow-y-auto rounded-lg bg-cyan-100 p-3">
-      <div>
+    <div className="flex flex-1 justify-between rounded-lg bg-cyan-100 p-3">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <h3 className="mb-5 font-bold">المصروفات حسب التصنيف</h3>
 
-        <div className="flex flex-col gap-5 pb-2">
+        {expensesCategories.length === 0 && (
+          <div className="h-full w-full">
+            <div>
+              <h1>لا يوجد لديك تصنيفات للمصروفات حاليا</h1>
+              <Button>
+                <Link to={"/categories"}>اذهب لقسم التصنيفات</Link>
+              </Button>
+            </div>
+          </div>
+        )}
+
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pb-2">
           {expensesCategories.map((exp) => {
             const amount = categoryTotals[exp.title] || 0;
             const rate =
@@ -43,13 +56,16 @@ const Expenses = () => {
                 : "0%";
 
             return (
-              <div key={exp.title} className="flex gap-12 text-[12px]">
+              <div
+                key={exp.title}
+                className="grid grid-cols-[40px_60px_minmax(0,1fr)] gap-3 text-[12px]"
+              >
                 <span>{rate}</span>
                 <span>{amount}</span>
-                <div className="flex gap-2">
+                <div className="grid grid-cols-2">
                   <span>{exp.title}</span>
                   <span
-                    className="h-4 w-4 rounded-full"
+                    className="h-4 w-4 shrink-0 rounded-full"
                     style={{ backgroundColor: exp.color }}
                   ></span>
                 </div>
