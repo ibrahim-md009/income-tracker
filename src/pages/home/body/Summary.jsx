@@ -4,8 +4,8 @@ import Chart from "../../../components/ui/Chart";
 
 const Summary = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
-
-  const chartData = getChartData(transactionsLog, 3);
+  const selectedMonthKey = useStore((s) => s.selectedMonthKey);
+  const chartData = getChartData(transactionsLog, selectedMonthKey, 3);
 
   return (
     <div className="flex w-[40%] flex-col gap-3 rounded-lg bg-cyan-100 p-3">

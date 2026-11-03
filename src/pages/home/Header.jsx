@@ -1,44 +1,26 @@
 import { Calendar } from "lucide-react";
 import { useStore } from "../../store/useStore";
-import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import NotificationBell from "../../components/layout/NotificationBell";
+import {
+  getMonthKey,
+  getMonthName,
+  getCurrentMonthKey,
+} from "../../utils/dates";
+import FieldWithIcon from "../../components/ui/FieldWithIcon";
 
-const months = [
-  "يناير",
-  "فبراير",
-  "مارس",
-  "أبريل",
-  "مايو",
-  "يونيو",
-  "يوليو",
-  "أغسطس",
-  "سبتمبر",
-  "أكتوبر",
-  "نوفمبر",
-  "ديسمبر",
-];
-const days = [
-  "الأحد",
-  "الإثنين",
-  "الثلاثاء",
-  "الأربعاء",
-  "الخميس",
-  "الجمعة",
-  "السبت",
-];
-
-const date = new Date();
-const month = months[date.getMonth()];
-const day = days[date.getDay()];
-
-const todayDate = `${day} ${date.getDate()} ${month} ${date.getFullYear()}`;
+const todayDate = new Date().toLocaleDateString("ar", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
 const Header = () => {
   const name = useStore((s) => s.settings.profile.name);
   const startFiscalMonth = useStore(
     (s) => s.settings.languageAndCurrency.startFiscalMonth,
   );
+  const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
   return (
     <header className="flex flex-col gap-3">
@@ -58,11 +40,25 @@ const Header = () => {
       </div>
 
       <div className="flex items-center justify-between px-8 pt-3">
-        <Button
-          className="flex items-center justify-center rounded-lg bg-amber-950 p-2 text-xs text-white duration-103 hover:scale-103"
-          text={"إضافة عملية+"}
-        />
-
+        <FieldWithIcon Icon={Calendar}>
+          <select
+            value={selectedMonthKey}
+            onChange={(e) =>
+              useStore.setState({ selectedMonthKey: e.target.value })
+            }
+            className="border-accent flex w-40 items-center rounded-lg border py-1.5 pr-12 invalid:text-gray-400"
+          >
+            {Array.from({ length: 12 }, (_, i) =>
+              getMonthKey(getCurrentMonthKey(), i),
+            ).map((monthKey) => {
+              return (
+                <option key={monthKey} value={monthKey}>
+                  {getMonthName(monthKey)}
+                </option>
+              );
+            })}
+          </select>
+        </FieldWithIcon>
         <div className="text-center">
           <h2 className="font-bold">{`مرحبا ${name}`}</h2>
           <p className="text-sm">إليك نظرة سريعة على وضعك المالي هذا الشهر </p>

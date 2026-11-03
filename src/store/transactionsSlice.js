@@ -1,5 +1,8 @@
+import { getCurrentMonthKey } from "../utils/dates";
+
 export const createTransactionsSlice = (set) => ({
   transactionsLog: [],
+  selectedMonthKey: getCurrentMonthKey(),
   editingId: "",
 
   addTransaction: (draft) =>

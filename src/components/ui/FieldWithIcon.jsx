@@ -1,4 +1,5 @@
-const FieldWithIcon = ({ label, Icon, children }) => {
+import { DollarSign } from "lucide-react";
+const FieldWithIcon = ({ label, Icon = DollarSign, children }) => {
   return (
     <div className="relative w-full">
       <div className="flex flex-col">

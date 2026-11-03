@@ -1,21 +1,20 @@
-import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
-import { useStore } from "../../../store/useStore";
 import { useEffect } from "react";
-import { sumByKind, getMonthComparsion } from "../../../utils/stats";
 import StatCard from "../../../components/ui/StatCard";
+import { useStore } from "../../../store/useStore";
+import { getMonthlyChanges } from "../../../utils/stats";
+import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
 
 const Statistics = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
+  const selectedMonthKey = useStore((s) => s.selectedMonthKey);
   const addNotification = useStore((s) => s.addNotification);
 
-  const totalIncome = sumByKind(transactionsLog, "دخل");
-  const totalExpenses = sumByKind(transactionsLog, "مصروف");
-
-  const { expensesMom, incomeMom } = getMonthComparsion(transactionsLog);
+  const { expensesMom, incomeMom, currentIncome, currentExpenses } =
+    getMonthlyChanges(transactionsLog, selectedMonthKey);
 
   useEffect(() => {
-    if (totalIncome > 0) {
-      const expenseRatio = ((totalExpenses / totalIncome) * 100).toFixed();
+    if (currentIncome > 0) {
+      const expenseRatio = ((currentExpenses / currentIncome) * 100).toFixed();
       const nots = [50, 70, 100];
 
       nots.forEach((ratio) => {
@@ -27,26 +26,26 @@ const Statistics = () => {
         }
       });
     }
-  }, [totalIncome, totalExpenses, addNotification]);
+  }, [currentIncome, currentExpenses, addNotification]);
 
   const statistics = [
     {
       title: "إجمالي الدخل",
-      value: totalIncome,
+      value: currentIncome,
       mom: incomeMom,
       higherIsBetter: true,
       icon: ArrowUpLeft,
     },
     {
       title: "إجمالي المصروفات",
-      value: totalExpenses,
+      value: currentExpenses,
       mom: expensesMom,
       higherIsBetter: false,
       icon: ArrowDown,
     },
     {
       title: "الرصيد المتبقي",
-      value: totalIncome - totalExpenses,
+      value: currentIncome - currentExpenses,
       icon: Wallet,
     },
   ];

@@ -1,5 +1,7 @@
 import { useState } from "react";
-const today = new Date().toISOString().slice(0, 10);
+import { getTodayDate } from "../utils/dates";
+
+const today = getTodayDate();
 
 export const emptyDraft = {
   name: "",
