@@ -1,12 +1,11 @@
 import { useStore } from "../../../store/useStore";
-import { getMonthComparsion } from "../../../utils/getMonthComparsion";
+import { getChartData } from "../../../utils/stats";
 import Chart from "../../../components/ui/Chart";
 
 const Summary = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
-  const { getChartData } = getMonthComparsion(transactionsLog);
 
-  const chartData = getChartData(3);
+  const chartData = getChartData(transactionsLog, 3);
 
   return (
     <div className="flex w-[40%] flex-col gap-3 rounded-lg bg-cyan-100 p-3">

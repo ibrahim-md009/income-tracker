@@ -1,5 +1,7 @@
 import { Edit, Trash } from "lucide-react";
 import { useStore } from "../../../../store/useStore";
+import { filterByMonth } from "../../../../utils/stats";
+import { getMonthKey } from "../../../../utils/dates";
 
 const Table = () => {
   const {
@@ -16,7 +18,8 @@ const Table = () => {
     setState("editingId", tran.id);
   };
 
-  const filteredLog = transactionsLog.filter(
+  const monthTransactions = filterByMonth(transactionsLog, getMonthKey(0));
+  const filteredLog = monthTransactions.filter(
     (tran) =>
       tran.name.includes(tranSearch) &&
       tran.date.includes(tranDate) &&
