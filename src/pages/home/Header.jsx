@@ -1,6 +1,5 @@
 import { Calendar } from "lucide-react";
 import { useStore } from "../../store/useStore";
-import Input from "../../components/ui/Input";
 import NotificationBell from "../../components/layout/NotificationBell";
 import {
   getMonthKey,
@@ -35,7 +34,6 @@ const Header = () => {
 
         <div className="flex items-center gap-8">
           <NotificationBell />
-          <Input type="search" placeholder="ابحث عن معاملة أو تصنيف" />
         </div>
       </div>
 

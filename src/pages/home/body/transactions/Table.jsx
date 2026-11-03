@@ -19,13 +19,15 @@ const Table = () => {
   };
 
   const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey);
-  const filteredLog = monthTransactions.filter(
-    (tran) =>
-      tran.name.includes(tranSearch) &&
-      tran.date.includes(tranDate) &&
-      tran.kind.includes(tranKind) &&
-      tran.cat.includes(tranCat),
-  );
+  const filteredLog = monthTransactions
+    .filter(
+      (tran) =>
+        tran.name.includes(tranSearch) &&
+        tran.date.includes(tranDate) &&
+        tran.kind.includes(tranKind) &&
+        tran.cat.includes(tranCat),
+    )
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-2">
