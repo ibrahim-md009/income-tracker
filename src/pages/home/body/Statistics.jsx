@@ -1,8 +1,7 @@
 import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import { useEffect } from "react";
-import { sumByKind } from "../../../utils/stats";
-import { getMonthComparsion } from "../../../utils/dates";
+import { sumByKind, getMonthComparsion } from "../../../utils/stats";
 import StatCard from "../../../components/ui/StatCard";
 
 const Statistics = () => {
