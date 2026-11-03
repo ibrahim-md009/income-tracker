@@ -12,13 +12,13 @@ const Table = () => {
     deleteTransaction,
   } = useStore();
   const setState = useStore((s) => s.setState);
-  const month = useStore((s) => s.month);
+  const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
   const editTransaction = (tran) => {
     setState("editingId", tran.id);
   };
 
-  const monthTransactions = filterByMonth(transactionsLog, month);
+  const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey);
   const filteredLog = monthTransactions.filter(
     (tran) =>
       tran.name.includes(tranSearch) &&
