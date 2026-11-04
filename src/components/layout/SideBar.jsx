@@ -24,7 +24,8 @@ const SideBar = () => {
 
   return (
     <aside className="fixed w-[15%]">
-      <div className="flex h-screen w-full flex-col justify-between bg-amber-950 p-4 text-white">
+      <span className="bg-paper-300 absolute left-0 h-full w-[0.005rem]"></span>
+      <div className="bg-paper-50 flex h-screen w-full flex-col justify-between p-4 text-white">
         <div>
           <h2 className="mb-5 font-bold">مُتابعي المالي</h2>
 
@@ -35,7 +36,7 @@ const SideBar = () => {
                   key={element.title}
                   to={element.path}
                   className={({ isActive }) =>
-                    `flex gap-1.5 rounded-lg bg-none p-1 ${isActive ? "border border-white bg-green-500" : ""}`
+                    `flex gap-1.5 rounded-lg bg-none p-1 ${isActive ? "bg-nila-50 border border-white" : ""}`
                   }
                 >
                   {({ isActive }) => (

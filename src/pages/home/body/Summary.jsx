@@ -6,6 +6,8 @@ const Summary = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
   const chartData = getChartData(transactionsLog, selectedMonthKey, 3);
+  console.log(chartData.reduce((acc, d) => acc + d.income, 0));
+  console.log(chartData.reduce((acc, d) => acc + d.expense, 0));
 
   return (
     <div className="flex w-[40%] flex-col gap-3 rounded-lg bg-cyan-100 p-3">

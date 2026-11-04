@@ -1,14 +1,42 @@
 @import "tailwindcss";
 
-:root {
-  --accentColor: #92400e;
+@theme {
+  --color-*: initial;
+  --color-paper-50: #fbf9f4;
+  --color-paper-100: #f5f1e8;
+  --color-paper-200: #eae4d6;
+  --color-paper-300: #d8d0be;
+  --color-ink-500: #656a7d;
+  --color-ink-700: #3a3f55;
+  --color-ink-900: #171a2b;
+  --color-nila-50: #eef0fb;
+  --color-nila-600: #2f3a8f;
+  --color-nila-900: #151a45;
+  --color-saffron-400: #f0b429;
+  --color-inverse: #151a45;
+  --text-oninverse: #e7e9f7;
+  --font-sans: "IBM Plex Sans Arabic", Tahoma, sans-serif;
+  --font-voice: "Aref Ruqaa", serif;
 }
-@theme inline {
-  --color-accent: var(--accentColor);
+
+:root {
+  /* الفاتح */
+  --surface-page: var(--color-paper-100);
+  --surface-card: var(--color-paper-50);
+  --surface-inverse: var(--color-nila-900);
+  --line: var(--color-paper-200);
+  --line-strong: var(--color-paper-300);
+  --fg: var(--color-ink-900);
+  --fg-muted: var(--color-ink-500);
+  --action: var(--color-nila-600);
+  --money-in: #1b7a55;
+  --money-in-bg: #e2f3ea;
+  --money-out: #b83a3a;
+  --money-out-bg: #f9e4e1;
 }
 
 body {
-  background-color: wheat;
+  background-color: var(--surface-page);
 }
 
 @layer base {

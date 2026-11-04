@@ -15,7 +15,9 @@ const StatCard = ({ title, value, mom, icon: Icon, higherIsBetter = true }) => {
   const MomIcon = mom > 0 ? ArrowUp : ArrowDown;
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-amber-900 bg-blue-100 p-2">
+    <div
+      className={`flex w-full flex-col rounded-lg border border-amber-900 p-2 ${title === "الرصيد المتبقي" ? "bg-inverse" : "bg-paper-50"}`}
+    >
       <div className="flex justify-between">
         <h3 className="text-lg">{title}</h3>
         {Icon && (
@@ -25,7 +27,11 @@ const StatCard = ({ title, value, mom, icon: Icon, higherIsBetter = true }) => {
         )}
       </div>
 
-      <h1 className="text-2xl font-black">{f.format(value)}</h1>
+      <h1
+        className={`text-2xl ${title === "الرصيد المتبقي" ? "text-shadow-nila-50" : "text-ink-900"}`}
+      >
+        {f.format(value)}
+      </h1>
       {hasMom && (
         <div className="flex items-center justify-between">
           <small className="text-green-500">{`مقارنة بـ${getMonthName(getMonthKey(selectedMonthKey, 1))}`}</small>

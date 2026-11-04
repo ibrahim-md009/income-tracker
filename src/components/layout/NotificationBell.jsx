@@ -34,7 +34,7 @@ const NotificationBell = () => {
       <button className="relative" onClick={() => toggleBell()}>
         <Bell />
         {unReadCount > 0 ? (
-          <span className="absolute -top-3 left-4 flex size-5 items-center justify-center rounded-full bg-red-500 text-white">
+          <span className="bg-saffron-400 absolute -top-3 left-4 flex size-5 items-center justify-center rounded-full text-white">
             {unReadCount}
           </span>
         ) : null}

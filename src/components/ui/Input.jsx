@@ -14,7 +14,7 @@ const Input = ({
         type={type}
         value={value}
         onChange={onChange}
-        className={`border-accent rounded-lg border bg-cyan-50 p-2 ${className}`}
+        className={`border-accent bg-paper-50 rounded-lg border p-2 ${className}`}
         placeholder={placeholder}
         {...props}
       />

@@ -2,34 +2,21 @@ import { useStore } from "../../../store/useStore";
 import ExpensesPie from "../../../components/ui/ExpensesPie";
 import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
-const Expenses = () => {
-  const { transactionsLog, categories } = useStore();
+import {
+  // filterByMonth,
+  getCatTotal,
+  getCategoryTotals,
+  getPieData,
+} from "../../../utils/stats";
 
-  //بترجع اوبجكت فيه اسم الكاتيجوري ومجموع مصاريفها
-  const getCategoryTotals = () => {
-    return transactionsLog
-      .filter((tran) => tran.kind === "مصروف")
-      .reduce((acc, tran) => {
-        const catName = tran.cat;
-        const amount = Number(tran.amount) || 0;
+const Expenses = ({ log = [] }) => {
+  // const transactionsLog = useStore((s) => s.transactionsLog);
+  const categories = useStore((s) => s.categories);
+  // const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
-        acc[catName] = (acc[catName] || 0) + amount;
-        return acc;
-      }, {});
-  };
-  const categoryTotals = getCategoryTotals();
-  //مجموع المصروفات
-  const catTotal = Object.values(categoryTotals).reduce(
-    (acc, val) => acc + val,
-    0,
-  );
+  // const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey);
   const expensesCategories = categories.filter((cat) => cat.type === "مصروف");
-  // [{name: "",value: 1000}]
-  const pieData = expensesCategories.map((cat) => ({
-    name: cat.title,
-    color: cat.color,
-    value: categoryTotals[cat.title],
-  }));
+  const catTotal = getCatTotal(log);
 
   return (
     <div className="flex flex-1 justify-between rounded-lg bg-cyan-100 p-3">
@@ -49,7 +36,7 @@ const Expenses = () => {
 
         <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pb-2">
           {expensesCategories.map((exp) => {
-            const amount = categoryTotals[exp.title] || 0;
+            const amount = getCategoryTotals(log)[exp.title] || 0;
             const rate =
               catTotal > 0
                 ? ((amount / catTotal) * 100).toFixed(0) + "%"
@@ -74,7 +61,7 @@ const Expenses = () => {
           })}
         </div>
       </div>
-      <ExpensesPie pieData={pieData} />
+      <ExpensesPie pieData={getPieData(log, expensesCategories)} />
     </div>
   );
 };
