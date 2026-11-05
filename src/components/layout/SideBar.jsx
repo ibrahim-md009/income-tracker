@@ -1,3 +1,79 @@
+// import {
+//   Home,
+//   LibrarySquareIcon,
+//   Tag,
+//   ChartColumn,
+//   Settings,
+// } from "lucide-react";
+// import { NavLink } from "react-router-dom";
+// import { useStore } from "../../store/useStore";
+// import Button from "../ui/Button";
+
+// const sideBar = [
+//   { title: "الرئيسية", icon: Home, path: "/" },
+//   { title: "المعاملات", icon: LibrarySquareIcon, path: "/transactions" },
+//   { title: "الفئات", icon: Tag, path: "/categories" },
+//   { title: "التقارير", icon: ChartColumn, path: "/reports" },
+//   { title: "الإعدادات", icon: Settings, path: "/settings" },
+// ];
+
+// const SideBar = () => {
+//   const profile = useStore((s) => s.settings.profile);
+//   const name = profile.name;
+//   const email = profile.email;
+//   const image = profile.image;
+
+//   return (
+//     <aside className="fixed w-[15%]">
+//       <div className="bg-card border-line flex h-screen w-full flex-col justify-between border p-4 text-white">
+//         <div className="flex flex-col gap-5">
+//           <div>
+//             <h2 className="text-fg font-voice text-voice mb-5 font-bold">
+//               مُتابعي المالي
+//             </h2>
+//             <Button text={"+معاملة جديدة"} className="w-full" />
+//           </div>
+
+//           <nav className="flex flex-col gap-2">
+//             {sideBar.map((element) => {
+//               return (
+//                 <NavLink
+//                   key={element.title}
+//                   to={element.path}
+//                   className={({ isActive }) =>
+//                     `rounded-control flex gap-1.5 border-s-4 p-1.5 ${
+//                       isActive
+//                         ? "bg-action-soft text-action border-action"
+//                         : "text-fg-body hover:bg-page border-transparent"
+//                     }`
+//                   }
+//                 >
+//                   <element.icon />
+//                   {element.title}
+//                 </NavLink>
+//               );
+//             })}
+//           </nav>
+//         </div>
+
+//         <NavLink to={"/settings"} className="flex items-center gap-2">
+//           <img
+//             src={image}
+//             alt="user image"
+//             className="aspect-square w-9 rounded-full object-cover"
+//           />
+//           <div className="flex flex-col">
+//             <span className="text-fg text-body-s">{name}</span>
+//             <span className="text-fg-muted text-caption">{email}</span>
+//           </div>
+//         </NavLink>
+//       </div>
+//     </aside>
+//   );
+// };
+// export default SideBar;
+
+import { useState } from "react";
 import {
   Home,
   LibrarySquareIcon,
@@ -7,6 +83,8 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useStore } from "../../store/useStore";
+import Button from "../ui/Button";
+import Form from "../../pages/home/body/Form"; // عدّل المسار حسب مكان الفورم عندك
 
 const sideBar = [
   { title: "الرئيسية", icon: Home, path: "/" },
@@ -18,53 +96,81 @@ const sideBar = [
 
 const SideBar = () => {
   const profile = useStore((s) => s.settings.profile);
-  const name = profile.name;
-  const email = profile.email;
-  const image = profile.image;
+  const editingId = useStore((s) => s.editingId);
+  const setState = useStore((s) => s.setState);
+  const { name, email, image } = profile;
+
+  const [isOpen, setIsOpen] = useState(false);
+  // الفورم يفتح لوحده لو المستخدم داس تعديل على معاملة من الجدول
+  const open = isOpen || editingId !== "";
+
+  const toggleForm = () => {
+    if (open) {
+      setState("editingId", ""); // لو كان تعديل، نلغيه
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   return (
-    <aside className="fixed w-[15%]">
-      <span className="bg-paper-300 absolute left-0 h-full w-[0.005rem]"></span>
-      <div className="bg-paper-50 flex h-screen w-full flex-col justify-between p-4 text-white">
+    <aside className="fixed w-[20%]">
+      <div className="bg-card border-line flex h-screen w-full flex-col border p-4">
+        {/* الجزء العلوي: ثابت دايماً */}
         <div>
-          <h2 className="mb-5 font-bold">مُتابعي المالي</h2>
+          <h2 className="text-fg font-voice text-voice mb-5 font-bold">
+            مُتابعي المالي
+          </h2>
+          <Button
+            text={open ? "إلغاء" : "+معاملة جديدة"}
+            variant={open ? "outlined" : undefined}
+            className="w-full"
+            onClick={toggleForm}
+          />
+        </div>
 
-          <ul className="flex flex-col gap-2">
-            {sideBar.map((element) => {
-              return (
+        {/* الجزء السفلي: الفورم بيتفرد فوقه */}
+        <div className="relative mt-5 min-h-0 flex-1">
+          <div className="flex h-full flex-col justify-between">
+            <nav className="flex flex-col gap-2">
+              {sideBar.map((element) => (
                 <NavLink
                   key={element.title}
                   to={element.path}
+                  end={element.path === "/"}
                   className={({ isActive }) =>
-                    `flex gap-1.5 rounded-lg bg-none p-1 ${isActive ? "bg-nila-50 border border-white" : ""}`
+                    `rounded-control flex gap-1.5 border-s-4 p-1.5 ${
+                      isActive
+                        ? "bg-action-soft text-action border-action"
+                        : "text-fg-body hover:bg-page border-transparent"
+                    }`
                   }
                 >
-                  {({ isActive }) => (
-                    <>
-                      <element.icon
-                        className={`${isActive ? "fill-current" : ""}`}
-                      />
-                      {element.title}
-                    </>
-                  )}
+                  <element.icon />
+                  {element.title}
                 </NavLink>
-              );
-            })}
-          </ul>
-        </div>
+              ))}
+            </nav>
 
-        <NavLink
-          to={"/settings/profile"}
-          className="flex flex-col items-center justify-center gap-2"
-        >
-          <img
-            src={image}
-            alt="user image"
-            className="aspect-square w-8 rounded-full object-cover"
-          />
-          <span>{name}</span>
-          <span>{email}</span>
-        </NavLink>
+            <NavLink to="/settings" className="flex items-center gap-2">
+              <img
+                src={image}
+                alt="user image"
+                className="aspect-square w-9 rounded-full object-cover"
+              />
+              <div className="flex flex-col">
+                <span className="text-fg text-body-s">{name}</span>
+                <span className="text-fg-muted text-caption">{email}</span>
+              </div>
+            </NavLink>
+          </div>
+
+          {open && (
+            <div className="bg-card animate-slide-up absolute inset-0 z-10 overflow-y-auto">
+              <Form key={editingId} onClose={() => setIsOpen(false)} />
+            </div>
+          )}
+        </div>
       </div>
     </aside>
   );

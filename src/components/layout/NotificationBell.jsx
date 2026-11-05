@@ -30,11 +30,14 @@ const NotificationBell = () => {
   };
 
   return (
-    <div ref={wrapperRef} className="relative">
+    <div
+      ref={wrapperRef}
+      className="bg-card rounded-control border-line-strong relative flex items-center justify-center border p-2.5"
+    >
       <button className="relative" onClick={() => toggleBell()}>
-        <Bell />
+        <Bell width={20} color="#171A2B" />
         {unReadCount > 0 ? (
-          <span className="bg-saffron-400 absolute -top-3 left-4 flex size-5 items-center justify-center rounded-full text-white">
+          <span className="bg-action absolute -top-2 left-3 flex size-3.5 items-center justify-center rounded-full text-[10px] text-white">
             {unReadCount}
           </span>
         ) : null}

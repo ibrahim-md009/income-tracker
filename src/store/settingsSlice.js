@@ -16,15 +16,23 @@ export const initialSettings = {
     radius: "8",
   },
   notifications: {
-    dailyReminder: false,
-    budgetAlert: false,
+    dailyReminder: true,
+    budgetAlert: true,
     weeklySummary: false,
-    monthlySummary: false,
+    monthlySummary: true,
     reminderTime: "21:00",
   },
 };
 export const createSettingsSlice = (set) => ({
   settings: initialSettings,
+
+  setSettings: (section, field, value) =>
+    set((state) => ({
+      settings: {
+        ...state.settings,
+        [section]: { ...state.settings[section], [field]: value },
+      },
+    })),
 
   updateSettings: (section, changes) =>
     set((state) => ({

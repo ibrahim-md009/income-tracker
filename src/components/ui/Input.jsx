@@ -9,12 +9,12 @@ const Input = ({
 }) => {
   return (
     <div className="flex flex-col gap-1">
-      {label && <label className="">{label}</label>}
+      {label && <label className="text-fg text-body-s">{label}</label>}
       <input
         type={type}
         value={value}
         onChange={onChange}
-        className={`border-accent bg-paper-50 rounded-lg border p-2 ${className}`}
+        className={`border-accent bg-card text-fg text-body border-line-strong rounded-control border p-2 ${className}`}
         placeholder={placeholder}
         {...props}
       />

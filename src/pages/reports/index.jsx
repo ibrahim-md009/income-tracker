@@ -49,12 +49,12 @@ const Reports = () => {
   ];
 
   return (
-    <main className="mr-[15%] min-h-screen w-[85%] p-3">
+    <main className="mr-[20%] min-h-screen w-[80%] p-3">
       <div className="flex flex-col gap-5">
         <div className="header flex items-center justify-between">
           <div className="flex flex-col gap-1">
-            <h2 className="text-2xl font-bold">التقارير</h2>
-            <small>{`نظرة على أخر ${numOfMonts} شهور`}</small>
+            <h2 className="text-fg text-h1">التقارير</h2>
+            <small className="text-fg-muted text-body-s">{`نظرة على أخر ${numOfMonts} شهور`}</small>
           </div>
           <div className="flex gap-7">
             <div className="flex gap-3">
@@ -62,7 +62,7 @@ const Reports = () => {
                 <button
                   key={tab.title}
                   onClick={() => setNumOfMonths(tab.value)}
-                  className={`rounded-lg p-2 ${tab.value === numOfMonts ? "bg-gray-300" : ""}`}
+                  className={`text-fg rounded-control text-body-s p-2 ${tab.value === numOfMonts ? "bg-card" : ""}`}
                 >
                   {tab.title}
                 </button>
@@ -77,11 +77,11 @@ const Reports = () => {
             return (
               <div
                 key={card.title}
-                className="border-accent flex flex-1 flex-col gap-1 rounded-lg border bg-gray-300 p-3"
+                className="border-accent bg-card text-fg-muted text-body-s flex flex-1 flex-col gap-1 rounded-lg border p-3"
               >
                 <h3>{card.title}</h3>
                 <div className="flex items-center">
-                  <b className="text-2xl">{card.value}</b>
+                  <b className="text-money-in text-h1">{card.value}</b>
                   {card.percentage && <small>{card.percentage}</small>}
                 </div>
               </div>
@@ -89,7 +89,6 @@ const Reports = () => {
           })}
         </div>
         <div className="flex h-100 gap-5">
-          {/* <div className="h-70 w-100 bg-amber-50"> */}
           <Chart
             chartData={getChartData(
               transactionsLog,
@@ -97,7 +96,6 @@ const Reports = () => {
               numOfMonts,
             )}
           />
-          {/* </div> */}
           <Expenses
             log={getMonthTransactions(
               transactionsLog,

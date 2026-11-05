@@ -6,16 +6,17 @@ const themes = [
   {
     id: "light",
     title: "فاتح",
-    subtitle: "الافتراضي",
+    bg: "bg-page",
   },
   {
     id: "dark",
     title: "داكن",
+    bg: "bg-[#101322]",
   },
   {
     id: "system",
-    title: "تلقائي",
-    subtitle: "حسب الجهاز",
+    title: "تلقائي حسب جهازك",
+    bg: "bg-[linear-gradient(to_right,#000000_50%,#f5f1e8_50%)]",
   },
 ];
 
@@ -42,12 +43,10 @@ const Appearance = () => {
             <Button
               key={theme.id}
               onClick={() => setField("theme", theme.id)}
-              className={`flex h-25 w-full flex-col items-center justify-center gap-2 rounded-lg bg-cyan-200 ${draft.theme === theme.id ? "border-accent border" : ""} p-4 transition-colors hover:bg-cyan-300`}
+              className={`rounded-control bg-card flex h-30 w-full flex-col items-center justify-center gap-2 border-2 p-4 transition-colors ${draft.theme === theme.id ? "border-action" : "border-line-strong"}`}
             >
-              <h3 className="text-accent font-bold">{theme.title}</h3>
-              {theme.subtitle && (
-                <small className="text-accent">{theme.subtitle}</small>
-              )}
+              <div className={`h-[90%] w-[90%] ${theme.bg}`}></div>
+              <h3 className="text-fg text-body-s">{theme.title}</h3>
             </Button>
           ))}
         </div>

@@ -10,6 +10,12 @@ export const filterByMonth = (log, monthkey) => {
   return log.filter((item) => item.date.slice(0, 7) === monthkey);
 };
 
+export const countByCategory = (log, category, kind) => {
+  return log.filter(
+    (transaction) => transaction.cat === category && transaction.kind === kind,
+  ).length;
+};
+
 export const getMonthTransactions = (log, monthKey, count) => {
   return Array.from({ length: count }, (_, i) => {
     return filterByMonth(log, getMonthKey(monthKey, i));
@@ -98,4 +104,8 @@ export const getMonthsTotals = (log, selectedMonthKey, count) => {
   const totalExpenses = arr.reduce((acc, b) => acc + b.expense, 0);
 
   return { totalIncome, totalExpenses };
+};
+
+export const filterCategoriesByKind = (cats, kind) => {
+  return cats.filter((cat) => cat.type === kind);
 };

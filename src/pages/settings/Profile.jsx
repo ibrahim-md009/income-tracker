@@ -41,8 +41,7 @@ const Profile = () => {
       draft={draft}
     >
       <div className="flex flex-col gap-2">
-        <span className="font-bold">صورتك الشخصية </span>
-        <label className="flex w-20 cursor-pointer gap-2">
+        <label className="flex w-25 cursor-pointer gap-2">
           <img
             src={draft.image}
             alt="your image"

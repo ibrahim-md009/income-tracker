@@ -10,6 +10,7 @@ export const useSettingsForm = (section) => {
 
   const setField = (field, value) =>
     setDraft((d) => ({ ...d, [field]: value }));
+  console.log(saved, draft);
 
   return { draft, setField };
 };

@@ -16,25 +16,29 @@ const StatCard = ({ title, value, mom, icon: Icon, higherIsBetter = true }) => {
 
   return (
     <div
-      className={`flex w-full flex-col rounded-lg border border-amber-900 p-2 ${title === "الرصيد المتبقي" ? "bg-inverse" : "bg-paper-50"}`}
+      className={`rounded-card flex w-full flex-col border border-amber-900 p-2 ${title === "المتبقي من دخل الشهر" ? "bg-inverse" : "bg-paper-50"}`}
     >
       <div className="flex justify-between">
-        <h3 className="text-lg">{title}</h3>
+        <h3
+          className={`${title === "المتبقي من دخل الشهر" ? "text-on-inverse text-body-s" : "text-fg"}`}
+        >
+          {title}
+        </h3>
         {Icon && (
-          <i className="bg-accent rounded-lg p-1">
-            <Icon className="text-white" />
+          <i className="bg-money-in-soft rounded-control p-1">
+            <Icon className="text-money-in" />
           </i>
         )}
       </div>
 
       <h1
-        className={`text-2xl ${title === "الرصيد المتبقي" ? "text-shadow-nila-50" : "text-ink-900"}`}
+        className={`${title === "المتبقي من دخل الشهر" ? "text-on-inverse text-display-l" : "text-fg text-h1"}`}
       >
         {f.format(value)}
       </h1>
       {hasMom && (
         <div className="flex items-center justify-between">
-          <small className="text-green-500">{`مقارنة بـ${getMonthName(getMonthKey(selectedMonthKey, 1))}`}</small>
+          <small className="text-money-in">{`مقارنة بـ${getMonthName(getMonthKey(selectedMonthKey, 1))}`}</small>
           <div className={`flex ${isGood ? "text-green-500" : "text-red-500"}`}>
             <b>{Math.abs(mom)}%</b>
             <MomIcon width={14} />

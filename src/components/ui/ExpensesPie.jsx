@@ -10,7 +10,7 @@ const ExpensesPie = ({ pieData }) => {
             dataKey="value"
             nameKey="name"
             innerRadius={60}
-            outerRadius={90}
+            outerRadius={80}
           >
             {pieData.map((item) => (
               <Cell key={item.name} fill={item.color} />

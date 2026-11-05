@@ -1,138 +1,98 @@
 import { useState } from "react";
-import { ArrowDown, ArrowUp } from "lucide-react";
 import Button from "../../components/ui/Button";
 import { Edit } from "lucide-react";
 import { Trash } from "lucide-react";
 import { useStore } from "../../store/useStore";
 import AddModal from "./AddModal";
+import Header from "../../components/layout/Header";
+import { filterCategoriesByKind, countByCategory } from "../../utils/stats";
 
 const Categories = () => {
-  const { categories, delCategory, editCategory } = useStore();
+  const { transactionsLog, categories, delCategory, editCategory } = useStore();
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const expensesCategories = categories.filter((cat) => cat.type === "مصروف");
-  const incomeCategories = categories.filter((cat) => cat.type === "دخل");
+
+  const [activeTab, setActiveTab] = useState("expenses");
+
+  const expensesCategories = filterCategoriesByKind(categories, "مصروف");
+  const incomeCategories = filterCategoriesByKind(categories, "دخل");
+  const currentCats =
+    activeTab === "expenses" ? expensesCategories : incomeCategories;
 
   return (
-    <main className="relative mr-[15%] h-screen w-[85%] px-3 py-3">
-      <div className="flex flex-col gap-10">
-        <div className="header flex items-center justify-between">
+    <main className="relative mr-[20%] h-screen w-[80%] px-3 py-3">
+      <div className="flex h-screen flex-col gap-10">
+        <Header title="التصنيفات" subTitle="تنظيم تصنيفات دخلك ومصروفاتك">
           <Button
             onClick={() => setIsAddOpen(true)}
             className="w-30"
             text="+ إضافة تصنيف"
           />
-          <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-bold">التصنيفات</h2>
-            <p>تنظيم تصنيفات دخلك ومصروفاتك</p>
-          </div>
+        </Header>
+
+        <div className="flex gap-3">
+          <Button
+            text={`مصروفات (${expensesCategories.length})`}
+            onClick={() => setActiveTab("expenses")}
+            className={`text-body-s rounded-control transition-all duration-200 ${
+              activeTab === "expenses"
+                ? "bg-card text-fg! shadow-1"
+                : "text-fg-muted! bg-transparent opacity-70"
+            }`}
+          />
+
+          <Button
+            text={`دخل (${incomeCategories.length})`}
+            onClick={() => setActiveTab("income")}
+            className={`text-body-s rounded-control transition-all duration-200 ${
+              activeTab === "income"
+                ? "bg-card text-fg! shadow-1"
+                : "text-fg-muted! bg-transparent opacity-70"
+            }`}
+          />
         </div>
 
-        <div className="flex justify-between gap-5">
-          <div className="flex flex-1 flex-col gap-3">
-            <div className="flex w-full items-center justify-between rounded-lg bg-gray-300 p-3">
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold">تصنيفات المصروفات</h3>
-                <b className="text-3xl">{expensesCategories.length}</b>
-                <small>تصنيف</small>
-              </div>
-              <div className="flex items-center justify-between rounded-full bg-gray-400 p-2">
-                <ArrowDown className="text-red-600" />
-              </div>
-            </div>
-
-            <div className="flex h-screen flex-col gap-3 rounded-lg bg-[#FAF9F6] p-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold">تصنيفات المصروفات</h3>
-                <Button
-                  onClick={() => setIsAddOpen(true)}
-                  text="إضافة +"
-                  className="px-3"
-                />
-              </div>
-              <div className="cat-table flex flex-col gap-2">
-                {expensesCategories.map((cat) => {
-                  return (
-                    <div
-                      key={cat.title}
-                      className="cat flex justify-between rounded-lg bg-gray-300 p-2"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>{cat.title}</span>
-                        <span
-                          className="aspect-square w-4 rounded-lg"
-                          style={{ backgroundColor: cat.color }}
-                        ></span>
-                      </div>
-                      <div className="flex gap-2">
-                        <Edit
-                          className="w-4"
-                          onClick={() => {
-                            (editCategory(cat), setIsAddOpen(true));
-                          }}
-                        />
-                        <Trash
-                          className="w-4"
-                          onClick={() => delCategory(cat.title)}
-                        />
-                      </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+          {currentCats.map((cat) => {
+            return (
+              <div
+                key={cat.title}
+                className="rounded-card bg-card border-line flex flex-col justify-between gap-4 border p-4"
+              >
+                <div className="flex justify-between">
+                  <div className="flex gap-2">
+                    <span
+                      className="size-7 shrink-0 rounded-full"
+                      style={{ backgroundColor: cat.color }}
+                    ></span>
+                    <div className="flex flex-col">
+                      <h3 className="text-fg text-h3">{cat.title}</h3>
+                      <span className="text-fg-muted text-body-s">
+                        {`${countByCategory(
+                          transactionsLog,
+                          cat.title,
+                          cat.type,
+                        )} معاملة`}
+                      </span>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+                  </div>
+                </div>
 
-          <div className="flex flex-1 flex-col gap-3">
-            <div className="flex w-full items-center justify-between rounded-lg bg-gray-300 p-3">
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold">تصنيفات الدخل</h3>
-                <b className="text-3xl">{incomeCategories.length}</b>
-                <small>تصنيف</small>
+                <div className="flex gap-3 border-t border-gray-400/30 pt-2">
+                  <Edit
+                    className="w-4.5 cursor-pointer transition-opacity hover:opacity-70"
+                    onClick={() => {
+                      editCategory(cat);
+                      setIsAddOpen(true);
+                    }}
+                  />
+                  <Trash
+                    className="w-4.5 cursor-pointer text-red-600 transition-opacity hover:opacity-70"
+                    onClick={() => delCategory(cat.title)}
+                  />
+                </div>
               </div>
-              <div className="flex items-center justify-between rounded-full bg-gray-400 p-2">
-                <ArrowUp className="text-green-700" />
-              </div>
-            </div>
-
-            <div className="flex h-screen flex-col gap-3 rounded-lg bg-[#FAF9F6] p-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold">تصنيفات الدخل</h3>
-                <Button
-                  onClick={() => {
-                    (useStore.setState({ catType: "دخل" }), setIsAddOpen(true));
-                  }}
-                  text="إضافة +"
-                  className="px-3"
-                />
-              </div>
-              <div className="cat-table flex flex-col gap-2">
-                {incomeCategories.map((cat) => {
-                  return (
-                    <div
-                      key={cat.title}
-                      className="cat flex justify-between rounded-lg bg-gray-300 p-2"
-                    >
-                      <div>
-                        <span>{cat.title}</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <Edit
-                          className="w-4"
-                          onClick={() => {
-                            (editCategory(cat), setIsAddOpen(true));
-                          }}
-                        />
-                        <Trash
-                          className="w-4"
-                          onClick={() => delCategory(cat.title)}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
         {isAddOpen ? <AddModal setIsOpen={setIsAddOpen} /> : null}

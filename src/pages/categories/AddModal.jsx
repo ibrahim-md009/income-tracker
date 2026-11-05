@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+// import { X } from "lucide-react";
 import Button from "../../components/ui/Button";
 import { useStore } from "../../store/useStore";
 import Input from "../../components/ui/Input";
@@ -17,15 +17,19 @@ const AddModal = ({ setIsOpen }) => {
     catType,
     toggleCatType,
   } = useStore();
+
   return (
-    <div className="absolute bottom-0 left-1/2 flex w-[70%] translate-x-[-50%] flex-col gap-3 rounded-lg bg-cyan-200 p-3">
+    <div className="bg-raised absolute bottom-0 left-1/2 flex w-[70%] translate-x-[-50%] flex-col gap-3 rounded-lg p-3">
       <div className="flex justify-between">
-        <h2 className="text-xl font-bold">إضافة تصنيف</h2>
-        <X
+        <h2 className="text-h2 text-fg">إضافة تصنيف</h2>
+        <button
+          className="text-h1 text-fg-muted"
           onClick={() => {
             (setIsOpen(false), clearCategoriesForm());
           }}
-        />
+        >
+          ×
+        </button>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -37,27 +41,27 @@ const AddModal = ({ setIsOpen }) => {
           onChange={(e) => setState("catTitle", e.target.value)}
           placeholder="مثال:مواصلات"
         />
-        <div className="flex flex-col gap-2">
-          <label>لون التصنيف</label>
-          <input
-            type="color"
-            value={catColor}
-            onChange={(e) => setState("catColor", e.target.value)}
-          />
+      </div>
+      <div>
+        <label>النوع</label>
+        <div className="my-3 flex items-center gap-2 p-1">
+          {catTypes.map((cat) => (
+            <Button
+              key={cat.title}
+              className={`flex w-full items-center justify-center px-5 py-2 ${cat.title === catType ? " border-white text-white" : "bg-gray-400 text-gray-700"}`}
+              onClick={() => toggleCatType(cat.title)}
+              text={cat.title}
+            />
+          ))}
         </div>
-        <div>
-          <label>النوع</label>
-          <div className="my-3 flex items-center gap-2 p-1">
-            {catTypes.map((cat) => (
-              <Button
-                key={cat.title}
-                className={`flex w-full items-center justify-center px-5 py-2 ${cat.title === catType ? " border-white text-white" : "bg-gray-400 text-gray-700"}`}
-                onClick={() => toggleCatType(cat.title)}
-                text={cat.title}
-              />
-            ))}
-          </div>
-        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <label>لون التصنيف</label>
+        <input
+          type="color"
+          value={catColor}
+          onChange={(e) => setState("catColor", e.target.value)}
+        />
       </div>
 
       <div className="flex gap-3">

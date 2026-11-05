@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import StatCard from "../../../components/ui/StatCard";
 import { useStore } from "../../../store/useStore";
 import { getMonthlyChanges } from "../../../utils/stats";
-import { ArrowDown, ArrowUpLeft, Wallet } from "lucide-react";
+import { ArrowDown, ArrowUpLeft } from "lucide-react";
 
 const Statistics = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
@@ -30,6 +30,10 @@ const Statistics = () => {
 
   const statistics = [
     {
+      title: "المتبقي من دخل الشهر",
+      value: currentIncome - currentExpenses,
+    },
+    {
       title: "إجمالي الدخل",
       value: currentIncome,
       mom: incomeMom,
@@ -43,15 +47,10 @@ const Statistics = () => {
       higherIsBetter: false,
       icon: ArrowDown,
     },
-    {
-      title: "الرصيد المتبقي",
-      value: currentIncome - currentExpenses,
-      icon: Wallet,
-    },
   ];
 
   return (
-    <div className="flex h-[20%] gap-3">
+    <div className="grid h-[20%] grid-cols-[minmax(0,1fr)_300px_300px] gap-3">
       {statistics.map((statis) => {
         return <StatCard key={statis.title} {...statis} />;
       })}

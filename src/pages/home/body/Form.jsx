@@ -6,7 +6,7 @@ import { useDraft, emptyDraft } from "../../../hooks/useDraft";
 import FieldWithIcon from "../../../components/ui/FieldWithIcon";
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
-const Form = () => {
+const Form = ({ onClose }) => {
   const setState = useStore((s) => s.setState);
   const transactionsLog = useStore((s) => s.transactionsLog);
   const categories = useStore((s) => s.categories);
@@ -25,6 +25,7 @@ const Form = () => {
   const clearForm = () => {
     reset();
     setState("editingId", "");
+    onClose?.();
   };
   const inputs = [
     {
@@ -55,7 +56,8 @@ const Form = () => {
   const secCats = draft.kind === "دخل" ? incomeCategories : expensesCategories;
 
   return (
-    <div className="border-accent w-[20%] rounded-lg border bg-cyan-100 p-3">
+    // <div className="border-accent w-[20%] rounded-lg border bg-cyan-100 p-3">
+    <div className="border-accent bg-raised w-full rounded-lg border p-3">
       <h3 className="font-bold">إضافة معاملة جديدة</h3>
 
       <div className="my-3 flex items-center gap-2 p-1">

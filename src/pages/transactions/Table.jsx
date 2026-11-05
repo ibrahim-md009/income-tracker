@@ -1,6 +1,6 @@
 import { Edit, Trash } from "lucide-react";
-import { useStore } from "../../../../store/useStore";
-import { filterByMonth } from "../../../../utils/stats";
+import { useStore } from "../../store/useStore";
+import { filterByMonth } from "../../utils/stats";
 
 const Table = () => {
   const {

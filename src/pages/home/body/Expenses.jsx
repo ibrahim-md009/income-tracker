@@ -3,25 +3,21 @@ import ExpensesPie from "../../../components/ui/ExpensesPie";
 import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import {
-  // filterByMonth,
   getCatTotal,
   getCategoryTotals,
   getPieData,
 } from "../../../utils/stats";
 
 const Expenses = ({ log = [] }) => {
-  // const transactionsLog = useStore((s) => s.transactionsLog);
   const categories = useStore((s) => s.categories);
-  // const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
-  // const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey);
   const expensesCategories = categories.filter((cat) => cat.type === "مصروف");
   const catTotal = getCatTotal(log);
 
   return (
-    <div className="flex flex-1 justify-between rounded-lg bg-cyan-100 p-3">
+    <div className="bg-card rounded-card border-line flex w-[45%] justify-between border p-3">
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <h3 className="mb-5 font-bold">المصروفات حسب التصنيف</h3>
+        <h3 className="text-fg text-h2 mb-5">المصروفات حسب التصنيف</h3>
 
         {expensesCategories.length === 0 && (
           <div className="h-full w-full">

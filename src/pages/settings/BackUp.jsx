@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import BackStep from "../../components/ui/BackStep";
 import Button from "../../components/ui/Button";
 import { useStore } from "../../store/useStore";
 import { deleteData, exportData, importData } from "../../utils/backup";
@@ -28,7 +27,6 @@ const BackUp = () => {
     <main className="mr-[15%] min-h-screen w-[85%] p-3">
       <div className="flex h-screen flex-col gap-10">
         <div className="header flex items-center gap-2">
-          <BackStep route="/settings" />
           <div className="flex flex-col gap-1">
             <h2 className="text-2xl font-bold">البيانات والنسخ الاحتياطي</h2>
             <span>تصدير بياناتك وإنشاء نسخة احتياطية</span>

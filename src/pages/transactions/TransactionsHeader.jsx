@@ -1,8 +1,8 @@
-import { List, Calendar } from "lucide-react";
-import { useStore } from "../../../../store/useStore";
-import Button from "../../../../components/ui/Button";
-import Input from "../../../../components/ui/Input";
-import FieldWithIcon from "../../../../components/ui/FieldWithIcon";
+import { Calendar } from "lucide-react";
+import { useStore } from "../../store/useStore";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
+import FieldWithIcon from "../../components/ui/FieldWithIcon";
 
 const TransactionsHeader = () => {
   const {
@@ -36,32 +36,37 @@ const TransactionsHeader = () => {
   ];
   const inputItems = [
     {
-      type: "date",
-      value: tranDate,
-      placeholder: "",
-      tran: "tranDate",
-    },
-    {
       type: "search",
       value: tranSearch,
       placeholder: "ابحث في المعاملات",
       tran: "tranSearch",
     },
+    {
+      type: "date",
+      value: tranDate,
+      placeholder: "",
+      tran: "tranDate",
+    },
   ];
 
   return (
     <div className="header flex gap-15">
-      <div className="flex w-[20%]">
-        <h3 className="flex gap-1 font-bold">
-          <List />
-          المعاملات الأخيرة
-        </h3>
-      </div>
-
       <div className="flex flex-1 gap-2">
         {underFiltering ? (
           <Button text="إلغاء" onClick={() => clearFiltering()} />
         ) : null}
+
+        {inputItems.map((inp, i) => {
+          return (
+            <Input
+              key={i}
+              type={inp.type}
+              placeholder={inp.placeholder}
+              onChange={(e) => changeFilter(inp.tran, e.target.value)}
+              className="text-xs"
+            />
+          );
+        })}
 
         {selectItems.map((select) => {
           return (
@@ -86,18 +91,6 @@ const TransactionsHeader = () => {
                 })}
               </select>
             </FieldWithIcon>
-          );
-        })}
-
-        {inputItems.map((inp, i) => {
-          return (
-            <Input
-              key={i}
-              type={inp.type}
-              placeholder={inp.placeholder}
-              onChange={(e) => changeFilter(inp.tran, e.target.value)}
-              className="text-xs"
-            />
           );
         })}
       </div>

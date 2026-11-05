@@ -1,5 +1,4 @@
 import { ToggleLeft } from "lucide-react";
-import BackStep from "../../components/ui/BackStep";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 
@@ -29,7 +28,6 @@ const Security = () => {
     <main className="mr-[15%] min-h-screen w-[85%] p-3">
       <div className="flex h-screen flex-col gap-10">
         <div className="header flex items-center gap-2">
-          <BackStep route="/settings" />
           <div className="flex flex-col gap-1">
             <h2 className="text-2xl font-bold">الأمان</h2>
             <span>تغيير كلمة المرور وتفعيل الحماية</span>
