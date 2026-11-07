@@ -12,6 +12,7 @@ export const createTransactionsSlice = (set) => ({
         { ...draft, id: crypto.randomUUID() },
       ],
     })),
+
   updateTransaction: (draft) =>
     set((state) => ({
       transactionsLog: state.transactionsLog.map((transaction) =>
@@ -23,6 +24,7 @@ export const createTransactionsSlice = (set) => ({
           : transaction,
       ),
     })),
+
   deleteTransaction: (currentTransactionId) =>
     set((state) => ({
       transactionsLog: state.transactionsLog.filter(

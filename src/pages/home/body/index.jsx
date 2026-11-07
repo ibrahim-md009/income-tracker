@@ -1,4 +1,3 @@
-// import Form from "./Form";
 import Statistics from "./Statistics";
 import Summary from "./Summary";
 import Expenses from "./Expenses";
@@ -7,7 +6,6 @@ import { useStore } from "../../../store/useStore";
 import { filterByMonth } from "../../../utils/stats";
 
 const Body = () => {
-  // const editingId = useStore((s) => s.editingId);
   const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
@@ -16,8 +14,6 @@ const Body = () => {
   return (
     <section className="mt-5 h-screen">
       <div className="flex h-full justify-between gap-3">
-        {/* <Form key={editingId} /> */}
-
         <div className="flex min-h-0 flex-1 flex-col gap-5">
           <Statistics />
 

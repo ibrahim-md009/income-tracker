@@ -8,12 +8,6 @@ import {
 } from "../../utils/dates";
 import FieldWithIcon from "../../components/ui/FieldWithIcon";
 
-// const todayDate = new Date().toLocaleDateString("ar", {
-//   day: "numeric",
-//   month: "long",
-//   year: "numeric",
-// });
-
 const Header = () => {
   const name = useStore((s) => s.settings.profile.name);
 
@@ -23,7 +17,6 @@ const Header = () => {
     <header className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div>
-          {/* <p>بداية الشهر المالي يوم {startFiscalMonth}</p> */}
           <div className="flex flex-col gap-2">
             <h2 className="text-fg font-voice text-voice">{` مساء الخير  يا ${name}`}</h2>
             <p className="text-fg-muted text-sm">

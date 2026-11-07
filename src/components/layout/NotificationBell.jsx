@@ -50,8 +50,7 @@ const NotificationBell = () => {
             {notifications.map((notification) => {
               let since = (dateNow - notification.date) / 1000;
 
-              // eslint-disable-next-line no-useless-assignment
-              let timeSuffex = "";
+              let timeSuffex;
               if (since >= 86400) {
                 since = Math.floor(since / 86400);
                 timeSuffex = "يوم";
