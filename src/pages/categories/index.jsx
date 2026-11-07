@@ -8,7 +8,8 @@ import Header from "../../components/layout/Header";
 import { filterCategoriesByKind, countByCategory } from "../../utils/stats";
 
 const Categories = () => {
-  const { transactionsLog, categories, delCategory, editCategory } = useStore();
+  // const { transactionsLog, categories, delCategory, editCategory } = useStore();
+  const { transactionsLog, categories, delCategory, setState } = useStore();
   const [isAddOpen, setIsAddOpen] = useState(false);
 
   const [activeTab, setActiveTab] = useState("expenses");
@@ -18,6 +19,9 @@ const Categories = () => {
   const currentCats =
     activeTab === "expenses" ? expensesCategories : incomeCategories;
 
+  const editCategory = (cat) => {
+    setState("catEditingId", cat.id);
+  };
   return (
     <main className="relative mr-[20%] h-screen w-[80%] px-3 py-3">
       <div className="flex h-screen flex-col gap-10">
@@ -87,7 +91,7 @@ const Categories = () => {
                   />
                   <Trash
                     className="w-4.5 cursor-pointer text-red-600 transition-opacity hover:opacity-70"
-                    onClick={() => delCategory(cat.title)}
+                    onClick={() => delCategory(cat.id)}
                   />
                 </div>
               </div>

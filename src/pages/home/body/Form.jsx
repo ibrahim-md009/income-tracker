@@ -2,11 +2,23 @@ import { Tag } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
-import { useDraft, emptyDraft } from "../../../hooks/useDraft";
+import { getTodayDate } from "../../../utils/dates";
+// import { useDraft, emptyDraft } from "../../../hooks/useDraft";
+import { useDraft } from "../../../hooks/useDraft";
 import FieldWithIcon from "../../../components/ui/FieldWithIcon";
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
-const Form = ({ onClose }) => {
+const today = getTodayDate();
+
+const emptyDraft = {
+  name: "",
+  amount: "",
+  cat: "",
+  date: today,
+  kind: "دخل",
+};
+
+const Form = () => {
   const setState = useStore((s) => s.setState);
   const transactionsLog = useStore((s) => s.transactionsLog);
   const categories = useStore((s) => s.categories);
@@ -25,7 +37,6 @@ const Form = ({ onClose }) => {
   const clearForm = () => {
     reset();
     setState("editingId", "");
-    onClose?.();
   };
   const inputs = [
     {
