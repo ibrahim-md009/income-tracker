@@ -1,16 +1,16 @@
-import { registerUser } from "../services/authService";
+import { logIn, registerUser } from "../services/authService";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { useState } from "react";
+import { useAuth } from "../store/useAuth";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const user = useAuth((a) => a.user);
   const handleSubmit = async () => {
     try {
-      const user = await registerUser(email, password);
-      console.log(user);
+      await registerUser(email, password);
     } catch (error) {
       console.log(error);
     }
@@ -32,11 +32,20 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button
-          text={"makeAcoutn"}
-          className="w-70"
-          onClick={() => handleSubmit()}
-        />
+        {!user && (
+          <div>
+            <Button
+              text={"signin"}
+              className="w-70"
+              onClick={() => handleSubmit()}
+            />
+            <Button
+              text={"Login"}
+              className="w-70"
+              onClick={() => logIn(email, password)}
+            />
+          </div>
+        )}
       </div>
     </main>
   );

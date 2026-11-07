@@ -10,6 +10,8 @@ import { NavLink } from "react-router-dom";
 import { useStore } from "../../store/useStore";
 import Button from "../ui/Button";
 import Form from "../../pages/home/body/Form";
+import { logOut } from "../../services/authService";
+import { useAuth } from "../../store/useAuth";
 
 const sideBar = [
   { title: "الرئيسية", icon: Home, path: "/" },
@@ -24,7 +26,8 @@ const SideBar = () => {
   const profile = useStore((s) => s.settings.profile);
   const editingId = useStore((s) => s.editingId);
   const setState = useStore((s) => s.setState);
-  const { name, email, image } = profile;
+  const user = useAuth((a) => a.user);
+  const { name, image } = profile;
 
   const [isOpen, setIsOpen] = useState(false);
   const open = isOpen || editingId !== "";
@@ -74,18 +77,26 @@ const SideBar = () => {
                 </NavLink>
               ))}
             </nav>
-
-            <NavLink to="/settings" className="flex items-center gap-2">
-              <img
-                src={image}
-                alt="user image"
-                className="aspect-square w-9 rounded-full object-cover"
+            <div className="flex flex-col gap-5">
+              <NavLink to="/settings" className="flex items-center gap-2">
+                <img
+                  src={image}
+                  alt="user image"
+                  className="aspect-square w-9 rounded-full object-cover"
+                />
+                <div className="flex flex-col">
+                  <span className="text-fg text-body-s">{name}</span>
+                  <span className="text-fg-muted text-caption">
+                    {user.email}
+                  </span>
+                </div>
+              </NavLink>
+              <Button
+                text={"تسجيل الخروج"}
+                className="bg-red-500"
+                onClick={() => logOut()}
               />
-              <div className="flex flex-col">
-                <span className="text-fg text-body-s">{name}</span>
-                <span className="text-fg-muted text-caption">{email}</span>
-              </div>
-            </NavLink>
+            </div>
           </div>
 
           {open && (

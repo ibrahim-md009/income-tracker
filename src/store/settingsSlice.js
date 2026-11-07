@@ -1,7 +1,6 @@
 export const initialSettings = {
   profile: {
     name: "user",
-    email: "user@example.com",
     image: "/default-user-image.jpg",
   },
   languageAndCurrency: {

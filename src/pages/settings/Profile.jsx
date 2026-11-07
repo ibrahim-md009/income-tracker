@@ -2,8 +2,11 @@ import Input from "../../components/ui/Input";
 import { resizeImage } from "../../utils/resizeImages";
 import { useSettingsForm } from "../../hooks/useSettingsForm";
 import SettingsLayout from "../../components/layout/SettingsLayout";
+import { useAuth } from "../../store/useAuth";
 
 const Profile = () => {
+  const user = useAuth((a) => a.user);
+
   const { draft, setField } = useSettingsForm("profile");
 
   const handleImageChange = (e) => {
@@ -63,12 +66,12 @@ const Profile = () => {
           value={draft.name}
           onChange={(e) => setField("name", e.target.value)}
         />
-
+        {/* في انتظار تعلم تعديل البيانات في فاير ستور */}
         <Input
           label="الحساب الالكتروني"
           type="text"
-          value={draft.email}
-          onChange={(e) => setField("email", e.target.value)}
+          defaultValue={user.email}
+          // onChange={(e) => setField("email", e.target.value)}
         />
       </div>
     </SettingsLayout>
