@@ -5,6 +5,8 @@ import { useState, useEffect, useRef } from "react";
 const NotificationBell = () => {
   const notifications = useStore((s) => s.notifications);
   const setNotification = useStore((s) => s.setNotification);
+  const readAll = useStore((s) => s.readAll);
+  const deleteAll = useStore((s) => s.deleteAll);
 
   const [isOpen, setIsOpen] = useState(false);
   const [dateNow, setDateNow] = useState(() => Date.now());
@@ -32,7 +34,7 @@ const NotificationBell = () => {
   return (
     <div
       ref={wrapperRef}
-      className="bg-card rounded-control border-line-strong relative flex items-center justify-center border p-2.5"
+      className="bg-card rounded-card border-line-strong relative flex items-center justify-center border p-2.5"
     >
       <button className="relative" onClick={() => toggleBell()}>
         <Bell width={20} color="#171A2B" />
@@ -43,8 +45,24 @@ const NotificationBell = () => {
         ) : null}
       </button>
       {isOpen && (
-        <div className="bg-accent absolute top-full left-0 z-100 flex w-80 flex-col gap-5 rounded-lg p-3 text-white">
-          <h3 className="text-2xl font-bold">الإشعارات</h3>
+        <div className="bg-raised border-line-strong absolute top-full left-0 z-100 flex w-80 flex-col gap-5 rounded-lg border p-3">
+          <div className="flex justify-between">
+            <h3 className="text-h3 text-fg">الإشعارات</h3>
+            <div className="flex flex-col gap-1">
+              <button
+                className="text-action text-body-s"
+                onClick={() => readAll()}
+              >
+                تعيين الكل كمقروء
+              </button>
+              <button
+                className="text-cat-clay text-body-s"
+                onClick={() => deleteAll()}
+              >
+                حذف الكل
+              </button>
+            </div>
+          </div>
 
           <div className="flex max-h-72 flex-col gap-3 overflow-y-auto">
             {notifications.map((notification) => {
@@ -70,16 +88,20 @@ const NotificationBell = () => {
                   onClick={() =>
                     setNotification(notification.id, "isRead", true)
                   }
-                  className={`${notification.isRead ? "bg-gray-300" : "bg-red-600"}`}
+                  className={`border-line flex items-center justify-between border-y p-1 ${notification.isRead && "bg-card"}`}
                 >
                   <div className="flex gap-1">
                     <DollarSign />
                     <div className="flex flex-col">
-                      <span>{notification.title}</span>
-                      <small>{`منذ ${Math.floor(since)} ${timeSuffex}`}</small>
+                      <span className="text-fg text-body-s">
+                        {notification.title}
+                      </span>
+                      <small className="text-fg-muted text-caption">{`منذ ${Math.floor(since)} ${timeSuffex}`}</small>
                     </div>
                   </div>
-                  <hr />
+                  {!notification.isRead && (
+                    <span className="bg-action size-2 rounded-full"></span>
+                  )}
                 </button>
               );
             })}

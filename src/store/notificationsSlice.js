@@ -1,5 +1,6 @@
 export const createNotificationsSlice = (set) => ({
   notifications: [],
+
   addNotification: (title, key) =>
     set((state) => {
       const exsist = state.notifications.some((n) => n.key === key);
@@ -23,5 +24,15 @@ export const createNotificationsSlice = (set) => ({
       notifications: state.notifications.map((n) =>
         n.id === id ? { ...n, [field]: value } : n,
       ),
+    })),
+  readAll: () =>
+    set((state) => ({
+      notifications: state.notifications.map((n) => {
+        return { ...n, isRead: true };
+      }),
+    })),
+  deleteAll: () =>
+    set(() => ({
+      notifications: [],
     })),
 });
