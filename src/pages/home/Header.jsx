@@ -20,7 +20,7 @@ const Header = () => {
           <div className="flex flex-col gap-2">
             <h2 className="text-fg font-voice text-voice">{` مساء الخير  يا ${name}`}</h2>
             <p className="text-fg-muted text-sm">
-              صرفت 62٪ من دخل أكتوبر · باقي 12 يوم على نهاية الشهر المالي
+              إليك نظرة سريعة على مصاريفك هذا الشهر
             </p>
           </div>
         </div>
