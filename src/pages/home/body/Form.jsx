@@ -3,13 +3,11 @@ import { useStore } from "../../../store/useStore";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { getTodayDate } from "../../../utils/dates";
-// import { useDraft, emptyDraft } from "../../../hooks/useDraft";
 import { useDraft } from "../../../hooks/useDraft";
 import FieldWithIcon from "../../../components/ui/FieldWithIcon";
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
 const today = getTodayDate();
-
 const emptyDraft = {
   name: "",
   amount: "",
@@ -38,6 +36,7 @@ const Form = () => {
     reset();
     setState("editingId", "");
   };
+
   const inputs = [
     {
       label: "اسم المعاملة",
@@ -67,8 +66,7 @@ const Form = () => {
   const secCats = draft.kind === "دخل" ? incomeCategories : expensesCategories;
 
   return (
-    // <div className="border-accent w-[20%] rounded-lg border bg-cyan-100 p-3">
-    <div className="border-accent bg-raised w-full rounded-lg border p-3">
+    <div className="bg-raised w-full rounded-lg border p-3">
       <h3 className="font-bold">إضافة معاملة جديدة</h3>
 
       <div className="my-3 flex items-center gap-2 p-1">

@@ -8,20 +8,25 @@ import Header from "../../components/layout/Header";
 import { filterCategoriesByKind, countByCategory } from "../../utils/stats";
 
 const Categories = () => {
-  // const { transactionsLog, categories, delCategory, editCategory } = useStore();
-  const { transactionsLog, categories, delCategory, setState } = useStore();
+  const transactionsLog = useStore((s) => s.transactionsLog);
+  const categories = useStore((s) => s.categories);
+  const delCategory = useStore((s) => s.delCategory);
+  const setState = useStore((s) => s.setState);
+
   const [isAddOpen, setIsAddOpen] = useState(false);
 
   const [activeTab, setActiveTab] = useState("expenses");
 
   const expensesCategories = filterCategoriesByKind(categories, "مصروف");
   const incomeCategories = filterCategoriesByKind(categories, "دخل");
+
   const currentCats =
     activeTab === "expenses" ? expensesCategories : incomeCategories;
 
   const editCategory = (cat) => {
     setState("catEditingId", cat.id);
   };
+
   return (
     <main className="relative mr-[20%] h-screen w-[80%] px-3 py-3">
       <div className="flex h-screen flex-col gap-10">

@@ -1,15 +1,4 @@
 import { useState } from "react";
-// import { getTodayDate } from "../utils/dates";
-
-// const today = getTodayDate();
-
-// export const emptyDraft = {
-//   name: "",
-//   amount: "",
-//   cat: "",
-//   date: today,
-//   kind: "دخل",
-// };
 
 export const useDraft = (initialValues) => {
   const [draft, setDraft] = useState(initialValues);
@@ -20,8 +9,6 @@ export const useDraft = (initialValues) => {
   const reset = () => {
     setDraft(initialValues);
   };
-  // const reset = () => {
-  //   setDraft(emptyDraft);
-  // };
+
   return { draft, setField, reset };
 };
