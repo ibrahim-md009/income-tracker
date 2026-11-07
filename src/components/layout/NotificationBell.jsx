@@ -6,7 +6,6 @@ const NotificationBell = () => {
   const notifications = useStore((s) => s.notifications);
   const setNotification = useStore((s) => s.setNotification);
   const readAll = useStore((s) => s.readAll);
-  const deleteAll = useStore((s) => s.deleteAll);
 
   const [isOpen, setIsOpen] = useState(false);
   const [dateNow, setDateNow] = useState(() => Date.now());
@@ -30,7 +29,7 @@ const NotificationBell = () => {
     setIsOpen((prev) => !prev);
     setDateNow(Date.now());
   };
-
+  const sorted = notifications.toSorted((a, b) => b.date - a.date);
   return (
     <div
       ref={wrapperRef}
@@ -48,24 +47,16 @@ const NotificationBell = () => {
         <div className="bg-raised border-line-strong absolute top-full left-0 z-100 flex w-80 flex-col gap-5 rounded-lg border p-3">
           <div className="flex justify-between">
             <h3 className="text-h3 text-fg">الإشعارات</h3>
-            <div className="flex flex-col gap-1">
-              <button
-                className="text-action text-body-s"
-                onClick={() => readAll()}
-              >
-                تعيين الكل كمقروء
-              </button>
-              <button
-                className="text-cat-clay text-body-s"
-                onClick={() => deleteAll()}
-              >
-                حذف الكل
-              </button>
-            </div>
+            <button
+              className="text-action text-body-s"
+              onClick={() => readAll()}
+            >
+              تعيين الكل كمقروء
+            </button>
           </div>
 
           <div className="flex max-h-72 flex-col gap-3 overflow-y-auto">
-            {notifications.map((notification) => {
+            {sorted.map((notification) => {
               let since = (dateNow - notification.date) / 1000;
 
               let timeSuffex;

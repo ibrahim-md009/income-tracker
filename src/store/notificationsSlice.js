@@ -31,8 +31,4 @@ export const createNotificationsSlice = (set) => ({
         return { ...n, isRead: true };
       }),
     })),
-  deleteAll: () =>
-    set(() => ({
-      notifications: [],
-    })),
 });
