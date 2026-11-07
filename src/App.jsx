@@ -7,6 +7,7 @@ import { useStore } from "./store/useStore";
 import { useEffect } from "react";
 import Transactions from "./pages/transactions";
 import Reports from "./pages/reports";
+import Signup from "./pages/SignUp";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -25,10 +26,11 @@ const App = () => {
       <SideBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/settings/*" element={<Settings />} />
-        <Route path="/transactions" element={<Transactions />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="settings/*" element={<Settings />} />
+        <Route path="transactions" element={<Transactions />} />
         <Route path="reports" element={<Reports />} />
+        <Route path="signup" element={<Signup />} />
       </Routes>
     </div>
   );
