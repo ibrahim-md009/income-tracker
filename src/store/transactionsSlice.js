@@ -1,4 +1,8 @@
-import { addTransaction as addTransactionToDb } from "../services/transactionsServices";
+import {
+  addTransaction as addTransactionToDb,
+  updateTransaction as updateTransactionInDb,
+  deleteTransaction as deleteTransactionInDb,
+} from "../services/transactionsServices";
 import { getCurrentMonthKey } from "../utils/dates";
 
 export const createTransactionsSlice = (set) => ({
@@ -7,6 +11,7 @@ export const createTransactionsSlice = (set) => ({
 
   selectedMonthKey: getCurrentMonthKey(),
   editingId: "",
+
   addTransaction: async (draft) => {
     const newTransaction = await addTransactionToDb(draft);
     set((state) => ({
@@ -14,24 +19,28 @@ export const createTransactionsSlice = (set) => ({
     }));
   },
 
-  updateTransaction: (draft) =>
+  updateTransaction: async (draft) => {
+    await updateTransactionInDb(draft);
     set((state) => ({
       transactionsLog: state.transactionsLog.map((transaction) =>
-        state.editingId === transaction.id
+        draft.id === transaction.id
           ? {
               ...transaction,
               ...draft,
             }
           : transaction,
       ),
-    })),
+    }));
+  },
 
-  deleteTransaction: (currentTransactionId) =>
+  deleteTransaction: async (currentTransactionId) => {
+    await deleteTransactionInDb(currentTransactionId);
     set((state) => ({
       transactionsLog: state.transactionsLog.filter(
         (tran) => tran.id !== currentTransactionId,
       ),
-    })),
+    }));
+  },
 
   // transactions filter values
   tranKind: "",

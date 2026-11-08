@@ -16,6 +16,7 @@ const AddModal = ({ setIsOpen }) => {
   const catEditingId = useStore((s) => s.catEditingId);
   const addCategory = useStore((s) => s.addCategory);
   const updateCategory = useStore((s) => s.updateCategory);
+  const setState = useStore((s) => s.setState);
 
   const initial =
     categories.find((cat) => cat.id === catEditingId) ?? initialCat;
@@ -28,6 +29,7 @@ const AddModal = ({ setIsOpen }) => {
   };
   const clearCategoriesForm = () => {
     reset();
+    setState("catEditingId", "");
   };
 
   return (

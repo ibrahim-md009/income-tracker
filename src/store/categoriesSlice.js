@@ -24,9 +24,8 @@ export const createCategoriesSlice = (set) => ({
 
     set((state) => ({
       categories: state.categories.map((cat) => {
-        return cat.id === state.catEditingId ? { ...cat, ...draft } : cat;
+        return cat.id === draft.id ? { ...cat, ...draft } : cat;
       }),
-      catEditingId: "",
     }));
   },
 
