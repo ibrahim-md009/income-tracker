@@ -9,6 +9,9 @@ export const createTransactionsSlice = (set) => ({
   transactionsLog: [],
   setTransactionsLog: (value) => set(() => ({ transactionsLog: value })),
 
+  latestTransactions: [],
+  setLatestTransactions: (value) => set(() => ({ latestTransactions: value })),
+
   selectedMonthKey: getCurrentMonthKey(),
   editingId: "",
 

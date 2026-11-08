@@ -11,7 +11,10 @@ import { useStore } from "./store/useStore";
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "./store/useAuth";
-import { getTransactionsLog } from "./services/transactionsServices";
+import {
+  getLatestTransactions,
+  getTransactionsLog,
+} from "./services/transactionsServices";
 import { getCategories } from "./services/categoriesServices";
 
 const App = () => {
@@ -21,6 +24,7 @@ const App = () => {
   const isAuthReady = useAuth((a) => a.isAuthReady);
   const setUser = useAuth((a) => a.setUser);
   const setTransactionsLog = useStore((s) => s.setTransactionsLog);
+  const setLatestTransactions = useStore((s) => s.setLatestTransactions);
   const setCategories = useStore((s) => s.setCategories);
 
   useEffect(() => {
@@ -29,6 +33,15 @@ const App = () => {
     });
     return unSub;
   }, [setUser]);
+
+  useEffect(() => {
+    const d = async () => {
+      const get = await getLatestTransactions(10);
+
+      setLatestTransactions(get);
+    };
+    d();
+  }, [setLatestTransactions]);
 
   useEffect(() => {
     const d = async () => {

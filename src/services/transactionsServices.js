@@ -5,10 +5,26 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  query,
+  limit,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 const transactionsCollection = collection(db, "transactionsLog");
+
+export const getLatestTransactions = async (count) => {
+  const q = (count) =>
+    query(transactionsCollection, orderBy("date", "desc"), limit(count));
+
+  const snaapshot = await getDocs(q(count));
+
+  return snaapshot.docs.map((transaction) => ({
+    ...transaction.data(),
+    id: transaction.id,
+  }));
+};
+
 export const getTransactionsLog = async () => {
   const transactionsSnapshot = await getDocs(transactionsCollection);
 
