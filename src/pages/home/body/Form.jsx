@@ -5,6 +5,7 @@ import Input from "../../../components/ui/Input";
 import { getTodayDate } from "../../../utils/dates";
 import { useDraft } from "../../../hooks/useDraft";
 import FieldWithIcon from "../../../components/ui/FieldWithIcon";
+
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
 const today = getTodayDate();

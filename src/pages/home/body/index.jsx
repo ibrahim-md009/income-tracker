@@ -8,7 +8,6 @@ import { filterByMonth } from "../../../utils/stats";
 const Body = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
-
   const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey);
 
   return (

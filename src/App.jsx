@@ -11,14 +11,15 @@ import { useStore } from "./store/useStore";
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "./store/useAuth";
+import { getTransactionsLog } from "./services/transactionsServices";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
   const fontSize = useStore((s) => s.settings.appearance.fontSize);
   const user = useAuth((a) => a.user);
   const setUser = useAuth((a) => a.setUser);
+  const setTransactionsLog = useStore((s) => s.setTransactionsLog);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -26,6 +27,14 @@ const App = () => {
     });
     return unSub;
   }, [setUser]);
+
+  useEffect(() => {
+    const d = async () => {
+      const t = await getTransactionsLog();
+      setTransactionsLog(t);
+    };
+    d();
+  }, []);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--accentColor", accentColor);

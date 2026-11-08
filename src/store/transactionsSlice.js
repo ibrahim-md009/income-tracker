@@ -1,17 +1,18 @@
+import { addTransaction as addTransactionToDb } from "../services/transactionsServices";
 import { getCurrentMonthKey } from "../utils/dates";
 
 export const createTransactionsSlice = (set) => ({
   transactionsLog: [],
+  setTransactionsLog: (value) => set(() => ({ transactionsLog: value })),
+
   selectedMonthKey: getCurrentMonthKey(),
   editingId: "",
-
-  addTransaction: (draft) =>
+  addTransaction: async (draft) => {
+    const newTransaction = await addTransactionToDb(draft);
     set((state) => ({
-      transactionsLog: [
-        ...state.transactionsLog,
-        { ...draft, id: crypto.randomUUID() },
-      ],
-    })),
+      transactionsLog: [...state.transactionsLog, newTransaction],
+    }));
+  },
 
   updateTransaction: (draft) =>
     set((state) => ({
