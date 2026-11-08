@@ -14,10 +14,6 @@ export const createCategoriesSlice = (set) => ({
       categories: [...state.categories, newCategory],
     }));
   },
-  // addCategory: (draft) =>
-  //   set((state) => ({
-  //     categories: [...state.categories, { ...draft, id: crypto.randomUUID() }],
-  //   })),
 
   updateCategory: (draft) =>
     set((state) => ({

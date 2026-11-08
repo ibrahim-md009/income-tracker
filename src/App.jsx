@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import SideBar from "./components/layout/SideBar";
 import Signup from "./pages/Signin";
@@ -18,15 +18,14 @@ const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
   const fontSize = useStore((s) => s.settings.appearance.fontSize);
   const user = useAuth((a) => a.user);
+  const isAuthReady = useAuth((a) => a.isAuthReady);
   const setUser = useAuth((a) => a.setUser);
   const setTransactionsLog = useStore((s) => s.setTransactionsLog);
   const setCategories = useStore((s) => s.setCategories);
 
-  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      setIsLoading(false);
     });
     return unSub;
   }, [setUser]);
@@ -38,7 +37,7 @@ const App = () => {
     };
 
     d();
-  }, []);
+  }, [setCategories]);
 
   useEffect(() => {
     const d = async () => {
@@ -46,7 +45,7 @@ const App = () => {
       setTransactionsLog(t);
     };
     d();
-  }, []);
+  }, [setTransactionsLog]);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--accentColor", accentColor);
@@ -71,7 +70,7 @@ const App = () => {
           </Routes>
         </>
       )}
-      {!isLoading && !user && <Signup />}
+      {isAuthReady && !user && <Signup />}
     </div>
   );
 };

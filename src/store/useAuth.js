@@ -7,5 +7,6 @@ export const useAuth = create((set) => ({
   setUser: (user) =>
     set(() => ({
       user: user,
+      isAuthReady: true,
     })),
 }));
