@@ -1,4 +1,8 @@
-import { addCategory as addCategoryToDb } from "../services/categoriesServices";
+import {
+  addCategory as addCategoryToDb,
+  updateCategory as updateCategoryInDb,
+  deleteCategory,
+} from "../services/categoriesServices";
 
 export const createCategoriesSlice = (set) => ({
   categories: [],
@@ -11,19 +15,25 @@ export const createCategoriesSlice = (set) => ({
   addCategory: async (draft) => {
     const newCategory = await addCategoryToDb(draft);
     set((state) => ({
-      categories: [...state.categories, newCategory],
+      categories: [...state.categories, { ...newCategory }],
     }));
   },
 
-  updateCategory: (draft) =>
+  updateCategory: async (draft) => {
+    await updateCategoryInDb(draft);
+
     set((state) => ({
       categories: state.categories.map((cat) => {
         return cat.id === state.catEditingId ? { ...cat, ...draft } : cat;
       }),
-    })),
+      catEditingId: "",
+    }));
+  },
 
-  delCategory: (catId) =>
+  delCategory: async (catId) => {
+    await deleteCategory(catId);
     set((state) => ({
       categories: state.categories.filter((cat) => cat.id !== catId),
-    })),
+    }));
+  },
 });
