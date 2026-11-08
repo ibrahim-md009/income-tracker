@@ -8,8 +8,9 @@ export const addTransaction = async (draft) => {
   return { ...draft, id: add.id };
 };
 
-const transactionsSnapshot = await getDocs(transactionsCollection);
 export const getTransactionsLog = async () => {
+  const transactionsSnapshot = await getDocs(transactionsCollection);
+
   return transactionsSnapshot.docs.map((transaction) => ({
     ...transaction.data(),
     id: transaction.id,

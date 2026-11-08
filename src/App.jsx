@@ -12,6 +12,7 @@ import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "./store/useAuth";
 import { getTransactionsLog } from "./services/transactionsServices";
+import { getCategories } from "./services/categoriesServices";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -19,6 +20,8 @@ const App = () => {
   const user = useAuth((a) => a.user);
   const setUser = useAuth((a) => a.setUser);
   const setTransactionsLog = useStore((s) => s.setTransactionsLog);
+  const setCategories = useStore((s) => s.setCategories);
+
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -27,6 +30,15 @@ const App = () => {
     });
     return unSub;
   }, [setUser]);
+
+  useEffect(() => {
+    const d = async () => {
+      const t = await getCategories();
+      setCategories(t);
+    };
+
+    d();
+  }, []);
 
   useEffect(() => {
     const d = async () => {

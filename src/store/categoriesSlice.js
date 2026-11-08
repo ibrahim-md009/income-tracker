@@ -1,11 +1,23 @@
+import { addCategory as addCategoryToDb } from "../services/categoriesServices";
+
 export const createCategoriesSlice = (set) => ({
   categories: [],
+  setCategories: (value) =>
+    set(() => ({
+      categories: value,
+    })),
   catEditingId: "",
 
-  addCategory: (draft) =>
+  addCategory: async (draft) => {
+    const newCategory = await addCategoryToDb(draft);
     set((state) => ({
-      categories: [...state.categories, { ...draft, id: crypto.randomUUID() }],
-    })),
+      categories: [...state.categories, newCategory],
+    }));
+  },
+  // addCategory: (draft) =>
+  //   set((state) => ({
+  //     categories: [...state.categories, { ...draft, id: crypto.randomUUID() }],
+  //   })),
 
   updateCategory: (draft) =>
     set((state) => ({
