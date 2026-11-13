@@ -16,33 +16,15 @@ export const createTransactionsSlice = (set) => ({
   editingId: "",
 
   addTransaction: async (draft) => {
-    const newTransaction = await addTransactionToDb(draft);
-    set((state) => ({
-      transactionsLog: [...state.transactionsLog, newTransaction],
-    }));
+    await addTransactionToDb(draft);
   },
 
   updateTransaction: async (draft) => {
     await updateTransactionInDb(draft);
-    set((state) => ({
-      transactionsLog: state.transactionsLog.map((transaction) =>
-        draft.id === transaction.id
-          ? {
-              ...transaction,
-              ...draft,
-            }
-          : transaction,
-      ),
-    }));
   },
 
   deleteTransaction: async (currentTransactionId) => {
     await deleteTransactionInDb(currentTransactionId);
-    set((state) => ({
-      transactionsLog: state.transactionsLog.filter(
-        (tran) => tran.id !== currentTransactionId,
-      ),
-    }));
   },
 
   // transactions filter values

@@ -1,21 +1,24 @@
 import {
   collection,
   addDoc,
-  getDocs,
   deleteDoc,
   doc,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 const categoriesCollection = collection(db, "categories");
-export const getCategories = async () => {
-  const categoriesSnapshot = await getDocs(categoriesCollection);
 
-  return categoriesSnapshot.docs.map((cat) => ({
-    ...cat.data(),
-    id: cat.id,
-  }));
+export const subToCategories = (onData) => {
+  const unsub = onSnapshot(categoriesCollection, (snapshot) => {
+    const data = snapshot.docs.map((category) => ({
+      ...category.data(),
+      id: category.id,
+    }));
+    onData(data);
+  });
+  return unsub;
 };
 
 export const addCategory = async (draft) => {

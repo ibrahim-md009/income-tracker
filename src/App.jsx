@@ -12,10 +12,10 @@ import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "./store/useAuth";
 import {
-  getLatestTransactions,
-  getTransactionsLog,
+  subToLatestTransactions,
+  subToTransactionsLog,
 } from "./services/transactionsServices";
-import { getCategories } from "./services/categoriesServices";
+import { subToCategories } from "./services/categoriesServices";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -35,29 +35,18 @@ const App = () => {
   }, [setUser]);
 
   useEffect(() => {
-    const d = async () => {
-      const get = await getLatestTransactions(10);
-
-      setLatestTransactions(get);
-    };
-    d();
+    const unsub = subToLatestTransactions(5, setLatestTransactions);
+    return unsub;
   }, [setLatestTransactions]);
 
   useEffect(() => {
-    const d = async () => {
-      const t = await getCategories();
-      setCategories(t);
-    };
-
-    d();
+    const unsub = subToCategories(setCategories);
+    return unsub;
   }, [setCategories]);
 
   useEffect(() => {
-    const d = async () => {
-      const t = await getTransactionsLog();
-      setTransactionsLog(t);
-    };
-    d();
+    const unsub = subToTransactionsLog(setTransactionsLog);
+    return unsub;
   }, [setTransactionsLog]);
 
   useEffect(() => {
