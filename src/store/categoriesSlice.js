@@ -3,6 +3,7 @@ import {
   updateCategory as updateCategoryInDb,
   deleteCategory,
 } from "../services/categoriesServices";
+import { useAuth } from "./useAuth";
 
 export const createCategoriesSlice = (set) => ({
   categories: [],
@@ -13,14 +14,20 @@ export const createCategoriesSlice = (set) => ({
   catEditingId: "",
 
   addCategory: async (draft) => {
-    await addCategoryToDb(draft);
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await addCategoryToDb(uid, draft);
   },
 
   updateCategory: async (draft) => {
-    await updateCategoryInDb(draft);
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await updateCategoryInDb(uid, draft);
   },
 
   delCategory: async (catId) => {
-    await deleteCategory(catId);
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await deleteCategory(uid, catId);
   },
 });

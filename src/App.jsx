@@ -38,20 +38,20 @@ const App = () => {
   useEffect(() => {
     if (!uid) return;
 
-    const unsub = subToLatestTransactions(5, setLatestTransactions);
+    const unsub = subToLatestTransactions(uid, 5, setLatestTransactions);
     return unsub;
   }, [uid, setLatestTransactions]);
 
   useEffect(() => {
     if (!uid) return;
 
-    const unsub = subToCategories(setCategories);
+    const unsub = subToCategories(uid, setCategories);
     return unsub;
   }, [uid, setCategories]);
 
   useEffect(() => {
     if (!uid) return;
-    const unsub = subToTransactionsLog(setTransactionsLog);
+    const unsub = subToTransactionsLog(uid, setTransactionsLog);
     return unsub;
   }, [uid, setTransactionsLog]);
 

@@ -11,11 +11,12 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
-const transactionsCollection = collection(db, "transactionsLog");
+const getTransactionsCollection = (uid) =>
+  collection(db, "users", uid, "transactionsLog");
 
-export const subToLatestTransactions = (count, onData) => {
+export const subToLatestTransactions = (uid, count, onData) => {
   const q = query(
-    transactionsCollection,
+    getTransactionsCollection(uid),
     orderBy("date", "desc"),
     limit(count),
   );
@@ -31,8 +32,8 @@ export const subToLatestTransactions = (count, onData) => {
   return unsub;
 };
 
-export const subToTransactionsLog = (onData) => {
-  const unsub = onSnapshot(transactionsCollection, (snapshot) => {
+export const subToTransactionsLog = (uid, onData) => {
+  const unsub = onSnapshot(getTransactionsCollection(uid), (snapshot) => {
     const data = snapshot.docs.map((transaction) => ({
       ...transaction.data(),
       id: transaction.id,
@@ -43,16 +44,16 @@ export const subToTransactionsLog = (onData) => {
   return unsub;
 };
 
-export const addTransaction = async (draft) => {
-  const add = await addDoc(transactionsCollection, { ...draft });
+export const addTransaction = async (uid, draft) => {
+  const add = await addDoc(getTransactionsCollection(uid), { ...draft });
   return { ...draft, id: add.id };
 };
 
-export const updateTransaction = async (draft) => {
+export const updateTransaction = async (uid, draft) => {
   const { id, ...data } = draft;
-  await updateDoc(doc(transactionsCollection, id), { ...data });
+  await updateDoc(doc(getTransactionsCollection(uid), id), { ...data });
 };
 
-export const deleteTransaction = async (id) => {
-  await deleteDoc(doc(transactionsCollection, id));
+export const deleteTransaction = async (uid, docid) => {
+  await deleteDoc(doc(getTransactionsCollection(uid), docid));
 };

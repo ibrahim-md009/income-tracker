@@ -8,10 +8,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
-const categoriesCollection = collection(db, "categories");
+const getCategoriesCollection = (uid) =>
+  collection(db, "users", uid, "categories");
 
-export const subToCategories = (onData) => {
-  const unsub = onSnapshot(categoriesCollection, (snapshot) => {
+export const subToCategories = (uid, onData) => {
+  const unsub = onSnapshot(getCategoriesCollection(uid), (snapshot) => {
     const data = snapshot.docs.map((category) => ({
       ...category.data(),
       id: category.id,
@@ -21,17 +22,17 @@ export const subToCategories = (onData) => {
   return unsub;
 };
 
-export const addCategory = async (draft) => {
-  const add = await addDoc(categoriesCollection, draft);
+export const addCategory = async (uid, draft) => {
+  const add = await addDoc(getCategoriesCollection(uid), draft);
 
   return { ...draft, id: add.id };
 };
 
-export const updateCategory = async (draft) => {
+export const updateCategory = async (uid, draft) => {
   const { id, ...data } = draft;
-  await updateDoc(doc(categoriesCollection, id), { ...data });
+  await updateDoc(doc(getCategoriesCollection(uid), id), { ...data });
 };
 
-export const deleteCategory = async (id) => {
-  await deleteDoc(doc(categoriesCollection, id));
+export const deleteCategory = async (uid, docid) => {
+  await deleteDoc(doc(getCategoriesCollection(uid), docid));
 };

@@ -4,6 +4,7 @@ import {
   deleteTransaction as deleteTransactionInDb,
 } from "../services/transactionsServices";
 import { getCurrentMonthKey } from "../utils/dates";
+import { useAuth } from "./useAuth";
 
 export const createTransactionsSlice = (set) => ({
   transactionsLog: [],
@@ -16,15 +17,21 @@ export const createTransactionsSlice = (set) => ({
   editingId: "",
 
   addTransaction: async (draft) => {
-    await addTransactionToDb(draft);
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await addTransactionToDb(uid, draft);
   },
 
   updateTransaction: async (draft) => {
-    await updateTransactionInDb(draft);
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await updateTransactionInDb(uid, draft);
   },
 
   deleteTransaction: async (currentTransactionId) => {
-    await deleteTransactionInDb(currentTransactionId);
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await deleteTransactionInDb(uid, currentTransactionId);
   },
 
   // transactions filter values
