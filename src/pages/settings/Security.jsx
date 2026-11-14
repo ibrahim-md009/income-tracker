@@ -1,29 +1,50 @@
+import { useState } from "react";
 import { ToggleLeft } from "lucide-react";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
-
-const passwordFields = [
-  {
-    id: 1,
-    label: "كلمة المرور الحالية",
-    type: "password",
-    placeholder: "ادخل كلمة المرور الحالية",
-  },
-  {
-    id: 2,
-    label: "كلمة المرور الجديدة",
-    type: "password",
-    placeholder: "ادخل كلمة المرور الجديدة",
-  },
-  {
-    id: 3,
-    label: "تأكيد كلمة المرور",
-    type: "password",
-    placeholder: "أعد إدخال كلمة المرور الجديدة",
-  },
-];
+import { changePassword } from "../../services/securityService";
+import { useAuth } from "../../store/useAuth";
 
 const Security = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const user = useAuth((a) => a.user);
+
+  const passwordFields = [
+    {
+      id: 1,
+      label: "كلمة المرور الحالية",
+      type: "password",
+      placeholder: "ادخل كلمة المرور الحالية",
+      value: currentPassword,
+      onchange: (e) => setCurrentPassword(e.target.value),
+    },
+    {
+      id: 2,
+      label: "كلمة المرور الجديدة",
+      type: "password",
+      placeholder: "ادخل كلمة المرور الجديدة",
+      value: newPassword,
+      onchange: (e) => setNewPassword(e.target.value),
+    },
+    {
+      id: 3,
+      label: "تأكيد كلمة المرور",
+      type: "password",
+      placeholder: "أعد إدخال كلمة المرور الجديدة",
+      value: confirmPassword,
+      onchange: (e) => setConfirmPassword(e.target.value),
+    },
+  ];
+
+  const handleChangePassword = () => {
+    newPassword === confirmPassword
+      ? changePassword(user, currentPassword, newPassword)
+      : alert("كلمة المرور الجديدة لم يتم تأكيدها بشكل صحيح");
+  };
+
   return (
     <main className="mr-[15%] min-h-screen w-[85%] p-3">
       <div className="flex h-screen flex-col gap-10">
@@ -41,6 +62,8 @@ const Security = () => {
                 return (
                   <Input
                     key={pf.id}
+                    value={pf?.value}
+                    onChange={pf?.onchange}
                     label={pf.label}
                     type="password"
                     placeholder={pf.placeholder}
@@ -65,7 +88,12 @@ const Security = () => {
                 <ToggleLeft />
               </div>
             </div>
-            <Button text={"تحديث كلمة المرور"} className="max-w-50" />
+
+            <Button
+              text={"تحديث كلمة المرور"}
+              className="max-w-50"
+              onClick={() => handleChangePassword()}
+            />
           </div>
         </div>
       </div>
