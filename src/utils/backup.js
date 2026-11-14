@@ -41,13 +41,3 @@ export const importData = (file) => {
     );
   }
 };
-
-export const deleteData = () => {
-  window.confirm("هل أنت متأكد من حذف جميع بياناتك ؟");
-  useStore.setState({
-    transactionsLog: [],
-    settings: initialSettings,
-    categories: [],
-    notifications: [],
-  });
-};

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 
 const NotificationBell = () => {
   const notifications = useStore((s) => s.notifications);
-  const setNotification = useStore((s) => s.setNotification);
+  const readNotification = useStore((s) => s.readNotification);
   const readAll = useStore((s) => s.readAll);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -76,9 +76,7 @@ const NotificationBell = () => {
               return (
                 <button
                   key={notification.id}
-                  onClick={() =>
-                    setNotification(notification.id, "isRead", true)
-                  }
+                  onClick={() => readNotification(notification.id)}
                   className={`border-line flex items-center justify-between border-y p-1 ${notification.isRead && "bg-card"}`}
                 >
                   <div className="flex gap-1">

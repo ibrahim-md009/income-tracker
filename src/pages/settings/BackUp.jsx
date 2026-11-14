@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Button from "../../components/ui/Button";
 import { useStore } from "../../store/useStore";
-import { deleteData, exportData, importData } from "../../utils/backup";
+import { exportData, importData } from "../../utils/backup";
 
 const BackUp = () => {
   const lastBackup = useStore((s) => s.lastBackup);
@@ -69,14 +69,6 @@ const BackUp = () => {
                 </div>
                 <hr className="text-accent" />
               </div>
-            </div>
-
-            <div className="border-accent flex justify-between rounded-lg border p-2">
-              <div className="text-accent flex flex-col items-center">
-                <h3 className="text-xl font-semibold">منطقة الخطر</h3>
-                <small>حذف كل البيانات</small>
-              </div>
-              <Button text={"حذف كل البيانات"} onClick={() => deleteData()} />
             </div>
           </div>
         </div>

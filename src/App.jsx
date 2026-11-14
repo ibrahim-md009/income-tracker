@@ -16,6 +16,8 @@ import {
   subToTransactionsLog,
 } from "./services/transactionsServices";
 import { subToCategories } from "./services/categoriesServices";
+import { subToSettings } from "./services/settingsServices";
+import { subToNotifications } from "./services/notificationsService";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -26,6 +28,8 @@ const App = () => {
   const setTransactionsLog = useStore((s) => s.setTransactionsLog);
   const setLatestTransactions = useStore((s) => s.setLatestTransactions);
   const setCategories = useStore((s) => s.setCategories);
+  const replaceSettings = useStore((s) => s.replaceSettings);
+  const setNotifications = useStore((s) => s.setNotifications);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -54,6 +58,18 @@ const App = () => {
     const unsub = subToTransactionsLog(uid, setTransactionsLog);
     return unsub;
   }, [uid, setTransactionsLog]);
+
+  useEffect(() => {
+    if (!uid) return;
+    const unsub = subToSettings(uid, replaceSettings);
+    return unsub;
+  }, [uid, replaceSettings]);
+
+  useEffect(() => {
+    if (!uid) return;
+    const unsub = subToNotifications(uid, setNotifications);
+    return unsub;
+  }, [uid, setNotifications]);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--accentColor", accentColor);

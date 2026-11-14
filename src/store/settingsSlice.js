@@ -1,3 +1,5 @@
+import { saveSettings } from "../services/settingsServices";
+import { useAuth } from "./useAuth";
 export const initialSettings = {
   profile: {
     name: "user",
@@ -22,22 +24,15 @@ export const initialSettings = {
     reminderTime: "21:00",
   },
 };
+
 export const createSettingsSlice = (set) => ({
   settings: initialSettings,
 
-  setSettings: (section, field, value) =>
-    set((state) => ({
-      settings: {
-        ...state.settings,
-        [section]: { ...state.settings[section], [field]: value },
-      },
-    })),
+  replaceSettings: (value) => set(() => ({ settings: value })),
 
-  updateSettings: (section, changes) =>
-    set((state) => ({
-      settings: {
-        ...state.settings,
-        [section]: { ...state.settings[section], ...changes },
-      },
-    })),
+  updateSettings: async (section, changes) => {
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await saveSettings(uid, { [section]: changes });
+  },
 });

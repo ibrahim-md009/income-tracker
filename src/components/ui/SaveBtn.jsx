@@ -5,7 +5,7 @@ const SaveBtn = ({ section, draft }) => {
   const updateSettings = useStore((s) => s.updateSettings);
   const saved = useStore((s) => s.settings[section]);
 
-  const isSame = JSON.stringify(draft) === JSON.stringify(saved);
+  const isSame = Object.keys(draft).every((key) => draft[key] === saved[key]);
 
   return (
     <Button

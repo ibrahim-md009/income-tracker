@@ -5,7 +5,7 @@ import { useStore } from "../../store/useStore";
 
 const Notifications = () => {
   const notifications = useStore((s) => s.settings.notifications);
-  const setSettings = useStore((s) => s.setSettings);
+  const updateSettings = useStore((s) => s.updateSettings);
 
   const notificationOptions = [
     {
@@ -33,13 +33,10 @@ const Notifications = () => {
       enable: notifications.monthlySummary,
     },
   ];
+  const section = "notifications";
 
   return (
-    <SettingsLayout
-      title="الإشعارات"
-      subTitle="إدارة تنبيهاتك وتفضيلاتك"
-      section="notifications"
-    >
+    <SettingsLayout title="الإشعارات" subTitle="إدارة تنبيهاتك وتفضيلاتك">
       <div className="flex flex-col gap-3 rounded-lg bg-cyan-50 p-3">
         {notificationOptions.map((item, index) => (
           <div key={item.id} className="flex flex-col gap-3">
@@ -53,7 +50,7 @@ const Notifications = () => {
               <Toggle
                 enabled={item.enable}
                 onChange={(value) =>
-                  setSettings("notifications", item.id, value)
+                  updateSettings(section, { [item.id]: value })
                 }
               />
             </div>
@@ -69,7 +66,9 @@ const Notifications = () => {
         <Input
           type="time"
           value={notifications.reminderTime || "21:00"}
-          onChange={(e) => useStore.setState({ reminderTime: e.target.value })}
+          onChange={(e) =>
+            updateSettings(section, { reminderTime: e.target.value })
+          }
         />
       </div>
     </SettingsLayout>

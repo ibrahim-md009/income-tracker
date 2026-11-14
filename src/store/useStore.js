@@ -7,9 +7,9 @@ import { createCategoriesSlice } from "./categoriesSlice";
 
 export const useStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       lastBackup: null,
-      ...createNotificationsSlice(set),
+      ...createNotificationsSlice(set, get),
       ...createSettingsSlice(set),
       ...createTransactionsSlice(set),
       ...createCategoriesSlice(set),

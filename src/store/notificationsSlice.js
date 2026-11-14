@@ -1,34 +1,42 @@
-export const createNotificationsSlice = (set) => ({
+import {
+  addNotification as addNotificationToDb,
+  readAll as readAllInDb,
+  readNotification as readNotificationInDb,
+} from "../services/notificationsService";
+import { useAuth } from "./useAuth";
+
+export const createNotificationsSlice = (set, get) => ({
   notifications: [],
+  setNotifications: (value) => set(() => ({ notifications: value })),
 
-  addNotification: (title, key) =>
-    set((state) => {
-      const exsist = state.notifications.some((n) => n.key === key);
-      if (exsist) return state;
+  addNotification: async (title, key) => {
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    const exists = get().notifications.some((n) => n.key === key);
+    if (exists) return;
+    await addNotificationToDb(uid, {
+      title: title,
+      key: key,
+      date: Date.now(),
+      isRead: false,
+    });
+  },
 
-      return {
-        notifications: [
-          ...state.notifications,
-          {
-            id: crypto.randomUUID(),
-            title: title,
-            key: key,
-            date: Date.now(),
-            isRead: false,
-          },
-        ],
-      };
-    }),
-  setNotification: (id, field, value) =>
-    set((state) => ({
-      notifications: state.notifications.map((n) =>
-        n.id === id ? { ...n, [field]: value } : n,
-      ),
-    })),
-  readAll: () =>
-    set((state) => ({
-      notifications: state.notifications.map((n) => {
-        return { ...n, isRead: true };
-      }),
-    })),
+  readNotification: async (id) => {
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+    await readNotificationInDb(uid, id);
+  },
+
+  readAll: async () => {
+    const uid = useAuth.getState().user?.uid;
+    if (!uid) return;
+
+    const ids = get()
+      .notifications.filter((n) => n.isRead === false)
+      .map((n) => n.id);
+    if (ids.length === 0) return;
+
+    await readAllInDb(uid, ids);
+  },
 });

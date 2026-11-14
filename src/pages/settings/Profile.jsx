@@ -66,12 +66,10 @@ const Profile = () => {
           value={draft.name}
           onChange={(e) => setField("name", e.target.value)}
         />
-        {/* في انتظار تعلم تعديل البيانات في فاير ستور */}
         <Input
           label="الحساب الالكتروني"
           type="text"
           defaultValue={user.email}
-          // onChange={(e) => setField("email", e.target.value)}
         />
       </div>
     </SettingsLayout>
