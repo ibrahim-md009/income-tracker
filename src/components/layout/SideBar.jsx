@@ -19,7 +19,6 @@ const sideBar = [
   { title: "الفئات", icon: Tag, path: "/categories" },
   { title: "التقارير", icon: ChartColumn, path: "/reports" },
   { title: "الإعدادات", icon: Settings, path: "/settings" },
-  { title: "تسجيل الدخول", icon: Settings, path: "/signup" },
 ];
 
 const SideBar = () => {

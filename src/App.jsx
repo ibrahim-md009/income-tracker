@@ -34,20 +34,26 @@ const App = () => {
     return unSub;
   }, [setUser]);
 
+  const uid = user?.uid;
   useEffect(() => {
+    if (!uid) return;
+
     const unsub = subToLatestTransactions(5, setLatestTransactions);
     return unsub;
-  }, [setLatestTransactions]);
+  }, [uid, setLatestTransactions]);
 
   useEffect(() => {
+    if (!uid) return;
+
     const unsub = subToCategories(setCategories);
     return unsub;
-  }, [setCategories]);
+  }, [uid, setCategories]);
 
   useEffect(() => {
+    if (!uid) return;
     const unsub = subToTransactionsLog(setTransactionsLog);
     return unsub;
-  }, [setTransactionsLog]);
+  }, [uid, setTransactionsLog]);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--accentColor", accentColor);
@@ -68,7 +74,6 @@ const App = () => {
             <Route path="settings/*" element={<Settings />} />
             <Route path="transactions" element={<Transactions />} />
             <Route path="reports" element={<Reports />} />
-            <Route path="signup" element={<Signup />} />
           </Routes>
         </>
       )}

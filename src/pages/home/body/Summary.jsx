@@ -1,11 +1,15 @@
 import { useStore } from "../../../store/useStore";
-import { getChartData } from "../../../utils/stats";
+import { getMonthlyTransactionsData } from "../../../utils/stats";
 import Chart from "../../../components/ui/Chart";
 
 const Summary = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
-  const chartData = getChartData(transactionsLog, selectedMonthKey, 3);
+  const chartData = getMonthlyTransactionsData(
+    transactionsLog,
+    selectedMonthKey,
+    3,
+  );
 
   return (
     <div className="bg-card border-line rounded-card flex flex-1 flex-col gap-3 border p-3">

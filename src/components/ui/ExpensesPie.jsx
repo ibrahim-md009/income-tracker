@@ -9,7 +9,7 @@ const ExpensesPie = ({ pieData }) => {
             data={pieData}
             dataKey="value"
             nameKey="name"
-            innerRadius={60}
+            innerRadius={55}
             outerRadius={80}
           >
             {pieData.map((item) => (

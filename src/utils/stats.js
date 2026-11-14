@@ -36,7 +36,7 @@ const getMonthTotal = (log, monthKey, kind) => {
   return sumByKind(filterByMonth(log, monthKey), kind);
 };
 
-export const getChartData = (log, selectedMonthKey, count) => {
+export const getMonthlyTransactionsData = (log, selectedMonthKey, count) => {
   return Array.from({ length: count }, (_, index) => {
     const monthKey = getMonthKey(selectedMonthKey, count - 1 - index);
     const monthName = getMonthName(monthKey);
@@ -98,7 +98,7 @@ export const getPieData = (log, expCats) => {
 };
 
 export const getMonthsTotals = (log, selectedMonthKey, count) => {
-  const arr = getChartData(log, selectedMonthKey, count);
+  const arr = getMonthlyTransactionsData(log, selectedMonthKey, count);
 
   const totalIncome = arr.reduce((acc, b) => acc + b.income, 0);
   const totalExpenses = arr.reduce((acc, b) => acc + b.expense, 0);
