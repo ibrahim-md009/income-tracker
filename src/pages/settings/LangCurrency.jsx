@@ -26,7 +26,7 @@ const LangCurrency = () => {
           <select
             value={languageAndCurrency.language}
             onChange={(e) => save({ language: e.target.value })}
-            className="border-accent rounded-lg border bg-cyan-50 p-2"
+            className="border-accent rounded-lg border bg-cyan-50 p-2 dark:bg-page"
           >
             <option value="ar">العربية</option>
             <option value="en">ُEnglish</option>

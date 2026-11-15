@@ -2,22 +2,16 @@ import { Check } from "lucide-react";
 import SettingsLayout from "../../components/layout/SettingsLayout";
 import { useStore } from "../../store/useStore";
 import { useSaveSettings } from "../../hooks/useSaveSettings";
+import { accents, resolveAccentId } from "../../utils/theme";
 
 const themes = [
-  { id: "light", title: "فاتح", bg: "bg-page" },
+  { id: "light", title: "فاتح", bg: "bg-[#f5f1e8]" },
   { id: "dark", title: "داكن", bg: "bg-[#101322]" },
   {
     id: "system",
     title: "تلقائي حسب جهازك",
     bg: "bg-[linear-gradient(to_right,#101322_50%,#f5f1e8_50%)]",
   },
-];
-
-const colors = [
-  { hex: "#92400e", bg: "bg-[#92400e]" },
-  { hex: "#32a852", bg: "bg-[#32a852]" },
-  { hex: "#44f20f", bg: "bg-[#44f20f]" },
-  { hex: "#0f88f2", bg: "bg-[#0f88f2]" },
 ];
 
 const section = "appearance";
@@ -53,7 +47,7 @@ const Appearance = () => {
                     {theme.title}
                   </span>
                   {active && (
-                    <span className="bg-action grid size-5 place-items-center rounded-full text-white">
+                    <span className="bg-action text-on-solid grid size-5 place-items-center rounded-full">
                       <Check size={12} />
                     </span>
                   )}
@@ -68,16 +62,19 @@ const Appearance = () => {
         <span className="text-fg text-body-s mb-2 block font-medium">
           اللون الأساسي
         </span>
-        <div className="flex gap-3">
-          {colors.map((c) => {
-            const active = appearanceSettings.accentColor === c.hex;
+        <div className="flex flex-wrap gap-3">
+          {accents.map((c) => {
+            const active =
+              resolveAccentId(appearanceSettings.accentColor) === c.id;
             return (
               <button
                 type="button"
-                key={c.hex}
+                key={c.id}
                 onClick={() => save({ accentColor: c.hex })}
-                aria-label={c.hex}
-                className={`size-8 rounded-full transition-transform hover:scale-110 ${c.bg} ${
+                aria-label={c.label}
+                title={c.label}
+                style={{ backgroundColor: c.hex }}
+                className={`size-8 rounded-full transition-transform hover:scale-110 ${
                   active
                     ? "ring-action ring-offset-card ring-2 ring-offset-2"
                     : ""

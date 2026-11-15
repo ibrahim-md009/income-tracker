@@ -5,7 +5,7 @@ import Input from "../../components/ui/Input";
 
 export const Brand = () => (
   <Link to="/" className="flex w-fit items-center gap-2.5">
-    <span className="bg-action font-voice rounded-control grid h-9 w-9 place-items-center pb-0.5 text-2xl leading-none text-white">
+    <span className="bg-action font-voice rounded-control grid h-9 w-9 place-items-center pb-0.5 text-2xl leading-none text-on-solid">
       م
     </span>
     <span className="font-voice text-voice text-fg leading-none">
@@ -155,7 +155,7 @@ export const SubmitButton = ({ loading = false, children }) => (
   <button
     type="submit"
     disabled={loading}
-    className="bg-action hover:bg-action-hover rounded-control flex h-12 w-full items-center justify-center gap-2 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+    className="bg-action hover:bg-action-hover rounded-control flex h-12 w-full items-center justify-center gap-2 font-semibold text-on-solid transition-colors disabled:cursor-not-allowed disabled:opacity-60"
   >
     {loading && <Loader2 size={18} className="animate-spin" />}
     {children}

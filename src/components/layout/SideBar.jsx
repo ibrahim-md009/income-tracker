@@ -11,6 +11,7 @@ import Button from "../ui/Button";
 import Form from "../../pages/home/body/Form";
 import { logOut } from "../../services/authService";
 import { useAuth } from "../../store/useAuth";
+import { useIsDesktop } from "../../hooks/useIsDesktop";
 
 const sideBar = [
   { title: "الرئيسية", icon: Home, path: "/home" },
@@ -21,6 +22,7 @@ const sideBar = [
 ];
 
 const SideBar = () => {
+  const isDesktop = useIsDesktop();
   const profile = useStore((s) => s.settings.profile);
   const editingId = useStore((s) => s.editingId);
   const setState = useStore((s) => s.setState);
@@ -30,6 +32,9 @@ const SideBar = () => {
   const setIstransactionFormOpen = useStore((s) => s.setIstransactionFormOpen);
 
   const open = isTransactionFormOpen || editingId !== "";
+
+  // على الموبايل بيتعرض الشريط السفلي بدل السايدبار
+  if (!isDesktop) return null;
 
   const toggleForm = () => {
     if (open) {
@@ -93,7 +98,7 @@ const SideBar = () => {
               </NavLink>
               <Button
                 text={"تسجيل الخروج"}
-                className="bg-red-500"
+                className="bg-red-500 dark:bg-money-out"
                 onClick={() => logOut()}
               />
             </div>

@@ -37,7 +37,7 @@ const Notifications = () => {
   const save = useSaveSettings(section);
   return (
     <SettingsLayout title="الإشعارات" subTitle="إدارة تنبيهاتك وتفضيلاتك">
-      <div className="flex flex-col gap-3 rounded-lg bg-cyan-50 p-3">
+      <div className="flex flex-col gap-3 rounded-lg bg-cyan-50 p-3 dark:bg-page">
         {notificationOptions.map((item, index) => (
           <div key={item.id} className="flex flex-col gap-3">
             <div className="flex items-center justify-between">

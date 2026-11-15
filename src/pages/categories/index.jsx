@@ -30,11 +30,11 @@ const Categories = () => {
   };
 
   return (
-    <main className="relative mr-[20%] h-screen w-[80%] px-3 py-3">
+    <main className="relative min-h-screen w-full px-3 py-3 pb-36 lg:mr-[20%] lg:h-screen lg:w-[80%] lg:pb-3">
       {categories.length === 0 ? (
         <EmptyCategories onAction={() => setIsCategoriesFormOpen(true)} />
       ) : (
-        <div className="flex h-screen flex-col gap-10">
+        <div className="flex flex-col gap-6 lg:h-screen lg:gap-10">
           <Header title="التصنيفات" subTitle="تنظيم تصنيفات دخلك ومصروفاتك">
             <Button
               onClick={() => setIsCategoriesFormOpen(true)}

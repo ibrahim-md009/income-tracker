@@ -48,7 +48,7 @@ const Reports = () => {
   ];
 
   return (
-    <main className="mr-[20%] min-h-screen w-[80%] p-6">
+    <main className="min-h-screen w-full p-4 pb-36 lg:mr-[20%] lg:w-[80%] lg:p-6 lg:pb-6">
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
@@ -64,7 +64,7 @@ const Reports = () => {
                   onClick={() => setNumOfMonths(tab.value)}
                   className={`rounded-chip text-body-s h-9 px-4 font-medium transition-colors ${
                     tab.value === numOfMonths
-                      ? "bg-action shadow-1 text-white"
+                      ? "bg-action shadow-1 text-on-solid"
                       : "text-fg-muted hover:text-fg"
                   }`}
                 >
@@ -99,8 +99,8 @@ const Reports = () => {
           })}
         </div>
 
-        <div className="flex h-96 gap-4">
-          <div className="bg-card border-line rounded-card flex flex-1 flex-col gap-3 border p-4">
+        <div className="flex flex-col gap-4 lg:h-96 lg:flex-row">
+          <div className="bg-card border-line rounded-card flex h-72 flex-none flex-col gap-3 border p-4 lg:h-auto lg:flex-1">
             <h3 className="text-fg text-h2">الدخل والمصروفات</h3>
             <Chart
               chartData={getMonthlyTransactionsData(

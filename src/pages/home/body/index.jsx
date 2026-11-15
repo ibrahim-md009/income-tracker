@@ -14,7 +14,7 @@ const Body = () => {
     <section className="flex flex-col gap-6">
       <Statistics />
 
-      <div className="flex h-80 gap-4">
+      <div className="flex flex-col gap-4 lg:h-80 lg:flex-row">
         <Summary />
         <Expenses log={monthTransactions} />
       </div>

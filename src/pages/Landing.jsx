@@ -25,7 +25,7 @@ const links = [
 /* ============ أزرار الروابط ============ */
 const btn = {
   base: "inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-colors",
-  primary: "bg-action text-white hover:bg-action-hover",
+  primary: "bg-action text-on-solid hover:bg-action-hover",
   secondary: "border border-line-strong bg-card text-fg hover:bg-page",
   ghost: "text-action hover:bg-action-soft",
 };
@@ -47,7 +47,7 @@ const LinkButton = ({
 
 const Brand = () => (
   <Link to="/" className="flex items-center gap-2.5">
-    <span className="bg-action font-voice rounded-control grid h-9 w-9 place-items-center pb-0.5 text-[1.5rem] leading-none text-white">
+    <span className="bg-action font-voice rounded-control grid h-9 w-9 place-items-center pb-0.5 text-[1.5rem] leading-none text-on-solid">
       م
     </span>
     <span className="font-voice text-voice text-fg leading-none">

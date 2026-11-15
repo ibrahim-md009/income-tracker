@@ -31,7 +31,7 @@ const BackUp = () => {
     : "احفظ نسخة من كل معاملاتك وتصنيفاتك.";
 
   return (
-    <main className="mr-[20%] min-h-screen w-[80%] p-6">
+    <main className="w-full lg:mr-[20%] lg:min-h-screen lg:w-[80%] lg:p-6">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-1">
           <h2 className="text-h1 text-fg">البيانات والنسخ الاحتياطي</h2>
@@ -42,7 +42,7 @@ const BackUp = () => {
 
         <div className="bg-card border-line rounded-card flex flex-col border">
           {/* تصدير */}
-          <div className="border-line flex items-center justify-between gap-4 border-b p-5">
+          <div className="border-line flex flex-wrap items-center justify-between gap-4 border-b p-5">
             <div className="flex items-center gap-4">
               <span className="bg-action-soft text-action rounded-control grid size-11 flex-none place-items-center">
                 <Download size={20} />
@@ -60,7 +60,7 @@ const BackUp = () => {
           </div>
 
           {/* استيراد */}
-          <div className="flex items-center justify-between gap-4 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-4 p-5">
             <div className="flex items-center gap-4">
               <span className="bg-action-soft text-action rounded-control grid size-11 flex-none place-items-center">
                 <Upload size={20} />

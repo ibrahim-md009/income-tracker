@@ -18,11 +18,11 @@ const Transactions = () => {
   ).length;
 
   return (
-    <main className="relative mr-[20%] h-screen w-[80%] p-6">
+    <main className="relative min-h-screen w-full p-4 pb-36 lg:mr-[20%] lg:h-screen lg:w-[80%] lg:p-6 lg:pb-6">
       {countOfTransactions === 0 ? (
         <EmptyTransactions onAction={() => setIstransactionFormOpen(true)} />
       ) : (
-        <div className="flex h-full flex-col gap-6">
+        <div className="flex flex-col gap-6 lg:h-full">
           <Header
             title="المعاملات"
             subTitle={`${countOfTransactions} معاملة في ${getMonthName(getCurrentMonthKey())}`}

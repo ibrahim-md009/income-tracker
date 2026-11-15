@@ -6,7 +6,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyle =
-    " bg-action text-raised text-body min-w-15 cursor-pointer rounded-control p-2 duration-103 enabled:hover:scale-103 disabled:cursor-not-allowed disabled:opacity-50 ";
+    " bg-action text-on-solid text-body min-w-15 cursor-pointer rounded-control p-2 duration-103 enabled:hover:scale-103 disabled:cursor-not-allowed disabled:opacity-50 ";
   return (
     <button
       {...props}

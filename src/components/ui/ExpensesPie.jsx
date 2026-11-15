@@ -2,7 +2,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 const ExpensesPie = ({ pieData }) => {
   return (
-    <div className="h-60 w-60">
+    <div className="mx-auto h-60 w-60 lg:mx-0">
       <ResponsiveContainer>
         <PieChart>
           <Pie
@@ -11,12 +11,19 @@ const ExpensesPie = ({ pieData }) => {
             nameKey="name"
             innerRadius={55}
             outerRadius={80}
+            stroke="var(--color-card)"
           >
             {pieData.map((item) => (
               <Cell key={item.name} fill={item.color} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "var(--color-raised)",
+              color: "var(--color-fg)",
+            }}
+            itemStyle={{ color: "var(--color-fg)" }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>

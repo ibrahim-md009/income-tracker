@@ -7,8 +7,8 @@ import FieldWithIcon from "../../../components/ui/FieldWithIcon";
 import { getErrorMsg } from "../../../utils/errors";
 
 const formTabs = [
-  { title: "دخل", active: "bg-money-in text-white" },
-  { title: "مصروف", active: "bg-money-out text-white" },
+  { title: "دخل", active: "bg-money-in text-on-solid" },
+  { title: "مصروف", active: "bg-money-out text-on-solid" },
 ];
 
 const today = getTodayDate();
@@ -132,7 +132,7 @@ const Form = () => {
       <div className="mt-auto flex flex-col gap-2 pt-2">
         <button
           type="button"
-          className="bg-action hover:bg-action-hover rounded-control h-12 w-full font-semibold text-white transition-colors"
+          className="bg-action hover:bg-action-hover rounded-control h-12 w-full font-semibold text-on-solid transition-colors"
           onClick={async () => {
             try {
               if (underEditing) {

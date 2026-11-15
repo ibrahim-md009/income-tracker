@@ -12,7 +12,7 @@ const Summary = () => {
   );
 
   return (
-    <div className="bg-card border-line rounded-card flex flex-1 flex-col gap-3 border p-4">
+    <div className="bg-card border-line rounded-card flex h-72 flex-none flex-col gap-3 border p-4 lg:h-auto lg:flex-1">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-fg text-h2">ملخص شهري</h3>
         <div className="flex items-center gap-4">

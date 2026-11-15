@@ -70,8 +70,8 @@ const Security = () => {
   };
 
   return (
-    <main className="mr-[15%] min-h-screen w-[85%] p-3">
-      <div className="flex h-screen flex-col gap-10">
+    <main className="w-full p-3 lg:mr-[15%] lg:min-h-screen lg:w-[85%]">
+      <div className="flex flex-col gap-10 lg:h-screen">
         <div className="header flex items-center gap-2">
           <div className="flex flex-col gap-1">
             <h2 className="text-2xl font-bold">الأمان</h2>

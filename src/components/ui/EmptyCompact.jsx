@@ -10,7 +10,7 @@ const EmptyCompact = ({ icon: Icon, title, text, actionLabel, to }) => (
     {actionLabel && to && (
       <Link
         to={to}
-        className="bg-action hover:bg-action-hover rounded-control text-body-s inline-flex h-9 items-center px-4 font-semibold text-white transition-colors"
+        className="bg-action hover:bg-action-hover rounded-control text-body-s inline-flex h-9 items-center px-4 font-semibold text-on-solid transition-colors"
       >
         {actionLabel}
       </Link>

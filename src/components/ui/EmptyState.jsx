@@ -10,7 +10,7 @@ const EmptyState = ({
   children,
 }) => {
   const btn =
-    "bg-action hover:bg-action-hover rounded-control inline-flex h-11 items-center justify-center px-6 font-semibold text-white transition-colors";
+    "bg-action hover:bg-action-hover rounded-control inline-flex h-11 items-center justify-center px-6 font-semibold text-on-solid transition-colors";
 
   return (
     <div className="bg-card border-line rounded-card flex flex-col items-center border border-dashed px-6 py-14 text-center">

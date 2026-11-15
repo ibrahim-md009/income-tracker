@@ -71,7 +71,7 @@ const Profile = () => {
             alt="your image"
             className="border-line aspect-square size-full rounded-full border-4 object-cover"
           />
-          <span className="bg-action ring-card absolute -inset-e-1 -bottom-1 grid size-9 place-items-center rounded-full text-white ring-4 transition-transform group-hover:scale-110">
+          <span className="bg-action ring-card absolute -inset-e-1 -bottom-1 grid size-9 place-items-center rounded-full text-on-solid ring-4 transition-transform group-hover:scale-110">
             <Camera size={16} />
           </span>
           <input

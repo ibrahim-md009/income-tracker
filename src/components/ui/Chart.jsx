@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const tick = { fill: "#656a7d", fontSize: 12 };
+const tick = { fill: "var(--color-fg-muted)", fontSize: 12 };
 
 const Chart = ({ chartData }) => {
   return (
@@ -22,7 +22,7 @@ const Chart = ({ chartData }) => {
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#eae4d6"
+              stroke="var(--color-line)"
               vertical={false}
             />
             <XAxis
@@ -33,24 +33,25 @@ const Chart = ({ chartData }) => {
             />
             <YAxis width={50} tick={tick} axisLine={false} tickLine={false} />
             <Tooltip
-              cursor={{ fill: "#f5f1e8" }}
+              cursor={{ fill: "var(--color-page)" }}
               contentStyle={{
                 borderRadius: 10,
-                border: "1px solid #eae4d6",
-                background: "#fbf9f4",
+                border: "1px solid var(--color-line)",
+                background: "var(--color-card)",
+                color: "var(--color-fg)",
                 fontSize: 13,
               }}
             />
             <Bar
               dataKey="income"
               name="الدخل"
-              fill="#1b7a55"
+              fill="var(--color-money-in)"
               radius={[6, 6, 0, 0]}
             />
             <Bar
               dataKey="expense"
               name="المصروف"
-              fill="#b83a3a"
+              fill="var(--color-money-out)"
               radius={[6, 6, 0, 0]}
             />
           </BarChart>

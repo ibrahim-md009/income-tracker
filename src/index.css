@@ -42,11 +42,12 @@
   --color-fg: var(--color-ink-900);
   --color-fg-body: var(--color-ink-700);
   --color-fg-muted: var(--color-ink-500);
-  --color-action: var(--color-nila-600);
-  --color-action-hover: var(--color-nila-700);
-  --color-action-soft: var(--color-nila-50);
+  --color-action: var(--a-600);
+  --color-action-hover: var(--a-700);
+  --color-action-soft: var(--a-soft);
   --color-inverse: var(--color-nila-900);
   --color-on-inverse: #e7e9f7;
+  --color-on-solid: #ffffff; /* نص فوق الأزرار الملونة (action / money) */
   --color-inverse-line: #3a4170;
   --color-saffron: var(--color-saffron-400);
 
@@ -126,8 +127,88 @@
   --money-out-bg: #f9e4e1;
 } */
 
+/* ===== dark: يُفعَّل بـ data-theme="dark" على <html> ===== */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ===== ألوان التمييز (accent): data-accent على <html> =====
+   --a-*  = الوضع الفاتح  |  --d-* = الوضع الداكن  */
+:root {
+  --a-600: #2f3a8f;
+  --a-700: #262f75;
+  --a-soft: #eef0fb;
+  --d-600: #9aa5f2;
+  --d-700: #b3bcf6;
+  --d-soft: #252b5a;
+}
+[data-accent="copper"] {
+  --a-600: #9a4a1a;
+  --a-700: #7d3b14;
+  --a-soft: #f8ede5;
+  --d-600: #e59a6a;
+  --d-700: #edb08a;
+  --d-soft: #3a2618;
+}
+[data-accent="teal"] {
+  --a-600: #0f6b73;
+  --a-700: #0b565d;
+  --a-soft: #e3f2f3;
+  --d-600: #5fc7cf;
+  --d-700: #82d6dc;
+  --d-soft: #16363a;
+}
+[data-accent="plum"] {
+  --a-600: #6b2d6b;
+  --a-700: #552355;
+  --a-soft: #f3e8f3;
+  --d-600: #c88ac8;
+  --d-700: #d7a4d7;
+  --d-soft: #3a2039;
+}
+[data-accent="slate"] {
+  --a-600: #3f4a5a;
+  --a-700: #323b48;
+  --a-soft: #eceef1;
+  --d-600: #a9b4c6;
+  --d-700: #bcc5d3;
+  --d-soft: #272d38;
+}
+
+/* ===== الثيم الداكن: نفس الأسماء بقيم مختلفة ===== */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-page: #101322;
+  --color-card: #181c31;
+  --color-raised: #1f2440;
+  --color-line: #2b3152;
+  --color-line-strong: #3a4170;
+  --color-fg: #eceaf4;
+  --color-fg-body: #d2d4e6;
+  --color-fg-muted: #a3a8c3;
+  --color-action: var(--d-600);
+  --color-action-hover: var(--d-700);
+  --color-action-soft: var(--d-soft);
+  --color-inverse: #232a5c;
+  --color-on-solid: #101322;
+  --color-money-in: #4fc28f;
+  --color-money-in-soft: #16322a;
+  --color-money-out: #f07f7c;
+  --color-money-out-soft: #3a2024;
+  --color-warning: #f0b95c;
+  --color-warning-soft: #3a2f14;
+  --color-info: #7fb6e6;
+  --color-info-soft: #172a3a;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-2: 0 8px 24px rgb(0 0 0 / 0.45);
+  --shadow-3: 0 16px 48px rgb(0 0 0 / 0.55);
+}
+
 body {
-  background-color: var(--color-paper-100);
+  background-color: var(--color-page);
+}
+
+/* نص افتراضي للعناصر اللي ملهاش لون (labels...) في الداكن فقط */
+[data-theme="dark"] body {
+  color: var(--color-fg);
 }
 
 @layer base {

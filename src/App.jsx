@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import SideBar from "./components/layout/SideBar";
+import BottomBar from "./components/layout/BottomBar";
 import Home from "./pages/home";
 import Transactions from "./pages/transactions";
 import Categories from "./pages/categories";
 import Reports from "./pages/reports";
 import Settings from "./pages/settings";
 import { useStore } from "./store/useStore";
+import { initialSettings } from "./store/settingsSlice";
+import { resolveAccentId } from "./utils/theme";
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "./store/useAuth";
@@ -23,6 +26,7 @@ import { Toaster } from "sonner";
 const AppLayout = () => (
   <>
     <SideBar />
+    <BottomBar />
     <Outlet />
   </>
 );
@@ -30,6 +34,9 @@ const AppLayout = () => (
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
   const fontSize = useStore((s) => s.settings.appearance.fontSize);
+  const theme = useStore((s) => s.settings.appearance.theme);
+  // false لحد ما إعدادات المستخدم توصل من Firestore (عشان ما يحصلش وميض)
+  const settingsLoaded = useStore((s) => s.settings !== initialSettings);
   const user = useAuth((a) => a.user);
   const isAuthReady = useAuth((a) => a.isAuthReady);
   const setUser = useAuth((a) => a.setUser);
@@ -80,8 +87,38 @@ const App = () => {
   }, [uid, setNotifications]);
 
   useEffect(() => {
-    document.documentElement.style.setProperty("--accentColor", accentColor);
-  }, [accentColor]);
+    if (!settingsLoaded) return;
+    const id = resolveAccentId(accentColor);
+    document.documentElement.dataset.accent = id;
+    try {
+      localStorage.setItem("it-accent", id);
+    } catch {
+      /* التخزين غير متاح */
+    }
+  }, [accentColor, settingsLoaded]);
+
+  useEffect(() => {
+    if (!settingsLoaded) return;
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const apply = () => {
+      const mode =
+        theme === "dark" || (theme === "system" && media.matches)
+          ? "dark"
+          : "light";
+      document.documentElement.dataset.theme = mode;
+      try {
+        localStorage.setItem("it-theme", mode);
+      } catch {
+        /* التخزين غير متاح */
+      }
+    };
+
+    apply();
+    if (theme !== "system") return;
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, [theme, settingsLoaded]);
 
   useEffect(() => {
     document.documentElement.style.fontSize = Number(fontSize) + "px";
@@ -117,6 +154,7 @@ const App = () => {
         duration={1000}
         closeButton
         richColors
+        theme={theme}
         dir="rtl"
       />
     </>

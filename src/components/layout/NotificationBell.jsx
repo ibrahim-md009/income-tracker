@@ -68,14 +68,14 @@ const NotificationBell = () => {
       >
         <Bell size={20} className="text-fg" />
         {unReadCount > 0 && (
-          <span className="bg-money-out text-caption absolute -inset-e-1.5 -top-1.5 grid min-w-5 place-items-center rounded-full px-1 text-[10px] leading-5 font-semibold text-white">
+          <span className="bg-money-out text-caption absolute -inset-e-1.5 -top-1.5 grid min-w-5 place-items-center rounded-full px-1 text-[10px] leading-5 font-semibold text-on-solid">
             {unReadCount > 9 ? "9+" : unReadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="bg-raised border-line rounded-card shadow-2 absolute top-full left-0 z-50 mt-2 flex w-80 flex-col overflow-hidden border">
+        <div className="bg-raised border-line rounded-card shadow-2 fixed inset-x-4 top-20 z-50 flex w-auto flex-col overflow-hidden border lg:absolute lg:inset-x-auto lg:top-full lg:left-0 lg:mt-2 lg:w-80">
           <div className="border-line flex items-center justify-between border-b px-4 py-3">
             <h3 className="text-fg text-h3">الإشعارات</h3>
             {unReadCount > 0 && (

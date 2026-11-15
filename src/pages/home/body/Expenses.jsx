@@ -15,8 +15,8 @@ const Expenses = ({ log = [] }) => {
   const expensesCategories = categories.filter((cat) => cat.type === "مصروف");
   const catTotal = getCatTotal(log);
   return (
-    <div className="bg-card rounded-card border-line flex w-[45%] justify-between border p-3">
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+    <div className="bg-card rounded-card border-line flex w-full flex-col justify-between gap-4 border p-3 lg:w-[45%] lg:flex-row lg:gap-0">
+      <div className="flex min-h-0 min-w-0 flex-col lg:flex-1">
         <h3 className="text-fg text-h2 mb-5">المصروفات حسب التصنيف</h3>
 
         {expensesCategories.length === 0 ? (
@@ -28,7 +28,7 @@ const Expenses = ({ log = [] }) => {
             to="/categories"
           />
         ) : (
-          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pb-2">
+          <div className="flex min-h-0 flex-col gap-4 overflow-y-auto pb-2 lg:flex-1">
             {expensesCategories.map((exp) => {
               const amount = getCategoryTotals(log)[exp.title] || 0;
               const rate =

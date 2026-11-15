@@ -5,8 +5,8 @@ import { useDraft } from "../../hooks/useDraft";
 import { getErrorMsg } from "../../utils/errors";
 
 const catTypes = [
-  { title: "مصروف", active: "bg-money-out text-white" },
-  { title: "دخل", active: "bg-money-in text-white" },
+  { title: "مصروف", active: "bg-money-out text-on-solid" },
+  { title: "دخل", active: "bg-money-in text-on-solid" },
 ];
 
 const swatches = [
@@ -169,7 +169,7 @@ const AddModal = () => {
         <div className="flex gap-3">
           <button
             type="button"
-            className="bg-action hover:bg-action-hover rounded-control h-12 flex-1 font-semibold text-white transition-colors"
+            className="bg-action hover:bg-action-hover rounded-control h-12 flex-1 font-semibold text-on-solid transition-colors"
             onClick={async () => {
               try {
                 if (catEditingId) {
