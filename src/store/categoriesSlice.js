@@ -6,6 +6,10 @@ import {
 import { useAuth } from "./useAuth";
 
 export const createCategoriesSlice = (set) => ({
+  isCategoriesFormOpen: false,
+  setIsCategoriesFormOpen: (value) =>
+    set(() => ({ isCategoriesFormOpen: value })),
+
   categories: [],
   setCategories: (value) =>
     set(() => ({

@@ -1,17 +1,17 @@
 const SettingsLayout = ({ title, subTitle, children }) => {
   return (
-    <div className="flex h-screen flex-1 flex-col gap-10">
-      <div className="header flex items-center gap-2">
+    <main className="mr-[20%] min-h-screen w-[80%] p-6">
+      <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-1">
-          <h2 className="text-h2 text-fg">{title}</h2>
-          <span>{subTitle}</span>
+          <h2 className="text-h1 text-fg">{title}</h2>
+          <span className="text-fg-muted text-body-s">{subTitle}</span>
+        </div>
+
+        <div className="bg-card border-line rounded-card flex w-full flex-col gap-6 border p-6">
+          {children}
         </div>
       </div>
-
-      <div className="bg-card border-line rounded-card flex w-full flex-col gap-4 border p-3">
-        {children}
-      </div>
-    </div>
+    </main>
   );
 };
 export default SettingsLayout;

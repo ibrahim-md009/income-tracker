@@ -15,25 +15,23 @@ const Header = () => {
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
   return (
-    <header className="flex flex-col gap-3">
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex flex-col gap-2">
-            <h2 className="text-fg font-voice text-voice">{` مساء الخير  يا ${name}`}</h2>
-            <p className="text-fg-muted text-sm">
-              إليك نظرة سريعة على مصاريفك هذا الشهر
-            </p>
-          </div>
-        </div>
+    <header className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col gap-1.5">
+        <h2 className="text-fg font-voice text-voice">{` مساء الخير  يا ${name}`}</h2>
+        <p className="text-fg-muted text-body-s">
+          إليك نظرة سريعة على مصاريفك هذا الشهر
+        </p>
+      </div>
 
-        <div className="flex items-center gap-8">
+      <div className="flex items-center gap-4">
+        <div className="w-44">
           <FieldWithIcon Icon={Calendar}>
             <select
               value={selectedMonthKey}
               onChange={(e) =>
                 useStore.setState({ selectedMonthKey: e.target.value })
               }
-              className="border-accent flex w-40 items-center rounded-lg border py-1.5 pr-12 invalid:text-gray-400"
+              className="border-line-strong bg-card text-fg rounded-control focus:border-action focus:ring-action/20 text-body-s h-11 w-full appearance-none border ps-11 pe-3.5 transition outline-none focus:ring-4"
             >
               {Array.from({ length: 12 }, (_, i) =>
                 getMonthKey(getCurrentMonthKey(), i),
@@ -46,8 +44,8 @@ const Header = () => {
               })}
             </select>
           </FieldWithIcon>
-          <NotificationBell />
         </div>
+        <NotificationBell />
       </div>
     </header>
   );

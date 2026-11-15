@@ -1,10 +1,10 @@
 import {
   doc,
-  addDoc,
   collection,
   onSnapshot,
   updateDoc,
   writeBatch,
+  runTransaction,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
@@ -27,8 +27,11 @@ export const subToNotifications = (uid, onData, onError) => {
 };
 
 export const addNotification = async (uid, o) => {
-  const add = await addDoc(getNotificationsCollection(uid), o);
-  return { ...o, id: add.id };
+  const ref = doc(getNotificationsCollection(uid), o.key);
+  await runTransaction(db, async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists()) tx.set(ref, o);
+  });
 };
 
 export const readNotification = async (uid, id) => {

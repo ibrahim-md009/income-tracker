@@ -6,7 +6,7 @@ import SettingsLayout from "../../components/layout/SettingsLayout";
 import { useSaveSettings } from "../../hooks/useSaveSettings";
 import { useState } from "react";
 import Button from "../../components/ui/Button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Camera } from "lucide-react";
 import { toast } from "sonner";
 
 const section = "profile";
@@ -64,13 +64,16 @@ const Profile = () => {
       subTitle="تعديل بياناتك الشخصية وصورتك"
       section="profile"
     >
-      <div className="flex flex-col gap-2">
-        <label className="flex w-25 cursor-pointer gap-2">
+      <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6">
+        <label className="group relative size-28 cursor-pointer">
           <img
             src={userImage}
             alt="your image"
-            className="aspect-square w-full rounded-full object-cover"
+            className="border-line aspect-square size-full rounded-full border-4 object-cover"
           />
+          <span className="bg-action ring-card absolute -inset-e-1 -bottom-1 grid size-9 place-items-center rounded-full text-white ring-4 transition-transform group-hover:scale-110">
+            <Camera size={16} />
+          </span>
           <input
             type="file"
             accept="image/*"
@@ -78,26 +81,26 @@ const Profile = () => {
             onChange={handleImageChange}
           />
         </label>
-      </div>
 
-      <div className="flex flex-col flex-wrap gap-5">
-        <Input
-          label="الاسم"
-          type="text"
-          value={draftName}
-          onChange={(e) => setDraftName(e.target.value)}
-        />
-        <Button
-          className="text-center"
-          onClick={() => handleChangeName()}
-          disabled={userName === draftName || loading}
-        >
-          {loading ? (
-            <Loader2 size={18} className="animate-spin" />
-          ) : (
-            "تغيير الاسم"
-          )}
-        </Button>
+        <div className="flex w-full flex-col gap-4">
+          <Input
+            label="الاسم"
+            type="text"
+            value={draftName}
+            onChange={(e) => setDraftName(e.target.value)}
+          />
+          <Button
+            className="w-full text-center"
+            onClick={() => handleChangeName()}
+            disabled={userName === draftName || loading}
+          >
+            {loading ? (
+              <Loader2 size={18} className="mx-auto animate-spin" />
+            ) : (
+              "تغيير الاسم"
+            )}
+          </Button>
+        </div>
       </div>
     </SettingsLayout>
   );

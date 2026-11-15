@@ -1,11 +1,19 @@
 import { DollarSign } from "lucide-react";
+
 const FieldWithIcon = ({ label, Icon = DollarSign, children }) => {
   return (
-    <div className="bg-card relative w-full">
-      <div className="flex flex-col">
-        {label ? <label className="mb-1 font-medium">{label}</label> : null}
-        <Icon className="rounded-control absolute right-3 bottom-2 w-6 bg-gray-300 p-1" />
+    <div className="w-full">
+      {label ? (
+        <label className="text-fg text-body-s mb-1.5 block font-medium">
+          {label}
+        </label>
+      ) : null}
 
+      <div className="relative">
+        <Icon
+          size={18}
+          className="text-fg-muted pointer-events-none absolute inset-s-3.5 top-1/2 -translate-y-1/2"
+        />
         {children}
       </div>
     </div>

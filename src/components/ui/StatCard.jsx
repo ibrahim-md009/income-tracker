@@ -8,41 +8,77 @@ const f = new Intl.NumberFormat("ar-u-nu-latn", {
   maximumFractionDigits: 0,
 });
 
-const StatCard = ({ title, value, mom, icon: Icon, higherIsBetter = true }) => {
+const StatCard = ({
+  title,
+  value,
+  mom,
+  icon: Icon,
+  higherIsBetter = true,
+  main = false,
+}) => {
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
   const hasMom = typeof mom === "number" && mom !== 0;
   const isGood = higherIsBetter ? mom > 0 : mom < 0;
   const MomIcon = mom > 0 ? ArrowUp : ArrowDown;
+  const isMain = main;
 
   return (
     <div
-      className={`rounded-card flex w-full flex-col border border-amber-900 p-2 ${title === "المتبقي من دخل الشهر" ? "bg-inverse" : "bg-paper-50"}`}
+      className={`rounded-card relative flex w-full flex-col justify-between gap-3 overflow-hidden border p-5 ${
+        isMain
+          ? "bg-inverse text-on-inverse border-inverse-line"
+          : "bg-card border-line"
+      }`}
     >
-      <div className="flex justify-between">
+      {isMain && (
+        <span className="bg-saffron/10 absolute -inset-e-10 -top-10 h-32 w-32 rounded-full" />
+      )}
+
+      <div className="relative flex items-center justify-between gap-3">
         <h3
-          className={`${title === "المتبقي من دخل الشهر" ? "text-on-inverse text-body-s" : "text-fg"}`}
+          className={`text-body-s font-medium ${
+            isMain ? "text-on-inverse/75" : "text-fg-muted"
+          }`}
         >
           {title}
         </h3>
         {Icon && (
-          <i className="bg-money-in-soft rounded-control p-1">
-            <Icon className="text-money-in" />
-          </i>
+          <span
+            className={`rounded-control grid h-9 w-9 place-items-center ${
+              isGood || !hasMom
+                ? "bg-money-in-soft text-money-in"
+                : "bg-money-out-soft text-money-out"
+            }`}
+          >
+            <Icon size={18} />
+          </span>
         )}
       </div>
 
-      <h1
-        className={`${title === "المتبقي من دخل الشهر" ? "text-on-inverse text-display-l" : "text-fg text-h1"}`}
+      <div
+        dir="ltr"
+        className={`relative text-end font-semibold tabular-nums ${
+          isMain ? "text-display-m" : "text-h1 text-fg"
+        }`}
       >
         {f.format(value)}
-      </h1>
+      </div>
+
       {hasMom && (
-        <div className="flex items-center justify-between">
-          <small className="text-money-in">{`مقارنة بـ${getMonthName(getMonthKey(selectedMonthKey, 1))}`}</small>
-          <div className={`flex ${isGood ? "text-green-500" : "text-red-500"}`}>
-            <b>{Math.abs(mom)}%</b>
-            <MomIcon width={14} />
-          </div>
+        <div className="relative flex items-center justify-between gap-2">
+          <span className="text-fg-muted text-caption">
+            {`مقارنة بـ${getMonthName(getMonthKey(selectedMonthKey, 1))}`}
+          </span>
+          <span
+            className={`rounded-chip text-caption flex items-center gap-0.5 px-2 py-0.5 font-semibold ${
+              isGood
+                ? "bg-money-in-soft text-money-in"
+                : "bg-money-out-soft text-money-out"
+            }`}
+          >
+            {Math.abs(mom)}%
+            <MomIcon size={12} />
+          </span>
         </div>
       )}
     </div>

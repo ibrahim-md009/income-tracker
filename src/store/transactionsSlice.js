@@ -7,6 +7,10 @@ import { getCurrentMonthKey } from "../utils/dates";
 import { useAuth } from "./useAuth";
 
 export const createTransactionsSlice = (set) => ({
+  isTransactionFormOpen: false,
+  setIstransactionFormOpen: (value) =>
+    set(() => ({ isTransactionFormOpen: value })),
+
   transactionsLog: [],
   setTransactionsLog: (value) => set(() => ({ transactionsLog: value })),
 

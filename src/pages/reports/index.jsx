@@ -11,10 +11,9 @@ import Expenses from "../home/body/Expenses";
 import { getCurrentMonthKey } from "../../utils/dates";
 
 const tabs = [
-  { title: "3أشهر", value: 3 },
-  { title: "6أشهر", value: 6 },
-  { title: "12أشهر", value: 12 },
-  // { title: "مخصص" },
+  { title: "3 أشهر", value: 3 },
+  { title: "6 أشهر", value: 6 },
+  { title: "12 شهر", value: 12 },
 ];
 
 const Reports = () => {
@@ -49,20 +48,25 @@ const Reports = () => {
   ];
 
   return (
-    <main className="mr-[20%] min-h-screen w-[80%] p-3">
-      <div className="flex flex-col gap-5">
-        <div className="header flex items-center justify-between">
+    <main className="mr-[20%] min-h-screen w-[80%] p-6">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <h2 className="text-fg text-h1">التقارير</h2>
             <small className="text-fg-muted text-body-s">{`نظرة على أخر ${numOfMonths} شهور`}</small>
           </div>
-          <div className="flex gap-7">
-            <div className="flex gap-3">
+          <div className="flex items-center gap-4">
+            <div className="bg-page border-line rounded-control flex gap-1 border p-1">
               {tabs.map((tab) => (
                 <button
+                  type="button"
                   key={tab.title}
                   onClick={() => setNumOfMonths(tab.value)}
-                  className={`text-fg rounded-control text-body-s p-2 ${tab.value === numOfMonths ? "bg-card" : ""}`}
+                  className={`rounded-chip text-body-s h-9 px-4 font-medium transition-colors ${
+                    tab.value === numOfMonths
+                      ? "bg-action shadow-1 text-white"
+                      : "text-fg-muted hover:text-fg"
+                  }`}
                 >
                   {tab.title}
                 </button>
@@ -72,30 +76,40 @@ const Reports = () => {
           </div>
         </div>
 
-        <div className="flex gap-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {topCardsData.map((card) => {
             return (
               <div
                 key={card.title}
-                className="border-accent bg-card text-fg-muted text-body-s flex flex-1 flex-col gap-1 rounded-lg border p-3"
+                className="bg-card border-line rounded-card flex flex-col gap-2 border p-5"
               >
-                <h3>{card.title}</h3>
-                <div className="flex items-center">
-                  <b className="text-money-in text-h1">{card.value}</b>
-                  {card.percentage && <small>{card.percentage}</small>}
+                <h3 className="text-fg-muted text-body-s font-medium">
+                  {card.title}
+                </h3>
+                <div className="flex items-baseline gap-2">
+                  <b className="text-fg text-h1 tabular-nums">{card.value}</b>
+                  {card.percentage && (
+                    <small className="bg-money-in-soft text-money-in rounded-chip text-caption px-2 py-0.5 font-semibold">
+                      {card.percentage}
+                    </small>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
-        <div className="flex h-100 gap-5">
-          <Chart
-            chartData={getMonthlyTransactionsData(
-              transactionsLog,
-              selectedMonthKey,
-              numOfMonths,
-            )}
-          />
+
+        <div className="flex h-96 gap-4">
+          <div className="bg-card border-line rounded-card flex flex-1 flex-col gap-3 border p-4">
+            <h3 className="text-fg text-h2">الدخل والمصروفات</h3>
+            <Chart
+              chartData={getMonthlyTransactionsData(
+                transactionsLog,
+                selectedMonthKey,
+                numOfMonths,
+              )}
+            />
+          </div>
           <Expenses
             log={getMonthTransactions(
               transactionsLog,

@@ -1,6 +1,16 @@
-import { DollarSign, Bell } from "lucide-react";
+import { Bell, CheckCheck, Wallet } from "lucide-react";
+import { toast } from "sonner";
 import { useStore } from "../../store/useStore";
+import { getErrorMsg } from "../../utils/errors";
 import { useState, useEffect, useRef } from "react";
+
+const timeAgo = (date, now) => {
+  const s = Math.max(0, Math.floor((now - date) / 1000));
+  if (s >= 86400) return `منذ ${Math.floor(s / 86400)} يوم`;
+  if (s >= 3600) return `منذ ${Math.floor(s / 3600)} ساعة`;
+  if (s >= 60) return `منذ ${Math.floor(s / 60)} دقيقة`;
+  return "الآن";
+};
 
 const NotificationBell = () => {
   const notifications = useStore((s) => s.notifications);
@@ -11,89 +21,108 @@ const NotificationBell = () => {
   const [dateNow, setDateNow] = useState(() => Date.now());
   const wrapperRef = useRef(null);
 
-  const unReadCount = notifications.filter((n) => n.isRead === false).length;
+  const unReadCount = notifications.filter((n) => !n.isRead).length;
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClick = (e) => {
-      if (!wrapperRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
+      if (!wrapperRef.current?.contains(e.target)) setIsOpen(false);
+    };
+    const handleKey = (e) => {
+      if (e.key === "Escape") setIsOpen(false);
     };
 
     document.addEventListener("mousedown", handleClick);
-
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [isOpen]);
 
   const toggleBell = () => {
     setIsOpen((prev) => !prev);
     setDateNow(Date.now());
   };
-  const sorted = notifications.toSorted((a, b) => b.date - a.date);
+
+  const run = async (fn) => {
+    try {
+      await fn();
+    } catch (err) {
+      toast.error(getErrorMsg(err));
+    }
+  };
+
+  const sorted = [...notifications]
+    .sort((a, b) => b.date - a.date)
+    .slice(0, 20);
+
   return (
-    <div
-      ref={wrapperRef}
-      className="bg-card rounded-card border-line-strong relative flex items-center justify-center border p-2.5"
-    >
-      <button className="relative" onClick={() => toggleBell()}>
-        <Bell width={20} color="#171A2B" />
-        {unReadCount > 0 ? (
-          <span className="bg-action absolute -top-2 left-3 flex size-3.5 items-center justify-center rounded-full text-[10px] text-white">
-            {unReadCount}
+    <div ref={wrapperRef} className="relative">
+      <button
+        type="button"
+        onClick={toggleBell}
+        aria-label="الإشعارات"
+        className="bg-card border-line-strong rounded-control hover:bg-page relative grid size-11 place-items-center border transition-colors"
+      >
+        <Bell size={20} className="text-fg" />
+        {unReadCount > 0 && (
+          <span className="bg-money-out text-caption absolute -inset-e-1.5 -top-1.5 grid min-w-5 place-items-center rounded-full px-1 text-[10px] leading-5 font-semibold text-white">
+            {unReadCount > 9 ? "9+" : unReadCount}
           </span>
-        ) : null}
+        )}
       </button>
+
       {isOpen && (
-        <div className="bg-raised border-line-strong absolute top-full left-0 z-100 flex w-80 flex-col gap-5 rounded-lg border p-3">
-          <div className="flex justify-between">
-            <h3 className="text-h3 text-fg">الإشعارات</h3>
-            <button
-              className="text-action text-body-s"
-              onClick={() => readAll()}
-            >
-              تعيين الكل كمقروء
-            </button>
+        <div className="bg-raised border-line rounded-card shadow-2 absolute top-full left-0 z-50 mt-2 flex w-80 flex-col overflow-hidden border">
+          <div className="border-line flex items-center justify-between border-b px-4 py-3">
+            <h3 className="text-fg text-h3">الإشعارات</h3>
+            {unReadCount > 0 && (
+              <button
+                type="button"
+                onClick={() => run(readAll)}
+                className="text-action text-caption flex items-center gap-1 font-semibold hover:underline"
+              >
+                <CheckCheck size={14} />
+                تعيين الكل كمقروء
+              </button>
+            )}
           </div>
 
-          <div className="flex max-h-72 flex-col gap-3 overflow-y-auto">
-            {sorted.map((notification) => {
-              let since = (dateNow - notification.date) / 1000;
-
-              let timeSuffex;
-              if (since >= 86400) {
-                since = Math.floor(since / 86400);
-                timeSuffex = "يوم";
-              } else if (since >= 3600) {
-                since = Math.floor(since / 3600);
-                timeSuffex = "ساعة";
-              } else if (since >= 60) {
-                since = Math.floor(since / 60);
-                timeSuffex = "دقيقة";
-              } else {
-                timeSuffex = "ثانية";
-              }
-
-              return (
+          <div className="flex max-h-80 flex-col overflow-y-auto">
+            {sorted.length === 0 ? (
+              <div className="text-fg-muted text-body-s flex flex-col items-center gap-2 px-4 py-10 text-center">
+                <Bell size={24} />
+                مفيش إشعارات لسه
+              </div>
+            ) : (
+              sorted.map((notification) => (
                 <button
+                  type="button"
                   key={notification.id}
-                  onClick={() => readNotification(notification.id)}
-                  className={`border-line flex items-center justify-between border-y p-1 ${notification.isRead && "bg-card"}`}
+                  onClick={() => run(() => readNotification(notification.id))}
+                  className={`border-line hover:bg-page flex items-center gap-3 border-b px-4 py-3 text-start transition-colors last:border-b-0 ${
+                    notification.isRead ? "" : "bg-action-soft/50"
+                  }`}
                 >
-                  <div className="flex gap-1">
-                    <DollarSign />
-                    <div className="flex flex-col">
-                      <span className="text-fg text-body-s">
-                        {notification.title}
-                      </span>
-                      <small className="text-fg-muted text-caption">{`منذ ${Math.floor(since)} ${timeSuffex}`}</small>
-                    </div>
+                  <span className="bg-action-soft text-action rounded-control grid size-9 flex-none place-items-center">
+                    <Wallet size={16} />
+                  </span>
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <span className="text-fg text-body-s truncate font-medium">
+                      {notification.title}
+                    </span>
+                    <small className="text-fg-muted text-caption">
+                      {timeAgo(notification.date, dateNow)}
+                    </small>
                   </div>
                   {!notification.isRead && (
-                    <span className="bg-action size-2 rounded-full"></span>
+                    <span className="bg-action size-2 flex-none rounded-full" />
                   )}
                 </button>
-              );
-            })}
+              ))
+            )}
           </div>
         </div>
       )}

@@ -5,6 +5,8 @@ import {
 } from "../services/notificationsService";
 import { useAuth } from "./useAuth";
 
+const pending = new Set();
+
 export const createNotificationsSlice = (set, get) => ({
   notifications: [],
   setNotifications: (value) => set(() => ({ notifications: value })),
@@ -12,14 +14,21 @@ export const createNotificationsSlice = (set, get) => ({
   addNotification: async (title, key) => {
     const uid = useAuth.getState().user?.uid;
     if (!uid) return;
+
     const exists = get().notifications.some((n) => n.key === key);
-    if (exists) return;
-    await addNotificationToDb(uid, {
-      title: title,
-      key: key,
-      date: Date.now(),
-      isRead: false,
-    });
+    if (exists || pending.has(key)) return;
+
+    pending.add(key);
+    try {
+      await addNotificationToDb(uid, {
+        title,
+        key,
+        date: Date.now(),
+        isRead: false,
+      });
+    } finally {
+      pending.delete(key);
+    }
   },
 
   readNotification: async (id) => {
@@ -33,7 +42,7 @@ export const createNotificationsSlice = (set, get) => ({
     if (!uid) return;
 
     const ids = get()
-      .notifications.filter((n) => n.isRead === false)
+      .notifications.filter((n) => !n.isRead)
       .map((n) => n.id);
     if (ids.length === 0) return;
 

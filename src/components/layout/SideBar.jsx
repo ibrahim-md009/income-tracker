@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Home,
   LibrarySquareIcon,
@@ -27,16 +26,17 @@ const SideBar = () => {
   const setState = useStore((s) => s.setState);
   const user = useAuth((a) => a.user);
   const { image } = profile;
+  const isTransactionFormOpen = useStore((s) => s.isTransactionFormOpen);
+  const setIstransactionFormOpen = useStore((s) => s.setIstransactionFormOpen);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const open = isOpen || editingId !== "";
+  const open = isTransactionFormOpen || editingId !== "";
 
   const toggleForm = () => {
     if (open) {
       setState("editingId", "");
-      setIsOpen(false);
+      setIstransactionFormOpen(false);
     } else {
-      setIsOpen(true);
+      setIstransactionFormOpen(true);
     }
   };
 

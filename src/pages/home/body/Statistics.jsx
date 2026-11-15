@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import StatCard from "../../../components/ui/StatCard";
 import { useStore } from "../../../store/useStore";
 import { getMonthlyChanges } from "../../../utils/stats";
+import { getCurrentMonthKey } from "../../../utils/dates";
 import { ArrowDown, ArrowUpLeft } from "lucide-react";
 
 const Statistics = () => {
@@ -13,25 +14,27 @@ const Statistics = () => {
     getMonthlyChanges(transactionsLog, selectedMonthKey);
 
   useEffect(() => {
+    if (selectedMonthKey !== getCurrentMonthKey()) return;
+
     if (currentIncome > 0) {
-      const expenseRatio = ((currentExpenses / currentIncome) * 100).toFixed();
-      const nots = [50, 70, 100];
+      const expenseRatio = (currentExpenses / currentIncome) * 100;
 
-      nots.forEach((ratio) => {
-        if (Number(expenseRatio) >= ratio) {
-          const notificationTitle = `أنفقت ${ratio}% من دخلك`;
-          const notificationKey = `expense-${ratio}`;
-
-          addNotification(notificationTitle, notificationKey);
+      [50, 70, 100].forEach((ratio) => {
+        if (expenseRatio >= ratio) {
+          addNotification(
+            `أنفقت ${ratio}% من دخلك`,
+            `expense-${selectedMonthKey}-${ratio}`,
+          );
         }
       });
     }
-  }, [currentIncome, currentExpenses, addNotification]);
+  }, [currentIncome, currentExpenses, selectedMonthKey, addNotification]);
 
   const statistics = [
     {
       title: "المتبقي من دخل الشهر",
       value: currentIncome - currentExpenses,
+      main: true,
     },
     {
       title: "إجمالي الدخل",
@@ -50,7 +53,7 @@ const Statistics = () => {
   ];
 
   return (
-    <div className="grid h-[20%] grid-cols-[minmax(0,1fr)_300px_300px] gap-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
       {statistics.map((statis) => {
         return <StatCard key={statis.title} {...statis} />;
       })}

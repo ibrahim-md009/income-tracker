@@ -11,19 +11,15 @@ const Body = () => {
   const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey);
 
   return (
-    <section className="mt-5 h-screen">
-      <div className="flex h-full justify-between gap-3">
-        <div className="flex min-h-0 flex-1 flex-col gap-5">
-          <Statistics />
+    <section className="flex flex-col gap-6">
+      <Statistics />
 
-          <div className="flex max-h-[60%] gap-3">
-            <Summary />
-            <Expenses log={monthTransactions} />
-          </div>
-
-          <Transactions />
-        </div>
+      <div className="flex h-80 gap-4">
+        <Summary />
+        <Expenses log={monthTransactions} />
       </div>
+
+      <Transactions />
     </section>
   );
 };

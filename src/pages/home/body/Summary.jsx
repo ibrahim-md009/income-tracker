@@ -12,18 +12,17 @@ const Summary = () => {
   );
 
   return (
-    <div className="bg-card border-line rounded-card flex flex-1 flex-col gap-3 border p-3">
-      <div className="flex gap-5">
-        <h3 className="font-bold">ملخص شهري</h3>
-        <div className="flex flex-row items-center justify-center gap-6 rounded-lg bg-gray-50 p-2 shadow-sm">
+    <div className="bg-card border-line rounded-card flex flex-1 flex-col gap-3 border p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className="text-fg text-h2">ملخص شهري</h3>
+        <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <div className="h-4 w-4 rounded-full bg-[#10b981] shadow-sm" />
-            <span className="text-sm font-medium text-gray-700">الدخل</span>
+            <span className="bg-money-in size-2.5 rounded-full" />
+            <span className="text-fg-body text-caption">الدخل</span>
           </div>
-
           <div className="flex items-center gap-2">
-            <div className="h-4 w-4 rounded-full bg-[#ef4444] shadow-sm" />
-            <span className="text-sm font-medium text-gray-700">المصروفات</span>
+            <span className="bg-money-out size-2.5 rounded-full" />
+            <span className="text-fg-body text-caption">المصروفات</span>
           </div>
         </div>
       </div>
