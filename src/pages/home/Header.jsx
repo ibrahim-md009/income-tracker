@@ -1,5 +1,6 @@
-import { Calendar } from "lucide-react";
+import { useAuth } from "../../store/useAuth";
 import { useStore } from "../../store/useStore";
+import { Calendar } from "lucide-react";
 import NotificationBell from "../../components/layout/NotificationBell";
 import {
   getMonthKey,
@@ -9,7 +10,7 @@ import {
 import FieldWithIcon from "../../components/ui/FieldWithIcon";
 
 const Header = () => {
-  const name = useStore((s) => s.settings.profile.name);
+  const name = useAuth((a) => a.user?.displayName);
 
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 

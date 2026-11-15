@@ -22,10 +22,6 @@ export const useStore = create(
     {
       name: "incomeTracker",
       partialize: (state) => ({
-        transactionsLog: state.transactionsLog,
-        categories: state.categories,
-        settings: state.settings,
-        notifications: state.notifications,
         lastBackup: state.lastBackup,
       }),
     },

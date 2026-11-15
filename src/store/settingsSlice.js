@@ -2,7 +2,6 @@ import { saveSettings } from "../services/settingsServices";
 import { useAuth } from "./useAuth";
 export const initialSettings = {
   profile: {
-    name: "user",
     image: "/default-user-image.jpg",
   },
   languageAndCurrency: {

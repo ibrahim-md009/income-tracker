@@ -1,14 +1,24 @@
+import { useAuth } from "../../store/useAuth";
+import { useStore } from "../../store/useStore";
 import Input from "../../components/ui/Input";
 import { resizeImage } from "../../utils/resizeImages";
-import { useSettingsForm } from "../../hooks/useSettingsForm";
 import SettingsLayout from "../../components/layout/SettingsLayout";
-import { useAuth } from "../../store/useAuth";
+import { useSaveSettings } from "../../hooks/useSaveSettings";
+import { useState } from "react";
+import Button from "../../components/ui/Button";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
+const section = "profile";
 const Profile = () => {
-  const user = useAuth((a) => a.user);
+  const userName = useAuth((a) => a.user?.displayName);
+  const changeName = useAuth((a) => a.changeName);
+  const userImage = useStore((s) => s.settings.profile.image);
 
-  const { draft, setField } = useSettingsForm("profile");
+  const [draftName, setDraftName] = useState(userName);
+  const [loading, setLoading] = useState(false);
 
+  const save = useSaveSettings(section);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -29,11 +39,23 @@ const Profile = () => {
 
     reader.onload = () => {
       resizeImage(reader.result).then((small) => {
-        setField("image", small);
+        save({ image: small });
       });
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const handleChangeName = async () => {
+    setLoading(true);
+    try {
+      await changeName(draftName);
+      toast.success(`تم تغيير اسمك بنجاح إلى ${draftName}`);
+    } catch (error) {
+      console.log(error.code);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,12 +63,11 @@ const Profile = () => {
       title="الملف الشخصي"
       subTitle="تعديل بياناتك الشخصية وصورتك"
       section="profile"
-      draft={draft}
     >
       <div className="flex flex-col gap-2">
         <label className="flex w-25 cursor-pointer gap-2">
           <img
-            src={draft.image}
+            src={userImage}
             alt="your image"
             className="aspect-square w-full rounded-full object-cover"
           />
@@ -59,18 +80,24 @@ const Profile = () => {
         </label>
       </div>
 
-      <div className="flex flex-wrap gap-5">
+      <div className="flex flex-col flex-wrap gap-5">
         <Input
           label="الاسم"
           type="text"
-          value={draft.name}
-          onChange={(e) => setField("name", e.target.value)}
+          value={draftName}
+          onChange={(e) => setDraftName(e.target.value)}
         />
-        <Input
-          label="الحساب الالكتروني"
-          type="text"
-          defaultValue={user.email}
-        />
+        <Button
+          className="text-center"
+          onClick={() => handleChangeName()}
+          disabled={userName === draftName || loading}
+        >
+          {loading ? (
+            <Loader2 size={18} className="animate-spin" />
+          ) : (
+            "تغيير الاسم"
+          )}
+        </Button>
       </div>
     </SettingsLayout>
   );

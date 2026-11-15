@@ -1,6 +1,4 @@
-import SaveBtn from "../ui/SaveBtn";
-
-const SettingsLayout = ({ title, subTitle, children, section, draft }) => {
+const SettingsLayout = ({ title, subTitle, children }) => {
   return (
     <div className="flex h-screen flex-1 flex-col gap-10">
       <div className="header flex items-center gap-2">
@@ -12,7 +10,6 @@ const SettingsLayout = ({ title, subTitle, children, section, draft }) => {
 
       <div className="bg-card border-line rounded-card flex w-full flex-col gap-4 border p-3">
         {children}
-        {draft && <SaveBtn section={section} draft={draft} />}
       </div>
     </div>
   );

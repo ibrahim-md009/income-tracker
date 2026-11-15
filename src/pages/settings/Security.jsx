@@ -1,48 +1,72 @@
 import { useState } from "react";
-import { ToggleLeft } from "lucide-react";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { changePassword } from "../../services/securityService";
-import { useAuth } from "../../store/useAuth";
+import { getErrorMsg } from "../../utils/errors";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
+const validate = (current, newPw, confirm) => {
+  const errs = {};
+  if (!current) errs.currentPassword = "اكتب كلمة المرور الحالية";
+  if (newPw.length < 6) errs.newPassword = "6 أحرف على الأقل";
+  if (confirm !== newPw) errs.confirmPassword = "مش زي كلمة المرور الجديدة";
+  return errs;
+};
 
 const Security = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const user = useAuth((a) => a.user);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const passwordFields = [
     {
-      id: 1,
+      name: "currentPassword",
       label: "كلمة المرور الحالية",
       type: "password",
       placeholder: "ادخل كلمة المرور الحالية",
       value: currentPassword,
-      onchange: (e) => setCurrentPassword(e.target.value),
+      onChange: (e) => setCurrentPassword(e.target.value),
     },
     {
-      id: 2,
+      name: "newPassword",
       label: "كلمة المرور الجديدة",
       type: "password",
       placeholder: "ادخل كلمة المرور الجديدة",
       value: newPassword,
-      onchange: (e) => setNewPassword(e.target.value),
+      onChange: (e) => setNewPassword(e.target.value),
     },
     {
-      id: 3,
+      name: "confirmPassword",
       label: "تأكيد كلمة المرور",
       type: "password",
       placeholder: "أعد إدخال كلمة المرور الجديدة",
       value: confirmPassword,
-      onchange: (e) => setConfirmPassword(e.target.value),
+      onChange: (e) => setConfirmPassword(e.target.value),
     },
   ];
 
-  const handleChangePassword = () => {
-    newPassword === confirmPassword
-      ? changePassword(user, currentPassword, newPassword)
-      : alert("كلمة المرور الجديدة لم يتم تأكيدها بشكل صحيح");
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    const errs = validate(currentPassword, newPassword, confirmPassword);
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+
+    setLoading(true);
+    try {
+      await changePassword(currentPassword, newPassword);
+      toast.success("تم تغيير كلمة المرور");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      toast.error(getErrorMsg(err));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,43 +81,35 @@ const Security = () => {
 
         <div className="flex flex-1">
           <div className="flex w-full flex-col gap-4">
-            <div className="flex flex-col gap-5">
-              {passwordFields.map((pf) => {
-                return (
+            <form
+              onSubmit={handleChangePassword}
+              className="flex flex-col gap-5"
+              noValidate
+            >
+              {passwordFields.map((pf) => (
+                <div key={pf.name} className="flex flex-col gap-1">
                   <Input
-                    key={pf.id}
-                    value={pf?.value}
-                    onChange={pf?.onchange}
+                    value={pf.value}
+                    onChange={pf.onChange}
                     label={pf.label}
-                    type="password"
+                    type={pf.type}
                     placeholder={pf.placeholder}
                   />
-                );
-              })}
-            </div>
-            <div className="flex flex-col gap-3 rounded-lg bg-cyan-50 p-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-xl font-bold">قفل التطبيق برمز PIN</h3>
-                  <small>اطلب الرمز عند فتح التطبيق</small>
+                  {errors[pf.name] && (
+                    <p role="alert" className="text-money-out text-caption">
+                      {errors[pf.name]}
+                    </p>
+                  )}
                 </div>
-                <ToggleLeft />
-              </div>
-              <hr />
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-xl font-bold">التحقق بخطوتين</h3>
-                  <small>طبقة حماية اضافية</small>
-                </div>
-                <ToggleLeft />
-              </div>
-            </div>
-
-            <Button
-              text={"تحديث كلمة المرور"}
-              className="max-w-50"
-              onClick={() => handleChangePassword()}
-            />
+              ))}
+              <Button type="submit" disabled={loading} className="max-w-50">
+                {loading ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  "تحديث كلمة المرور"
+                )}
+              </Button>
+            </form>
           </div>
         </div>
       </div>

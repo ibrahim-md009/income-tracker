@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import SideBar from "./components/layout/SideBar";
-import Signup from "./pages/Signin";
 import Home from "./pages/home";
 import Transactions from "./pages/transactions";
 import Categories from "./pages/categories";
@@ -16,6 +15,17 @@ import { subToCategories } from "./services/categoriesServices";
 import { subToSettings } from "./services/settingsServices";
 import { subToNotifications } from "./services/notificationsService";
 import { getErrorMsg } from "./utils/errors";
+import Landing from "./pages/Landing";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import { Toaster } from "sonner";
+
+const AppLayout = () => (
+  <>
+    <SideBar />
+    <Outlet />
+  </>
+);
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -77,22 +87,39 @@ const App = () => {
     document.documentElement.style.fontSize = Number(fontSize) + "px";
   }, [fontSize]);
 
+  if (!isAuthReady) return null;
+
   return (
-    <div className="flex">
-      {user && (
-        <>
-          <SideBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="settings/*" element={<Settings />} />
-            <Route path="transactions" element={<Transactions />} />
-            <Route path="reports" element={<Reports />} />
-          </Routes>
-        </>
-      )}
-      {isAuthReady && !user && <Signup />}
-    </div>
+    <>
+      <Routes>
+        {user ? (
+          <>
+            <Route element={<AppLayout />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="categories" element={<Categories />} />
+              <Route path="settings/*" element={<Settings />} />
+              <Route path="transactions" element={<Transactions />} />
+              <Route path="reports" element={<Reports />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/home" replace />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </>
+        )}
+      </Routes>
+      <Toaster
+        position="top-center"
+        duration={1000}
+        closeButton
+        richColors
+        dir="rtl"
+      />
+    </>
   );
 };
 export default App;

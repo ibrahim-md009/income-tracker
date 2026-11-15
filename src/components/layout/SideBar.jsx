@@ -14,7 +14,7 @@ import { logOut } from "../../services/authService";
 import { useAuth } from "../../store/useAuth";
 
 const sideBar = [
-  { title: "الرئيسية", icon: Home, path: "/" },
+  { title: "الرئيسية", icon: Home, path: "/home" },
   { title: "المعاملات", icon: LibrarySquareIcon, path: "/transactions" },
   { title: "الفئات", icon: Tag, path: "/categories" },
   { title: "التقارير", icon: ChartColumn, path: "/reports" },
@@ -26,7 +26,7 @@ const SideBar = () => {
   const editingId = useStore((s) => s.editingId);
   const setState = useStore((s) => s.setState);
   const user = useAuth((a) => a.user);
-  const { name, image } = profile;
+  const { image } = profile;
 
   const [isOpen, setIsOpen] = useState(false);
   const open = isOpen || editingId !== "";
@@ -62,7 +62,6 @@ const SideBar = () => {
                 <NavLink
                   key={element.title}
                   to={element.path}
-                  end={element.path === "/"}
                   className={({ isActive }) =>
                     `rounded-control flex gap-1.5 border-s-4 p-1.5 ${
                       isActive
@@ -77,14 +76,16 @@ const SideBar = () => {
               ))}
             </nav>
             <div className="flex flex-col gap-5">
-              <NavLink to="/settings" className="flex items-center gap-2">
+              <NavLink
+                to="/settings"
+                className="flex flex-col items-center gap-2"
+              >
                 <img
                   src={image}
                   alt="user image"
                   className="aspect-square w-9 rounded-full object-cover"
                 />
                 <div className="flex flex-col">
-                  <span className="text-fg text-body-s">{name}</span>
                   <span className="text-fg-muted text-caption">
                     {user.email}
                   </span>
