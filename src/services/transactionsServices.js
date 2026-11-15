@@ -4,43 +4,28 @@ import {
   updateDoc,
   doc,
   deleteDoc,
-  query,
-  limit,
-  orderBy,
   onSnapshot,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 const getTransactionsCollection = (uid) =>
   collection(db, "users", uid, "transactionsLog");
 
-export const subToLatestTransactions = (uid, count, onData) => {
-  const q = query(
-    getTransactionsCollection(uid),
-    orderBy("date", "desc"),
-    limit(count),
+export const subToTransactionsLog = (uid, onData, onError) => {
+  const q = query(getTransactionsCollection(uid), orderBy("date", "desc"));
+  const unsub = onSnapshot(
+    q,
+    (snapshot) => {
+      const data = snapshot.docs.map((transaction) => ({
+        ...transaction.data(),
+        id: transaction.id,
+      }));
+      onData(data);
+    },
+    onError,
   );
-
-  const unsub = onSnapshot(q, (snapshot) => {
-    const data = snapshot.docs.map((transaction) => ({
-      ...transaction.data(),
-      id: transaction.id,
-    }));
-
-    onData(data);
-  });
-  return unsub;
-};
-
-export const subToTransactionsLog = (uid, onData) => {
-  const unsub = onSnapshot(getTransactionsCollection(uid), (snapshot) => {
-    const data = snapshot.docs.map((transaction) => ({
-      ...transaction.data(),
-      id: transaction.id,
-    }));
-    onData(data);
-  });
-
   return unsub;
 };
 

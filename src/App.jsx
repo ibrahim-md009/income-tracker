@@ -11,13 +11,11 @@ import { useStore } from "./store/useStore";
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "./store/useAuth";
-import {
-  subToLatestTransactions,
-  subToTransactionsLog,
-} from "./services/transactionsServices";
+import { subToTransactionsLog } from "./services/transactionsServices";
 import { subToCategories } from "./services/categoriesServices";
 import { subToSettings } from "./services/settingsServices";
 import { subToNotifications } from "./services/notificationsService";
+import { getErrorMsg } from "./utils/errors";
 
 const App = () => {
   const accentColor = useStore((s) => s.settings.appearance.accentColor);
@@ -26,7 +24,6 @@ const App = () => {
   const isAuthReady = useAuth((a) => a.isAuthReady);
   const setUser = useAuth((a) => a.setUser);
   const setTransactionsLog = useStore((s) => s.setTransactionsLog);
-  const setLatestTransactions = useStore((s) => s.setLatestTransactions);
   const setCategories = useStore((s) => s.setCategories);
   const replaceSettings = useStore((s) => s.replaceSettings);
   const setNotifications = useStore((s) => s.setNotifications);
@@ -42,32 +39,33 @@ const App = () => {
   useEffect(() => {
     if (!uid) return;
 
-    const unsub = subToLatestTransactions(uid, 5, setLatestTransactions);
-    return unsub;
-  }, [uid, setLatestTransactions]);
-
-  useEffect(() => {
-    if (!uid) return;
-
-    const unsub = subToCategories(uid, setCategories);
+    const unsub = subToCategories(uid, setCategories, (error) => {
+      console.log(getErrorMsg(error));
+    });
     return unsub;
   }, [uid, setCategories]);
 
   useEffect(() => {
     if (!uid) return;
-    const unsub = subToTransactionsLog(uid, setTransactionsLog);
+    const unsub = subToTransactionsLog(uid, setTransactionsLog, (error) => {
+      console.log(getErrorMsg(error));
+    });
     return unsub;
   }, [uid, setTransactionsLog]);
 
   useEffect(() => {
     if (!uid) return;
-    const unsub = subToSettings(uid, replaceSettings);
+    const unsub = subToSettings(uid, replaceSettings, (error) => {
+      console.log(getErrorMsg(error));
+    });
     return unsub;
   }, [uid, replaceSettings]);
 
   useEffect(() => {
     if (!uid) return;
-    const unsub = subToNotifications(uid, setNotifications);
+    const unsub = subToNotifications(uid, setNotifications, (error) => {
+      console.log(getErrorMsg(error));
+    });
     return unsub;
   }, [uid, setNotifications]);
 

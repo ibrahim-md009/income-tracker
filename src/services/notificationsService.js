@@ -11,14 +11,18 @@ import { db } from "../firebase/firebase";
 const getNotificationsCollection = (uid) =>
   collection(db, "users", uid, "notifications");
 
-export const subToNotifications = (uid, onData) => {
-  const unsub = onSnapshot(getNotificationsCollection(uid), (snapshot) => {
-    const data = snapshot.docs.map((n) => ({
-      ...n.data(),
-      id: n.id,
-    }));
-    onData(data);
-  });
+export const subToNotifications = (uid, onData, onError) => {
+  const unsub = onSnapshot(
+    getNotificationsCollection(uid),
+    (snapshot) => {
+      const data = snapshot.docs.map((n) => ({
+        ...n.data(),
+        id: n.id,
+      }));
+      onData(data);
+    },
+    onError,
+  );
   return unsub;
 };
 

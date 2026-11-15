@@ -3,11 +3,13 @@ import { useStore } from "../../../store/useStore";
 import { filterByMonth } from "../../../utils/stats";
 
 const Transactions = () => {
-  const latestTransactions = useStore((s) => s.latestTransactions);
-
+  const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
-  const monthTransactions = filterByMonth(latestTransactions, selectedMonthKey);
+  const monthTransactions = filterByMonth(
+    transactionsLog.slice(0, 5),
+    selectedMonthKey,
+  );
 
   return (
     <div className="bg-card rounded-card border-line flex flex-col gap-3 border p-3">

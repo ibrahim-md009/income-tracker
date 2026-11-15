@@ -11,14 +11,18 @@ import { db } from "../firebase/firebase";
 const getCategoriesCollection = (uid) =>
   collection(db, "users", uid, "categories");
 
-export const subToCategories = (uid, onData) => {
-  const unsub = onSnapshot(getCategoriesCollection(uid), (snapshot) => {
-    const data = snapshot.docs.map((category) => ({
-      ...category.data(),
-      id: category.id,
-    }));
-    onData(data);
-  });
+export const subToCategories = (uid, onData, onError) => {
+  const unsub = onSnapshot(
+    getCategoriesCollection(uid),
+    (snapshot) => {
+      const data = snapshot.docs.map((category) => ({
+        ...category.data(),
+        id: category.id,
+      }));
+      onData(data);
+    },
+    onError,
+  );
   return unsub;
 };
 
