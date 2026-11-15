@@ -58,7 +58,7 @@ const settings = [
 
 const Settings = () => {
   return (
-    <main className="relative min-h-screen w-full px-3 py-3 pb-36 lg:mr-[20%] lg:h-screen lg:w-[80%] lg:pb-3">
+    <main className="relative min-h-screen w-full min-w-0 overflow-x-hidden px-3 py-3 pb-36 lg:mr-[20%] lg:h-screen lg:w-[80%] lg:pb-3">
       <div className="flex flex-col gap-5 lg:mt-10 lg:h-screen lg:justify-center">
         <h2 className="text-fg text-h1">الإعدادات</h2>
 
@@ -83,7 +83,7 @@ const Settings = () => {
           ))}
         </nav>
 
-        <div className="flex flex-col gap-5 lg:h-screen lg:flex-row lg:justify-center">
+        <div className="flex min-w-0 flex-col gap-5 lg:h-screen lg:flex-row lg:justify-center">
           <div className="hidden h-full w-100 flex-col gap-3 lg:flex">
             {settings.map((s, index) => {
               return (
@@ -119,7 +119,7 @@ const Settings = () => {
             <Route path="appearance" element={<Appearance />} />
             <Route path="language-currency" element={<LangCurrency />} />
             <Route path="backup" element={<BackUp />} />
-            |<Route path="security" element={<Security />} />
+            <Route path="security" element={<Security />} />
             <Route path="notifications" element={<Notifications />} />
           </Routes>
 

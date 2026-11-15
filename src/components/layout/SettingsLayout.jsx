@@ -1,6 +1,6 @@
 const SettingsLayout = ({ title, subTitle, children }) => {
   return (
-    <main className="w-full lg:mr-[20%] lg:min-h-screen lg:w-[80%] lg:p-6">
+    <main className="w-full min-w-0 lg:mr-[20%] lg:min-h-screen lg:w-[80%] lg:p-6">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-1">
           <h2 className="text-h1 text-fg">{title}</h2>

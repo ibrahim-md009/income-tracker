@@ -38,12 +38,13 @@ const Profile = () => {
     const reader = new FileReader();
 
     reader.onload = () => {
-      resizeImage(reader.result).then((small) => {
-        save({ image: small });
-      });
+      resizeImage(reader.result)
+        .then((small) => save({ image: small }))
+        .catch(() => toast.error("ما قدرنا نقرأ الصورة، جرّب صورة ثانية"));
     };
 
     reader.readAsDataURL(file);
+    e.target.value = "";
   };
 
   const handleChangeName = async () => {
@@ -65,11 +66,11 @@ const Profile = () => {
       section="profile"
     >
       <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6">
-        <label className="group relative size-28 cursor-pointer">
+        <label className="group relative size-28 shrink-0 cursor-pointer">
           <img
             src={userImage}
             alt="your image"
-            className="border-line aspect-square size-full rounded-full border-4 object-cover"
+            className="border-line block aspect-square size-28 rounded-full border-4 object-cover object-center"
           />
           <span className="bg-action ring-card absolute -inset-e-1 -bottom-1 grid size-9 place-items-center rounded-full text-on-solid ring-4 transition-transform group-hover:scale-110">
             <Camera size={16} />

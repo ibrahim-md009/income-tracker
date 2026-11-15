@@ -8,9 +8,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import { useFormatMoney } from "../../utils/money";
+
 const tick = { fill: "var(--color-fg-muted)", fontSize: 12 };
 
 const Chart = ({ chartData }) => {
+  const fmt = useFormatMoney();
   return (
     <div className="flex min-h-0 flex-1 items-center justify-center" dir="ltr">
       <div className="h-full w-full">
@@ -33,6 +36,7 @@ const Chart = ({ chartData }) => {
             />
             <YAxis width={50} tick={tick} axisLine={false} tickLine={false} />
             <Tooltip
+              formatter={(v) => fmt(v)}
               cursor={{ fill: "var(--color-page)" }}
               contentStyle={{
                 borderRadius: 10,

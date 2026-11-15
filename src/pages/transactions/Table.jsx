@@ -3,6 +3,7 @@ import { useStore } from "../../store/useStore";
 import { filterByMonth } from "../../utils/stats";
 import { getErrorMsg } from "../../utils/errors";
 import EmptyCompact from "../../components/ui/EmptyCompact";
+import { useFormatMoney } from "../../utils/money";
 
 const Table = () => {
   const {
@@ -14,6 +15,7 @@ const Table = () => {
     deleteTransaction,
   } = useStore();
   const setState = useStore((s) => s.setState);
+  const fmt = useFormatMoney();
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
 
   const editTransaction = (tran) => {
@@ -98,7 +100,7 @@ const Table = () => {
                       }`}
                     >
                       {isIncome ? "+" : "-"}
-                      {tran.amount}
+                      {fmt(tran.amount)}
                     </span>
 
                     <span className="text-fg-body truncate">{tran.cat}</span>
@@ -152,7 +154,7 @@ const Table = () => {
                         }`}
                       >
                         {isIncome ? "+" : "-"}
-                        {tran.amount}
+                        {fmt(tran.amount)}
                       </span>
                       <span
                         className={`rounded-chip text-caption inline-block px-2 py-0.5 font-medium ${

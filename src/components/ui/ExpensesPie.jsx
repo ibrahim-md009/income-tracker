@@ -1,6 +1,9 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
+import { useFormatMoney } from "../../utils/money";
+
 const ExpensesPie = ({ pieData }) => {
+  const fmt = useFormatMoney();
   return (
     <div className="mx-auto h-60 w-60 lg:mx-0">
       <ResponsiveContainer>
@@ -18,6 +21,7 @@ const ExpensesPie = ({ pieData }) => {
             ))}
           </Pie>
           <Tooltip
+            formatter={(v) => fmt(v)}
             contentStyle={{
               backgroundColor: "var(--color-raised)",
               color: "var(--color-fg)",

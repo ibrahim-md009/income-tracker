@@ -3,10 +3,12 @@ import { ReceiptText } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import { filterByMonth } from "../../../utils/stats";
 import EmptyCompact from "../../../components/ui/EmptyCompact";
+import { useFormatMoney } from "../../../utils/money";
 
 const Transactions = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
+  const fmt = useFormatMoney();
   const monthTransactions = filterByMonth(transactionsLog, selectedMonthKey)
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 5);
@@ -52,7 +54,7 @@ const Transactions = () => {
                     isExpense ? "text-money-out" : "text-money-in"
                   }`}
                 >
-                  {`${isExpense ? "-" : "+"}${tran.amount}`}
+                  {`${isExpense ? "-" : "+"}${fmt(tran.amount)}`}
                 </b>
               </div>
             );

@@ -75,7 +75,7 @@
 
   /* ===== الخطوط ===== */
   --font-sans: "IBM Plex Sans Arabic", Tahoma, sans-serif;
-  --font-voice: "Aref Ruqaa", serif;
+  --font-voice: "IBM Plex Sans Arabic", Tahoma, sans-serif;
 
   /* ===== مقياس النصوص (rem فقط) ===== */
   --text-display-l: 2.75rem;
@@ -202,6 +202,12 @@
   --shadow-3: 0 16px 48px rgb(0 0 0 / 0.55);
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--color-page);
 }
@@ -212,6 +218,9 @@ body {
 }
 
 @layer base {
+  .font-voice {
+    font-weight: 700;
+  }
   button {
     cursor: pointer;
   }

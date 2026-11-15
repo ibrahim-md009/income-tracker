@@ -2,11 +2,7 @@ import { ArrowUp, ArrowDown } from "lucide-react";
 import { getMonthKey, getMonthName } from "../../utils/dates";
 import { useStore } from "../../store/useStore";
 
-const f = new Intl.NumberFormat("ar-u-nu-latn", {
-  style: "currency",
-  currency: "EGP",
-  maximumFractionDigits: 0,
-});
+import { useFormatMoney } from "../../utils/money";
 
 const StatCard = ({
   title,
@@ -17,6 +13,7 @@ const StatCard = ({
   main = false,
 }) => {
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
+  const fmt = useFormatMoney();
   const hasMom = typeof mom === "number" && mom !== 0;
   const isGood = higherIsBetter ? mom > 0 : mom < 0;
   const MomIcon = mom > 0 ? ArrowUp : ArrowDown;
@@ -61,7 +58,7 @@ const StatCard = ({
           isMain ? "text-display-m" : "text-h1 text-fg"
         }`}
       >
-        {f.format(value)}
+        {fmt(value)}
       </div>
 
       {hasMom && (

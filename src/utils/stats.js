@@ -93,7 +93,7 @@ export const getPieData = (log, expCats) => {
   return expCats.map((cat) => ({
     name: cat.title,
     color: cat.color,
-    value: getCategoryTotals(log)[cat.title],
+    value: getCategoryTotals(log)[cat.title] || 0,
   }));
 };
 

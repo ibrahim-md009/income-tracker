@@ -7,10 +7,12 @@ import {
 } from "../../../utils/stats";
 
 import { Tags } from "lucide-react";
+import { useFormatMoney } from "../../../utils/money";
 import EmptyCompact from "../../../components/ui/EmptyCompact";
 
 const Expenses = ({ log = [] }) => {
   const categories = useStore((s) => s.categories);
+  const fmt = useFormatMoney();
 
   const expensesCategories = categories.filter((cat) => cat.type === "مصروف");
   const catTotal = getCatTotal(log);
@@ -39,10 +41,10 @@ const Expenses = ({ log = [] }) => {
               return (
                 <div
                   key={exp.title}
-                  className="grid grid-cols-[40px_60px_minmax(0,1fr)] gap-3 text-[12px]"
+                  className="grid grid-cols-[40px_minmax(0,90px)_minmax(0,1fr)] gap-3 text-[12px]"
                 >
                   <span>{rate}</span>
-                  <span>{amount}</span>
+                  <span className="min-w-0 truncate">{fmt(amount)}</span>
                   <div className="grid grid-cols-2">
                     <span>{exp.title}</span>
                     <span
@@ -57,7 +59,7 @@ const Expenses = ({ log = [] }) => {
         )}
       </div>
 
-      {expensesCategories.length > 0 && (
+      {catTotal > 0 && (
         <ExpensesPie pieData={getPieData(log, expensesCategories)} />
       )}
     </div>

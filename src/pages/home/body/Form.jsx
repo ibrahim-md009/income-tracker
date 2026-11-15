@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Tag } from "lucide-react";
 import { useStore } from "../../../store/useStore";
 import Input from "../../../components/ui/Input";
@@ -20,6 +21,33 @@ const emptyDraft = {
   kind: "دخل",
 };
 
+const validate = (draft, secCats) => {
+  const errors = {};
+  const name = String(draft.name ?? "").trim();
+  const amount = Number(draft.amount);
+
+  if (!name) errors.name = "اكتب اسم المعاملة";
+  else if (name.length > 60) errors.name = "الاسم طويل، الحد الأقصى 60 حرف";
+
+  if (draft.amount === "" || draft.amount === null) {
+    errors.amount = "اكتب المبلغ";
+  } else if (!Number.isFinite(amount) || amount <= 0) {
+    errors.amount = "المبلغ لازم يكون رقم أكبر من صفر";
+  } else if (amount > 1_000_000_000) {
+    errors.amount = "المبلغ كبير قوي";
+  }
+
+  if (!draft.date) errors.date = "اختر التاريخ";
+  else if (Number.isNaN(new Date(draft.date).getTime()))
+    errors.date = "التاريخ غير صحيح";
+
+  if (!draft.cat) errors.cat = "اختر التصنيف";
+  else if (!secCats.some((c) => (c.value ?? c.title) === draft.cat))
+    errors.cat = "التصنيف مش مناسب لنوع المعاملة";
+
+  return errors;
+};
+
 const Form = () => {
   const setState = useStore((s) => s.setState);
   const transactionsLog = useStore((s) => s.transactionsLog);
@@ -32,12 +60,23 @@ const Form = () => {
   const { draft, setField, reset } = useDraft(initial);
 
   const underEditing = editingId !== "";
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  const changeField = (field, value) => {
+    setField(field, value);
+    setErrors((e) => (e[field] ? { ...e, [field]: undefined } : e));
+  };
 
   const toggleActiveTab = (tabTitle) => {
     setField("kind", tabTitle);
+    // التصنيف مرتبط بنوع المعاملة، فنصفّره عند التبديل
+    setField("cat", "");
+    setErrors((e) => ({ ...e, cat: undefined }));
   };
   const clearForm = () => {
     reset();
+    setErrors({});
     setState("editingId", "");
   };
 
@@ -105,17 +144,22 @@ const Form = () => {
             autoFocus={index === 0}
             type={inp.type}
             value={inp.value}
-            onChange={(e) => setField(inp.tran, e.target.value)}
+            onChange={(e) => changeField(inp.tran, e.target.value)}
             placeholder={inp.placeholder}
+            error={errors[inp.tran]}
+            {...(inp.tran === "amount"
+              ? { min: "0", step: "any", inputMode: "decimal" }
+              : {})}
+            {...(inp.tran === "name" ? { maxLength: 60 } : {})}
           />
         ))}
 
         <FieldWithIcon label={"التصنيف"} Icon={Tag}>
           <select
             value={draft.cat}
-            onChange={(e) => setField("cat", e.target.value)}
-            required
-            className="border-line-strong bg-card text-fg rounded-control focus:border-action focus:ring-action/20 invalid:text-fg-muted h-11 w-full appearance-none border py-1.5 ps-11 pe-3.5 transition outline-none focus:ring-4"
+            onChange={(e) => changeField("cat", e.target.value)}
+            aria-invalid={errors.cat ? true : undefined}
+            className={`${errors.cat ? "border-money-out!" : ""} border-line-strong bg-card text-fg rounded-control focus:border-action focus:ring-action/20 invalid:text-fg-muted h-11 w-full appearance-none border py-1.5 ps-11 pe-3.5 transition outline-none focus:ring-4`}
           >
             <option value="" hidden>
               اختر التصنيف
@@ -127,22 +171,39 @@ const Form = () => {
             ))}
           </select>
         </FieldWithIcon>
+        {errors.cat && (
+          <p className="text-money-out text-caption -mt-3">{errors.cat}</p>
+        )}
       </div>
 
       <div className="mt-auto flex flex-col gap-2 pt-2">
         <button
           type="button"
-          className="bg-action hover:bg-action-hover rounded-control h-12 w-full font-semibold text-on-solid transition-colors"
+          disabled={submitting}
+          className="bg-action hover:bg-action-hover rounded-control h-12 w-full font-semibold text-on-solid transition-colors disabled:opacity-60"
           onClick={async () => {
+            const found = validate(draft, secCats);
+            setErrors(found);
+            if (Object.keys(found).length > 0) return;
+
+            const clean = {
+              ...draft,
+              name: draft.name.trim(),
+              amount: Number(draft.amount),
+            };
+
+            setSubmitting(true);
             try {
               if (underEditing) {
-                await updateTransaction(draft);
+                await updateTransaction(clean);
               } else {
-                await addTransaction(draft);
+                await addTransaction(clean);
               }
               clearForm();
             } catch (error) {
               alert(getErrorMsg(error));
+            } finally {
+              setSubmitting(false);
             }
           }}
         >

@@ -9,6 +9,7 @@ import {
 } from "../../utils/stats";
 import Expenses from "../home/body/Expenses";
 import { getCurrentMonthKey } from "../../utils/dates";
+import { useFormatMoney } from "../../utils/money";
 
 const tabs = [
   { title: "3 أشهر", value: 3 },
@@ -20,6 +21,7 @@ const Reports = () => {
   const [numOfMonths, setNumOfMonths] = useState(tabs[0].value);
   const transactionsLog = useStore((s) => s.transactionsLog);
   const selectedMonthKey = useStore((s) => s.selectedMonthKey);
+  const fmt = useFormatMoney();
 
   const { totalIncome, totalExpenses } = getMonthsTotals(
     transactionsLog,
@@ -30,11 +32,11 @@ const Reports = () => {
   const topCardsData = [
     {
       title: "متوسط الدخل الشهري",
-      value: (totalIncome / numOfMonths).toFixed(),
+      value: fmt(totalIncome / numOfMonths),
     },
     {
       title: "متوسط الصرف الشهري",
-      value: (totalExpenses / numOfMonths).toFixed(),
+      value: fmt(totalExpenses / numOfMonths),
     },
     {
       title: "نسبة الادخار",
