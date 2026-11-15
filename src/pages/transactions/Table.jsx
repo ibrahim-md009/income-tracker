@@ -1,6 +1,7 @@
 import { Edit, Trash } from "lucide-react";
 import { useStore } from "../../store/useStore";
 import { filterByMonth } from "../../utils/stats";
+import { getErrorMsg } from "../../utils/errors";
 
 const Table = () => {
   const {
@@ -63,7 +64,13 @@ const Table = () => {
                   />
                   <Trash
                     className="w-4 cursor-pointer"
-                    onClick={() => deleteTransaction(tran.id)}
+                    onClick={async () => {
+                      try {
+                        await deleteTransaction(tran.id);
+                      } catch (error) {
+                        alert(getErrorMsg(error));
+                      }
+                    }}
                   />
                 </div>
               </div>

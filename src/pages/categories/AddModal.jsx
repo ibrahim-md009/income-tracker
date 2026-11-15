@@ -2,6 +2,7 @@ import Button from "../../components/ui/Button";
 import { useStore } from "../../store/useStore";
 import Input from "../../components/ui/Input";
 import { useDraft } from "../../hooks/useDraft";
+import { getErrorMsg } from "../../utils/errors";
 
 const catTypes = [{ title: "مصروف" }, { title: "دخل" }];
 
@@ -81,10 +82,18 @@ const AddModal = ({ setIsOpen }) => {
         <Button
           text={catUnderEditing ? "تعديل" : "إضافة"}
           className="w-full"
-          onClick={() => {
-            catUnderEditing ? updateCategory(draft) : addCategory(draft);
-            clearCategoriesForm();
-            setIsOpen(false);
+          onClick={async () => {
+            try {
+              if (catEditingId) {
+                await updateCategory(draft);
+              } else {
+                await addCategory(draft);
+              }
+              clearCategoriesForm();
+              setIsOpen(false);
+            } catch (error) {
+              alert(getErrorMsg(error));
+            }
           }}
         />
         <Button

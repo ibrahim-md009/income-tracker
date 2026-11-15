@@ -1,13 +1,13 @@
 import SettingsLayout from "../../components/layout/SettingsLayout";
 import Input from "../../components/ui/Input";
+import { useSaveSettings } from "../../hooks/useSaveSettings";
 import { useStore } from "../../store/useStore";
 
 const LangCurrency = () => {
   const languageAndCurrency = useStore((s) => s.settings.languageAndCurrency);
-  const updateSettings = useStore((s) => s.updateSettings);
 
   const section = "languageAndCurrency";
-
+  const save = useSaveSettings(section);
   return (
     <SettingsLayout title={"اللغة والعملة"} subTitle={"تعديل اللغة والعملة"}>
       <div className="flex gap-5">
@@ -16,9 +16,7 @@ const LangCurrency = () => {
           <Input
             value={languageAndCurrency.currency}
             type="text"
-            onChange={(e) =>
-              updateSettings(section, { currency: e.target.value })
-            }
+            onChange={(e) => save({ currency: e.target.value })}
             placeholder="مثل:ج.م"
           />
         </div>
@@ -27,9 +25,7 @@ const LangCurrency = () => {
           <label htmlFor="">اللغة</label>
           <select
             value={languageAndCurrency.language}
-            onChange={(e) =>
-              updateSettings(section, { language: e.target.value })
-            }
+            onChange={(e) => save({ language: e.target.value })}
             className="border-accent rounded-lg border bg-cyan-50 p-2"
           >
             <option value="ar">العربية</option>
@@ -45,9 +41,7 @@ const LangCurrency = () => {
           type="number"
           max="31"
           min={"1"}
-          onChange={(e) => {
-            updateSettings(section, { startFiscalMonth: e.target.value });
-          }}
+          onChange={(e) => save({ startFiscalMonth: e.target.value })}
           placeholder="اكتب يوم بداية الشهر المالي مثل:1"
         />
       </div>

@@ -23,13 +23,14 @@ export const createTransactionsSlice = (set) => ({
   },
 
   updateTransaction: async (draft) => {
-    const uid = useAuth.getState().user?.uid;
+    const uid = "avvv";
     if (!uid) return;
     await updateTransactionInDb(uid, draft);
   },
 
   deleteTransaction: async (currentTransactionId) => {
     const uid = useAuth.getState().user?.uid;
+
     if (!uid) return;
     await deleteTransactionInDb(uid, currentTransactionId);
   },

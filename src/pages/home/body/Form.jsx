@@ -5,6 +5,7 @@ import Input from "../../../components/ui/Input";
 import { getTodayDate } from "../../../utils/dates";
 import { useDraft } from "../../../hooks/useDraft";
 import FieldWithIcon from "../../../components/ui/FieldWithIcon";
+import { getErrorMsg } from "../../../utils/errors";
 
 const formTabs = [{ title: "دخل" }, { title: "مصروف" }];
 
@@ -119,9 +120,17 @@ const Form = () => {
 
         <div className="flex flex-col gap-3">
           <Button
-            onClick={() => {
-              underEditing ? updateTransaction(draft) : addTransaction(draft);
-              clearForm();
+            onClick={async () => {
+              try {
+                if (underEditing) {
+                  await updateTransaction(draft);
+                } else {
+                  await addTransaction(draft);
+                }
+                clearForm();
+              } catch (error) {
+                alert(getErrorMsg(error));
+              }
             }}
             text={underEditing ? "تعديل" : "إضافة"}
           />

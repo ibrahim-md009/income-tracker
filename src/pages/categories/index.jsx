@@ -6,6 +6,7 @@ import { useStore } from "../../store/useStore";
 import AddModal from "./AddModal";
 import Header from "../../components/layout/Header";
 import { filterCategoriesByKind, countByCategory } from "../../utils/stats";
+import { getErrorMsg } from "../../utils/errors";
 
 const Categories = () => {
   const transactionsLog = useStore((s) => s.transactionsLog);
@@ -96,7 +97,13 @@ const Categories = () => {
                   />
                   <Trash
                     className="w-4.5 cursor-pointer text-red-600 transition-opacity hover:opacity-70"
-                    onClick={() => delCategory(cat.id)}
+                    onClick={async () => {
+                      try {
+                        await delCategory(cat.id);
+                      } catch (error) {
+                        alert(getErrorMsg(error));
+                      }
+                    }}
                   />
                 </div>
               </div>

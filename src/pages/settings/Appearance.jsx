@@ -1,6 +1,7 @@
 import Button from "../../components/ui/Button";
 import SettingsLayout from "../../components/layout/SettingsLayout";
 import { useStore } from "../../store/useStore";
+import { useSaveSettings } from "../../hooks/useSaveSettings";
 
 const themes = [
   {
@@ -26,11 +27,12 @@ const colors = [
   { hex: "#44f20f", bg: "bg-[#44f20f]" },
   { hex: "#0f88f2", bg: "bg-[#0f88f2]" },
 ];
+
 const section = "appearance";
 const Appearance = () => {
   const appearanceSettings = useStore((s) => s.settings.appearance);
-  const updateSettings = useStore((s) => s.updateSettings);
 
+  const save = useSaveSettings(section);
   return (
     <SettingsLayout title={"المظهر"} subTitle={"تعديل الثيم والالوان"}>
       <div>
@@ -39,7 +41,7 @@ const Appearance = () => {
           {themes.map((theme) => (
             <Button
               key={theme.id}
-              onClick={() => updateSettings(section, { theme: theme.id })}
+              onClick={() => save({ theme: theme.id })}
               className={`rounded-control bg-card flex h-30 w-full flex-col items-center justify-center gap-2 border-2 p-4 transition-colors ${appearanceSettings.theme === theme.id ? "border-action" : "border-line-strong"}`}
             >
               <div className={`h-[90%] w-[90%] ${theme.bg}`}></div>
@@ -56,9 +58,8 @@ const Appearance = () => {
             return (
               <button
                 key={c.hex}
-                onClick={() => updateSettings(section, { accentColor: c.hex })}
-
-                className={`aspect-square w-7 rounded-full ${c.bg} ${appearanceSettings.accentColor === c.hex ? "scale-110 border-2 border-cyan-50 " : ""} duration-75 hover:scale-110`}
+                onClick={() => save({ accentColor: c.hex })}
+                className={`aspect-square w-7 rounded-full duration-75 hover:scale-110 ${c.bg} ${appearanceSettings.accentColor === c.hex ? "border-line border-3" : ""}`}
               ></button>
             );
           })}
@@ -70,9 +71,7 @@ const Appearance = () => {
         <select
           className="h-10 rounded-lg bg-gray-200"
           value={appearanceSettings.fontSize}
-          onChange={(e) =>
-            updateSettings(section, { fontSize: e.target.value })
-          }
+          onChange={(e) => save({ fontSize: e.target.value })}
         >
           <option value="16">متوسط</option>
           <option value="20">كبير</option>

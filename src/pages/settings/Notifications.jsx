@@ -2,10 +2,10 @@ import Input from "../../components/ui/Input";
 import SettingsLayout from "../../components/layout/SettingsLayout";
 import Toggle from "../../components/ui/Toggle";
 import { useStore } from "../../store/useStore";
+import { useSaveSettings } from "../../hooks/useSaveSettings";
 
 const Notifications = () => {
   const notifications = useStore((s) => s.settings.notifications);
-  const updateSettings = useStore((s) => s.updateSettings);
 
   const notificationOptions = [
     {
@@ -34,7 +34,7 @@ const Notifications = () => {
     },
   ];
   const section = "notifications";
-
+  const save = useSaveSettings(section);
   return (
     <SettingsLayout title="الإشعارات" subTitle="إدارة تنبيهاتك وتفضيلاتك">
       <div className="flex flex-col gap-3 rounded-lg bg-cyan-50 p-3">
@@ -49,9 +49,7 @@ const Notifications = () => {
               </div>
               <Toggle
                 enabled={item.enable}
-                onChange={(value) =>
-                  updateSettings(section, { [item.id]: value })
-                }
+                onChange={(value) => save({ [item.id]: value })}
               />
             </div>
             {index !== notificationOptions.length - 1 && (
@@ -66,9 +64,7 @@ const Notifications = () => {
         <Input
           type="time"
           value={notifications.reminderTime || "21:00"}
-          onChange={(e) =>
-            updateSettings(section, { reminderTime: e.target.value })
-          }
+          onChange={(e) => save({ reminderTime: e.target.value })}
         />
       </div>
     </SettingsLayout>
